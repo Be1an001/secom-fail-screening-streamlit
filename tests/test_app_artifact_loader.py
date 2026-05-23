@@ -59,12 +59,12 @@ def test_list_existing_artifacts_returns_only_existing_paths() -> None:
     ]
 
 
-def test_load_artifact_manifest_returns_baseline_manifest() -> None:
+def test_load_artifact_manifest_returns_project_manifest() -> None:
     manifest = load_artifact_manifest()
 
     assert manifest["project"] == "secom-fail-screening-streamlit"
     assert manifest["manifest_version"] == "0.1.0"
-    assert manifest["scope"] == "baseline artifacts"
+    assert manifest["scope"] == "baseline and prototype artifacts"
     assert len(manifest["artifacts"]) >= 1
 
 

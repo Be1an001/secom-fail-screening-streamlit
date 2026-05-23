@@ -1,0 +1,124 @@
+project:
+  name: secom-fail-screening-streamlit
+  description: Literature-inspired benchmark prototype for SECOM fail screening.
+
+random_seed: 42
+
+data:
+  feature_path: data/secom.data
+  labels_path: data/secom_labels.data
+  names_path: data/secom.names
+  label_mapping:
+    pass_raw: -1
+    fail_raw: 1
+    pass_binary: 0
+    fail_binary: 1
+
+split:
+  test_size: 0.20
+  validation_size: 0.20
+  stratify: true
+  random_state: 42
+  benchmark_split: validation
+  holdout_split_reserved: test
+
+preprocessing:
+  missingness_threshold: 0.50
+  imputation_strategy: median
+  linear_path:
+    pca_variance: 0.95
+
+threshold_search:
+  min_threshold: 0.05
+  max_threshold: 0.95
+  num_thresholds: 181
+  selection_metric: f2
+  tune_on: validation
+  never_tune_on: test
+
+models:
+  - name: dummy_majority_baseline
+    model_group: baseline_reference
+    model_type: dummy_majority
+    preprocessing_path: tree
+    notes: Majority-class reference baseline.
+  - name: logistic_regression_pca_baseline
+    model_group: baseline_reference
+    model_type: logistic_regression_pca
+    preprocessing_path: linear_pca
+    notes: Class-weighted logistic regression on PCA components.
+  - name: random_forest_reference
+    model_group: baseline_reference
+    model_type: random_forest
+    preprocessing_path: tree
+    params:
+      n_estimators: 200
+      min_samples_leaf: 3
+      class_weight: balanced_subsample
+      n_jobs: -1
+    notes: Current Random Forest reference with a smaller prototype fit.
+  - name: xgboost_cost_sensitive
+    model_group: literature_sota_inspired_prototype
+    model_type: xgboost_cost_sensitive
+    preprocessing_path: tree
+    requires:
+      - xgboost
+    imbalance:
+      scale_pos_weight_multiplier: 0.25
+    params:
+      n_estimators: 80
+      max_depth: 2
+      learning_rate: 0.08
+      min_child_weight: 5
+      reg_lambda: 2.0
+      subsample: 0.9
+      colsample_bytree: 0.9
+      eval_metric: logloss
+      tree_method: hist
+      n_jobs: 1
+    notes: Conservative cost-sensitive boosting using one quarter of the training class imbalance ratio.
+  - name: lightgbm_class_weighted
+    model_group: literature_sota_inspired_prototype
+    model_type: lightgbm_class_weighted
+    preprocessing_path: tree
+    requires:
+      - lightgbm
+    imbalance:
+      strategy: is_unbalance
+    params:
+      n_estimators: 80
+      max_depth: -1
+      learning_rate: 0.08
+      num_leaves: 15
+      min_child_samples: 5
+      subsample: 0.9
+      colsample_bytree: 0.9
+      n_jobs: 1
+      verbose: -1
+    notes: LightGBM binary imbalance prototype using is_unbalance.
+  - name: xgboost_training_only_smote
+    model_group: literature_sota_inspired_prototype
+    model_type: xgboost_smote
+    preprocessing_path: tree
+    requires:
+      - xgboost
+      - imblearn
+    resampling:
+      method: smote
+      k_neighbors: 5
+      sampling_strategy: 0.2
+    params:
+      n_estimators: 80
+      max_depth: 3
+      learning_rate: 0.08
+      subsample: 0.9
+      colsample_bytree: 0.9
+      eval_metric: logloss
+      tree_method: hist
+      n_jobs: 1
+    notes: XGBoost prototype after conservative training-only SMOTE.
+
+outputs:
+  model_comparison: outputs/metrics/benchmark_model_comparison_prototype.csv
+  threshold_sweep: outputs/metrics/benchmark_threshold_sweep_prototype.csv
+  summary_report: reports/benchmark_prototype_summary.md

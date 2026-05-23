@@ -1,9 +1,9 @@
 {
   "project": "secom-fail-screening-streamlit",
   "manifest_version": "0.1.0",
-  "scope": "baseline artifacts",
+  "scope": "baseline and prototype artifacts",
   "notes": [
-    "This manifest tracks existing baseline artifacts only.",
+    "This manifest tracks existing baseline artifacts and prototype benchmark artifacts.",
     "Future phases may add six-model benchmark, cost threshold, explainability, MLflow summary, API, and RAG-lite artifacts."
   ],
   "artifacts": [
@@ -126,6 +126,36 @@
       "description": "Portfolio notebook that summarizes the current baseline workflow and artifacts.",
       "current_status": "baseline",
       "future_status": "may be updated after app and benchmark upgrades"
+    },
+    {
+      "name": "benchmark_model_comparison_prototype",
+      "type": "metrics_table",
+      "path": "outputs/metrics/benchmark_model_comparison_prototype.csv",
+      "created_by": "scripts/run_model_benchmark_prototype.py",
+      "used_by": ["future benchmark review"],
+      "description": "Prototype validation metrics for baseline reference and literature-inspired fail-screening benchmark candidates.",
+      "current_status": "prototype",
+      "future_status": "may be refined or compared with final benchmark artifacts"
+    },
+    {
+      "name": "benchmark_threshold_sweep_prototype",
+      "type": "metrics_table",
+      "path": "outputs/metrics/benchmark_threshold_sweep_prototype.csv",
+      "created_by": "scripts/run_model_benchmark_prototype.py",
+      "used_by": ["future threshold trade-off review"],
+      "description": "Prototype validation threshold sweeps for completed benchmark candidates.",
+      "current_status": "prototype",
+      "future_status": "may be refined with cost and review-capacity assumptions"
+    },
+    {
+      "name": "benchmark_prototype_summary",
+      "type": "report",
+      "path": "reports/benchmark_prototype_summary.md",
+      "created_by": "scripts/run_model_benchmark_prototype.py",
+      "used_by": ["future methodology review"],
+      "description": "Short Markdown summary of the literature-inspired benchmark prototype.",
+      "current_status": "prototype",
+      "future_status": "may be replaced by final benchmark documentation"
     }
   ]
 }

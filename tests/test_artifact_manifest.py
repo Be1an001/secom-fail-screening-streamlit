@@ -31,7 +31,7 @@ def test_artifact_manifest_exists_and_has_required_top_level_fields() -> None:
 
     assert manifest_path.is_file()
     assert REQUIRED_TOP_LEVEL_FIELDS.issubset(manifest)
-    assert manifest["scope"] == "baseline artifacts"
+    assert manifest["scope"] == "baseline and prototype artifacts"
 
 
 def test_manifest_artifact_entries_have_required_fields() -> None:
