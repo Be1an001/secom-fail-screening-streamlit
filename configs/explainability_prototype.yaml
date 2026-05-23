@@ -1,0 +1,28 @@
+project:
+  name: secom-fail-screening-streamlit
+  description: Prototype explainability artifacts for main benchmark comparison models.
+
+benchmark_config: configs/model_benchmark_prototype.yaml
+
+focus_models:
+  - random_forest_reference
+  - xgboost_cost_sensitive
+
+n_repeats: 5
+n_top_features: 20
+candidate_features_per_model: 80
+scoring: average_precision
+stability_seeds:
+  - 42
+  - 202
+  - 777
+
+evaluation_split: validation
+
+outputs:
+  permutation_importance: outputs/metrics/permutation_importance_prototype.csv
+  feature_stability: outputs/metrics/feature_stability_prototype.csv
+  top_sensor_signals: outputs/metrics/top_sensor_signals_prototype.csv
+  permutation_importance_figure: outputs/figures/permutation_importance_prototype.png
+  feature_stability_figure: outputs/figures/feature_stability_prototype.png
+  report: reports/explainability_prototype_report.md

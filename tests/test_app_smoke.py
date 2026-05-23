@@ -29,6 +29,9 @@ PROTOTYPE_BENCHMARK_ARTIFACT = (
 COST_SELECTED_ARTIFACT = (
     PROJECT_ROOT / "outputs" / "metrics" / "cost_selected_thresholds_prototype.csv"
 )
+EXPLAINABILITY_ARTIFACT = (
+    PROJECT_ROOT / "outputs" / "metrics" / "permutation_importance_prototype.csv"
+)
 EXPECTED_PAGE_TITLES = {
     "Project & Data Problem",
     "Model Benchmark",
@@ -111,11 +114,16 @@ def test_app_text_keeps_future_features_future_facing() -> None:
 def test_app_references_prototype_benchmark_and_cost_artifacts() -> None:
     page_2_text = PAGE_MODULES[1].read_text(encoding="utf-8")
     page_3_text = PAGE_MODULES[2].read_text(encoding="utf-8")
+    page_4_text = PAGE_MODULES[3].read_text(encoding="utf-8")
 
     assert PROTOTYPE_BENCHMARK_ARTIFACT.is_file()
     assert COST_SELECTED_ARTIFACT.is_file()
+    assert EXPLAINABILITY_ARTIFACT.is_file()
     assert "benchmark_model_comparison_prototype.csv" in page_2_text
     assert "cost_selected_thresholds_prototype.csv" in page_3_text
+    assert "permutation_importance_prototype.csv" in page_4_text
+    assert "feature_stability_prototype.csv" in page_4_text
+    assert "top_sensor_signals_prototype.csv" in page_4_text
 
 
 def test_page_2_describes_model_display_grouping() -> None:
