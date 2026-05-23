@@ -12,8 +12,10 @@ from app_utils.artifact_loader import (
     load_csv_artifact,
 )
 from app_utils.layout_utils import (
+    render_future_work_note,
     render_info_box,
     render_manifest_artifacts,
+    render_missing_artifact_warning,
     render_page_intro,
 )
 
@@ -39,14 +41,15 @@ def render() -> None:
     if artifact_exists(FEATURE_IMPORTANCE_FIGURE):
         st.subheader("Current feature importance figure")
         st.image(str(artifact_path(FEATURE_IMPORTANCE_FIGURE)))
+        st.caption("This figure ranks model-important sensor signals.")
     else:
-        st.warning(f"Missing figure artifact: `{FEATURE_IMPORTANCE_FIGURE}`")
+        render_missing_artifact_warning(FEATURE_IMPORTANCE_FIGURE)
 
     if artifact_exists(FEATURE_IMPORTANCE_CSV):
         st.subheader("Current model-important sensor signals")
         st.dataframe(load_csv_artifact(FEATURE_IMPORTANCE_CSV), use_container_width=True)
     else:
-        st.warning(f"Missing metrics artifact: `{FEATURE_IMPORTANCE_CSV}`")
+        render_missing_artifact_warning(FEATURE_IMPORTANCE_CSV)
 
     if artifact_exists("outputs/artifact_manifest.json"):
         manifest = load_artifact_manifest()
@@ -55,8 +58,10 @@ def render() -> None:
             filter_manifest_artifacts(manifest, page="Page 4 - Explainability"),
         )
 
-    st.subheader("Planned Page Direction")
-    st.write(
-        "Later phases may add stability checks, permutation importance, or "
-        "other explainability artifacts if they remain clearly documented."
+    render_future_work_note(
+        [
+            "stability checks for sensor-signal ranking",
+            "permutation importance if added later",
+            "additional explainability artifacts with clear limits",
+        ]
     )

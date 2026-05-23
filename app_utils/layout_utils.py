@@ -20,6 +20,30 @@ def render_info_box(message: str) -> None:
     st.info(message)
 
 
+def render_responsible_use_note() -> None:
+    """Render the shared responsible-use note for baseline app pages."""
+
+    st.info(
+        "This app supports screening decision support with baseline artifacts. "
+        "It does not make automatic pass/fail decisions."
+    )
+
+
+def render_future_work_note(items: Sequence[str]) -> None:
+    """Render a compact future-work note."""
+
+    st.subheader("Future work")
+    st.write("The following items are planned for later phases, not complete now:")
+    for item in items:
+        st.write(f"- {item}")
+
+
+def render_missing_artifact_warning(relative_path: str) -> None:
+    """Render a consistent missing-artifact warning."""
+
+    st.warning(f"Missing artifact: `{relative_path}`")
+
+
 def render_artifact_list(title: str, artifacts: Sequence[str]) -> None:
     """Render a compact list of available artifacts."""
 

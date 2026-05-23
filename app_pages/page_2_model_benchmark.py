@@ -11,8 +11,10 @@ from app_utils.artifact_loader import (
     load_csv_artifact,
 )
 from app_utils.layout_utils import (
+    render_future_work_note,
     render_info_box,
     render_manifest_artifacts,
+    render_missing_artifact_warning,
     render_page_intro,
 )
 
@@ -50,7 +52,7 @@ def render() -> None:
         st.subheader("Current baseline validation metrics")
         st.dataframe(metrics[display_columns], use_container_width=True)
     else:
-        st.warning(f"Missing metrics artifact: `{VALIDATION_METRICS}`")
+        render_missing_artifact_warning(VALIDATION_METRICS)
 
     if artifact_exists("outputs/artifact_manifest.json"):
         manifest = load_artifact_manifest()
@@ -59,9 +61,10 @@ def render() -> None:
             filter_manifest_artifacts(manifest, page="Page 2 - Model Benchmark"),
         )
 
-    st.subheader("Planned Page Direction")
-    st.write(
-        "Future phases will add literature-inspired and SOTA-inspired model "
-        "comparisons under the same leakage-safe protocol. This page does not "
-        "claim SOTA performance."
+    render_future_work_note(
+        [
+            "planned literature-inspired upgrade comparisons",
+            "SOTA-inspired methods under the same leakage-safe protocol",
+            "clear method notes without SOTA performance claims",
+        ]
     )
