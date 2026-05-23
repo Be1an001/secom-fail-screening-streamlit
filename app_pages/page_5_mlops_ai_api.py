@@ -67,6 +67,7 @@ def render() -> None:
         with st.expander("Current model card artifact"):
             st.markdown(load_markdown_artifact("reports/model_card.md"))
 
+    st.write("These future workflow features are not implemented in this phase.")
     render_future_work_note(
         [
             "MLflow summary export",
