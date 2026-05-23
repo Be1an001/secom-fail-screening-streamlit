@@ -46,6 +46,18 @@ Future phases should add literature-inspired methods and SOTA-inspired methods f
 
 Do not add paper claims or citations until the relevant sources are actually reviewed and documented.
 
+## Literature-Inspired Benchmark Prototype
+
+Phase 4 adds a literature-inspired benchmark prototype. It tests fixed, practical model candidates that reflect common SECOM method directions:
+
+- high-dimensional sensor preprocessing
+- class weighting for severe imbalance
+- boosting and ensemble classifiers
+- training-only resampling
+- validation threshold sweeps
+
+This is prototype work. It does not claim SOTA performance, does not select a final champion model, and does not replace a later formal paper review.
+
 ## Threshold and Cost Trade-Off
 
 Future threshold work should explain how lower or higher thresholds affect:
