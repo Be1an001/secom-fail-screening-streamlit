@@ -28,7 +28,7 @@ streamlit run app.py
 - prototype threshold sweep availability
 - threshold / cost trade-off selected thresholds
 - illustrative cost scenario report
-- model-important sensor signals
+- model-important sensor signals from baseline and prototype explainability artifacts
 - existing reports and artifact manifest status
 
 ## Planned Future Work
@@ -52,6 +52,15 @@ This display grouping does not remove models from the benchmark and does not cre
 Page 3 shows selected thresholds from `outputs/metrics/cost_selected_thresholds_prototype.csv`. The cost scenarios are illustrative, are not validated manufacturing costs, and do not create a production decision rule.
 
 The app may describe a row as best under this illustrative scenario, but it does not select a final champion model.
+
+## Prototype Explainability View
+
+Page 4 shows baseline feature importance plus prototype permutation importance,
+feature stability, top sensor signal summaries, and explainability figures for
+Random Forest Reference and XGBoost Cost-Sensitive.
+
+These outputs describe model-important sensor signals. They are not physical
+root-cause analysis and are not causal proof.
 
 ## Responsible-Use Note
 

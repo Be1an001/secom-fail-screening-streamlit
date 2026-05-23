@@ -186,6 +186,66 @@
       "description": "Markdown report explaining prototype threshold / cost trade-offs and review workload implications.",
       "current_status": "prototype",
       "future_status": "may be expanded after app integration and stakeholder assumption review"
+    },
+    {
+      "name": "permutation_importance_prototype",
+      "type": "metrics_table",
+      "path": "outputs/metrics/permutation_importance_prototype.csv",
+      "created_by": "scripts/run_explainability_prototype.py",
+      "used_by": ["Page 4 - Explainability"],
+      "description": "Prototype permutation importance for model-important sensor signals from Random Forest and XGBoost cost-sensitive models.",
+      "current_status": "prototype",
+      "future_status": "may be refined with additional explainability methods"
+    },
+    {
+      "name": "feature_stability_prototype",
+      "type": "metrics_table",
+      "path": "outputs/metrics/feature_stability_prototype.csv",
+      "created_by": "scripts/run_explainability_prototype.py",
+      "used_by": ["Page 4 - Explainability"],
+      "description": "Prototype feature stability summary across small-seed reruns for model-important sensor signals.",
+      "current_status": "prototype",
+      "future_status": "may be refined with broader robustness checks"
+    },
+    {
+      "name": "top_sensor_signals_prototype",
+      "type": "metrics_table",
+      "path": "outputs/metrics/top_sensor_signals_prototype.csv",
+      "created_by": "scripts/run_explainability_prototype.py",
+      "used_by": ["Page 4 - Explainability"],
+      "description": "Cross-model summary of top anonymous sensor signals from prototype explainability artifacts.",
+      "current_status": "prototype",
+      "future_status": "may be used in a later explainability app polish pass"
+    },
+    {
+      "name": "permutation_importance_prototype_figure",
+      "type": "figure",
+      "path": "outputs/figures/permutation_importance_prototype.png",
+      "created_by": "scripts/run_explainability_prototype.py",
+      "used_by": ["Page 4 - Explainability"],
+      "description": "Simple figure showing top permutation importance rows for focus models.",
+      "current_status": "prototype",
+      "future_status": "may be redesigned for final portfolio polish"
+    },
+    {
+      "name": "feature_stability_prototype_figure",
+      "type": "figure",
+      "path": "outputs/figures/feature_stability_prototype.png",
+      "created_by": "scripts/run_explainability_prototype.py",
+      "used_by": ["Page 4 - Explainability"],
+      "description": "Simple figure showing feature stability across configured seeds.",
+      "current_status": "prototype",
+      "future_status": "may be redesigned for final portfolio polish"
+    },
+    {
+      "name": "explainability_prototype_report",
+      "type": "report",
+      "path": "reports/explainability_prototype_report.md",
+      "created_by": "scripts/run_explainability_prototype.py",
+      "used_by": ["Page 4 - Explainability"],
+      "description": "Markdown report explaining prototype explainability, feature stability, and responsible-use limits.",
+      "current_status": "prototype",
+      "future_status": "may be expanded after reviewer feedback"
     }
   ]
 }

@@ -99,6 +99,18 @@ review workload are weighted differently.
 
 Explainability outputs should be described as model-important sensor signals. They can help reviewers understand which anonymous inputs influenced the model, but they do not prove physical root cause or causal sensor explanation.
 
+## Prototype Explainability
+
+Phase 7 adds permutation importance and feature stability artifacts for the
+main comparison models that best support the current portfolio story:
+
+- Random Forest Reference
+- XGBoost Cost-Sensitive
+
+These artifacts show model-important sensor signals on the validation split.
+They are investigation support for anonymous sensor features. They are not
+physical root-cause analysis and are not causal proof.
+
 ## Limitations and Non-Goals
 
 - The dataset is public and anonymous.

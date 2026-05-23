@@ -15,6 +15,7 @@ Use this log to keep phase work easy to review.
 | Phase 5 | 2026-05-23 | Completed | Added prototype threshold / cost trade-off analysis for benchmark models. | Cost analysis consumes existing threshold artifacts without retraining. |
 | Phase 6 | 2026-05-24 | Completed | Updated the Streamlit app to display prototype benchmark and threshold / cost trade-off artifacts. | App reads existing artifacts only and keeps responsible-use wording. |
 | Phase 6.5 | 2026-05-24 | Completed | Clarified benchmark model display grouping in the app and documentation. | All six models remain in artifacts; no metrics were changed. |
+| Phase 7 | 2026-05-24 | Completed | Added prototype explainability artifacts for Random Forest and XGBoost cost-sensitive models. | Uses validation-split permutation importance and feature stability; no benchmark or cost metrics changed. |
 
 ## Future Phase Placeholders
 
