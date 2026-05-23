@@ -12,12 +12,12 @@ Use this log to keep phase work easy to review.
 | Phase 2 | 2026-05-23 | Completed | Added the first artifact manifest and baseline artifact content in the app. | Manifest paths validate against existing artifacts. |
 | Phase 3 | 2026-05-23 | Completed | Polished the baseline app and added smoke validation. | Smoke tests keep future features future-facing. |
 | Phase 4 | 2026-05-23 | Completed | Added a literature-inspired benchmark prototype and prototype artifacts. | Benchmark script ran successfully; Phase 4B adjusted conservative XGBoost, LightGBM, and training-only SMOTE settings. |
+| Phase 5 | 2026-05-23 | Completed | Added prototype threshold / cost trade-off analysis for benchmark models. | Cost analysis consumes existing threshold artifacts without retraining. |
 
 ## Future Phase Placeholders
 
 | Phase | Planned purpose | Notes |
 |---|---|---|
-| Phase 5 | Refine benchmark and threshold trade-off | Keep validation leakage-safe. |
 | Phase 6 | Add explainability artifacts | Use model-important sensor signals wording. |
 | Phase 7 | Plan FastAPI and controlled RAG-lite summary | Keep scope minimal. |
 | Phase 8 | Implement service and summary prototype | No committed secrets. |

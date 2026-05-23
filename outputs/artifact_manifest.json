@@ -4,7 +4,7 @@
   "scope": "baseline and prototype artifacts",
   "notes": [
     "This manifest tracks existing baseline artifacts and prototype benchmark artifacts.",
-    "Future phases may add six-model benchmark, cost threshold, explainability, MLflow summary, API, and RAG-lite artifacts."
+    "Future phases may add final benchmark, explainability, MLflow summary, API, and RAG-lite artifacts."
   ],
   "artifacts": [
     {
@@ -156,6 +156,36 @@
       "description": "Short Markdown summary of the literature-inspired benchmark prototype.",
       "current_status": "prototype",
       "future_status": "may be replaced by final benchmark documentation"
+    },
+    {
+      "name": "cost_threshold_sweep_prototype",
+      "type": "metrics_table",
+      "path": "outputs/metrics/cost_threshold_sweep_prototype.csv",
+      "created_by": "scripts/run_cost_threshold_analysis_prototype.py",
+      "used_by": ["future threshold trade-off review"],
+      "description": "Prototype threshold / cost trade-off sweep using illustrative false-negative and false-positive costs.",
+      "current_status": "prototype",
+      "future_status": "may be refined with stakeholder cost and review-capacity assumptions"
+    },
+    {
+      "name": "cost_selected_thresholds_prototype",
+      "type": "metrics_table",
+      "path": "outputs/metrics/cost_selected_thresholds_prototype.csv",
+      "created_by": "scripts/run_cost_threshold_analysis_prototype.py",
+      "used_by": ["future threshold trade-off review"],
+      "description": "Selected thresholds by model and illustrative cost scenario for screening decision support review.",
+      "current_status": "prototype",
+      "future_status": "may be refined before any final champion discussion"
+    },
+    {
+      "name": "cost_threshold_prototype_report",
+      "type": "report",
+      "path": "reports/cost_threshold_prototype_report.md",
+      "created_by": "scripts/run_cost_threshold_analysis_prototype.py",
+      "used_by": ["future methodology review"],
+      "description": "Markdown report explaining prototype threshold / cost trade-offs and review workload implications.",
+      "current_status": "prototype",
+      "future_status": "may be expanded after app integration and stakeholder assumption review"
     }
   ]
 }

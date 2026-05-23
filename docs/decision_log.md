@@ -14,3 +14,4 @@ Use this log for short project decisions that affect future phases.
 | 2026-05-23 | SOTA-inspired methods do not imply SOTA performance. | Future methods may be inspired by literature, but performance claims require same-condition evidence. |
 | 2026-05-23 | Allow prototype upgraded models without final-performance claims. | Phase 4 can test boosting, class weighting, and training-only resampling while keeping the work clearly labeled as a prototype benchmark. |
 | 2026-05-23 | Prefer conservative prototype imbalance settings after sanity review. | Phase 4B reduced overly broad flagged sample rates while preserving honest high-recall screening decision support options. |
+| 2026-05-23 | Add illustrative cost scenarios before app integration. | Threshold review should show missed fail cases, review workload, and cost assumptions before any user-facing champion discussion. |

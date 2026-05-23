@@ -1,0 +1,33 @@
+project:
+  name: secom-fail-screening-streamlit
+  description: Prototype threshold / cost trade-off scenarios for SECOM screening.
+
+inputs:
+  threshold_sweep: outputs/metrics/benchmark_threshold_sweep_prototype.csv
+
+outputs:
+  cost_threshold_sweep: outputs/metrics/cost_threshold_sweep_prototype.csv
+  selected_thresholds: outputs/metrics/cost_selected_thresholds_prototype.csv
+  report: reports/cost_threshold_prototype_report.md
+
+scenarios:
+  balanced_review:
+    false_negative_cost: 5
+    false_positive_cost: 1
+    description: "Balanced review case where missed fail cases are more costly than review workload."
+  quality_first:
+    false_negative_cost: 10
+    false_positive_cost: 1
+    description: "Quality-first case that strongly penalizes missed fail cases."
+  strict_quality:
+    false_negative_cost: 20
+    false_positive_cost: 1
+    description: "Strict quality case that heavily penalizes missed fail cases."
+
+review_capacity_limits:
+  moderate_review:
+    max_flagged_sample_rate: 0.30
+    description: "Moderate review workload limit."
+  high_review:
+    max_flagged_sample_rate: 0.40
+    description: "Higher review workload limit."
