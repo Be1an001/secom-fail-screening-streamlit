@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  baseline-validation:
+    name: Baseline validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install CI dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install "numpy>=1.26,<3" "pandas>=2.2,<3" "scikit-learn>=1.4,<2" "pytest>=8,<9" "ruff>=0.8,<1"
+
+      - name: Run tests
+        run: python -m pytest
+
+      - name: Run Ruff
+        run: python -m ruff check .
+
+      - name: Compile Python files
+        run: python -m compileall src scripts tests
+
+      - name: Check committed whitespace
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            git diff --check "origin/${{ github.base_ref }}...HEAD"
+          else
+            git diff --check HEAD~1..HEAD
+          fi
+
+      - name: Confirm clean working tree
+        shell: bash
+        run: |
+          git status --short
+          test -z "$(git status --short)"
