@@ -10,7 +10,13 @@ from app_utils.artifact_loader import (
     load_artifact_manifest,
     validate_manifest_paths,
 )
-from app_utils.layout_utils import render_artifact_list, render_info_box, render_page_intro
+from app_utils.layout_utils import (
+    render_artifact_list,
+    render_future_work_note,
+    render_missing_artifact_warning,
+    render_page_intro,
+    render_responsible_use_note,
+)
 from app_utils.metric_utils import format_count, format_percent
 
 
@@ -31,10 +37,7 @@ def render() -> None:
         "class imbalance that makes raw accuracy misleading.",
     )
 
-    render_info_box(
-        "This project is for screening decision support. It does not make an "
-        "automatic pass/fail decision."
-    )
+    render_responsible_use_note()
 
     st.subheader("Current Baseline Dataset")
     st.write(
@@ -58,18 +61,23 @@ def render() -> None:
     render_artifact_list("Available data artifacts", existing)
 
     if not artifact_exists("data/secom.data"):
-        st.warning("The main SECOM feature file is not available in this checkout.")
+        render_missing_artifact_warning("data/secom.data")
 
     if artifact_exists("outputs/artifact_manifest.json"):
         manifest = load_artifact_manifest()
-        validate_manifest_paths(manifest)
-        st.caption(
-            f"Artifact manifest loaded with {len(manifest['artifacts'])} "
-            "baseline artifacts."
-        )
+        try:
+            validate_manifest_paths(manifest)
+            st.caption(
+                f"Artifact manifest loaded with {len(manifest['artifacts'])} "
+                "baseline artifacts."
+            )
+        except FileNotFoundError as exc:
+            st.warning(str(exc))
 
-    st.subheader("Planned Page Direction")
-    st.write(
-        "Later phases will turn this page into a clearer data story with class "
-        "balance visuals, missingness summaries, and links to the artifact manifest."
+    render_future_work_note(
+        [
+            "clearer class balance visuals",
+            "missingness summaries",
+            "artifact manifest links for data evidence",
+        ]
     )

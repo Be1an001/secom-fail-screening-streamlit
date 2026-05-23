@@ -11,8 +11,10 @@ from app_utils.artifact_loader import (
     load_csv_artifact,
 )
 from app_utils.layout_utils import (
+    render_future_work_note,
     render_info_box,
     render_manifest_artifacts,
+    render_missing_artifact_warning,
     render_page_intro,
 )
 from app_utils.metric_utils import format_count, format_metric, format_percent
@@ -54,7 +56,7 @@ def render() -> None:
             f"{format_count(row['fp'])} pass cases."
         )
     else:
-        st.warning(f"Missing final metrics artifact: `{FINAL_TEST_METRICS}`")
+        render_missing_artifact_warning(FINAL_TEST_METRICS)
 
     if artifact_exists(THRESHOLD_SWEEP):
         st.subheader("Current threshold sweep artifact")
@@ -66,7 +68,7 @@ def render() -> None:
         st.dataframe(sweep.head(25), use_container_width=True)
         st.caption("Showing the first 25 rows to keep the app page light.")
     else:
-        st.warning(f"Missing threshold sweep artifact: `{THRESHOLD_SWEEP}`")
+        render_missing_artifact_warning(THRESHOLD_SWEEP)
 
     if artifact_exists("outputs/artifact_manifest.json"):
         manifest = load_artifact_manifest()
@@ -75,9 +77,14 @@ def render() -> None:
             filter_manifest_artifacts(manifest, page="Page 3 - Champion Trade-off"),
         )
 
-    st.subheader("Planned Page Direction")
     st.write(
-        "Later phases will add a simple cost trade-off and review-capacity "
-        "view. Threshold should be treated as a decision lever, not as a fixed "
+        "Threshold should be treated as a decision lever, not as a fixed "
         "automatic decision rule."
+    )
+    render_future_work_note(
+        [
+            "simple cost trade-off assumptions",
+            "review-capacity comparison",
+            "clearer threshold decision support visuals",
+        ]
     )

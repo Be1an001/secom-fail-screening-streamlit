@@ -13,8 +13,10 @@ from app_utils.artifact_loader import (
 )
 from app_utils.layout_utils import (
     render_artifact_list,
+    render_future_work_note,
     render_info_box,
     render_manifest_artifacts,
+    render_missing_artifact_warning,
     render_page_intro,
 )
 
@@ -59,15 +61,18 @@ def render() -> None:
             ),
         )
     else:
-        st.warning("Missing artifact manifest: `outputs/artifact_manifest.json`")
+        render_missing_artifact_warning("outputs/artifact_manifest.json")
 
     if artifact_exists("reports/model_card.md"):
         with st.expander("Current model card artifact"):
             st.markdown(load_markdown_artifact("reports/model_card.md"))
 
-    st.subheader("Planned Page Direction")
-    st.write(
-        "Later phases may add an MLflow summary export, a minimal FastAPI "
-        "artifact service, a future controlled RAG-lite summary, and a future "
-        "agentic workflow concept. These are not implemented in this phase."
+    st.write("These future workflow features are not implemented in this phase. This page does not implement MLflow summary export, FastAPI service, controlled RAG-lite summary, or agentic workflow automation yet.")
+    render_future_work_note(
+        [
+            "MLflow summary export",
+            "minimal FastAPI artifact service",
+            "future controlled RAG-lite summary",
+            "future agentic workflow concept",
+        ]
     )
