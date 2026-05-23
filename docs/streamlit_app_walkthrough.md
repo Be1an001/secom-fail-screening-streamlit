@@ -62,6 +62,20 @@ Random Forest Reference and XGBoost Cost-Sensitive.
 These outputs describe model-important sensor signals. They are not physical
 root-cause analysis and are not causal proof.
 
+## MLOps-Lite and Artifact Tracking View
+
+Page 5 explains that the app is artifact-driven. It uses
+`outputs/artifact_manifest.json` as a lightweight artifact registry and reads
+committed metrics, figures, and reports instead of local MLflow databases.
+
+Local MLflow tracking can support experiment review when scripts are run
+locally. Local files such as `mlflow.db`, `mlruns/`, and `mlartifacts/` are
+ignored. The script `scripts/export_mlflow_runs_summary.py` can create an
+exported MLflow summary only when real local run data exists.
+
+This is MLOps-lite evidence for a portfolio project. It is not a production
+MLOps platform, and no deployed MLflow tracking server is included.
+
 ## Responsible-Use Note
 
 This project supports screening decision support only. It is not a production deployment, does not make automatic pass/fail decisions, and does not identify physical root causes or causal sensor explanations.

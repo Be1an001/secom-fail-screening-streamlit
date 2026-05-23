@@ -111,6 +111,18 @@ These artifacts show model-important sensor signals on the validation split.
 They are investigation support for anonymous sensor features. They are not
 physical root-cause analysis and are not causal proof.
 
+## MLOps-Lite Artifact Tracking
+
+The Streamlit app is artifact-driven. It reads curated metrics, figures,
+reports, and `outputs/artifact_manifest.json` instead of running training or
+MLflow queries at app runtime.
+
+Local MLflow tracking can support experiment review when scripts are run
+locally. Local MLflow files such as `mlflow.db`, `mlruns/`, and `mlartifacts/`
+are ignored. A compact exported MLflow summary may be generated only when real
+local MLflow run data exists. This is portfolio-scale artifact tracking, not a
+production MLOps platform.
+
 ## Limitations and Non-Goals
 
 - The dataset is public and anonymous.
@@ -120,3 +132,4 @@ physical root-cause analysis and are not causal proof.
 - The project is not a production deployment.
 - The project does not provide automatic pass/fail decisions.
 - The project does not identify physical root causes.
+- The project does not include a deployed MLflow tracking server.

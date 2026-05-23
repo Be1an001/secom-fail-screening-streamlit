@@ -56,6 +56,17 @@ def render_responsible_use_note() -> None:
     )
 
 
+def render_artifact_tracking_note() -> None:
+    """Render the shared artifact tracking note."""
+
+    st.info(
+        "This artifact-driven Streamlit app uses "
+        "`outputs/artifact_manifest.json` as a lightweight artifact registry. "
+        "Local MLflow tracking can support experiment review, but the public "
+        "app uses exported artifacts instead of local MLflow databases."
+    )
+
+
 def render_future_work_note(items: Sequence[str]) -> None:
     """Render a compact future-work note."""
 
