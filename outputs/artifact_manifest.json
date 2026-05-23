@@ -1,0 +1,131 @@
+{
+  "project": "secom-fail-screening-streamlit",
+  "manifest_version": "0.1.0",
+  "scope": "baseline artifacts",
+  "notes": [
+    "This manifest tracks existing baseline artifacts only.",
+    "Future phases may add six-model benchmark, cost threshold, explainability, MLflow summary, API, and RAG-lite artifacts."
+  ],
+  "artifacts": [
+    {
+      "name": "validation_metrics",
+      "type": "metrics_table",
+      "path": "outputs/metrics/validation_metrics.csv",
+      "created_by": "scripts/run_rf_experiments.py",
+      "used_by": ["Page 2 - Model Benchmark"],
+      "description": "Validation metrics for the current baseline workflow and Random Forest comparison.",
+      "current_status": "baseline",
+      "future_status": "may be replaced or compared with upgraded benchmark artifacts"
+    },
+    {
+      "name": "threshold_sweep",
+      "type": "metrics_table",
+      "path": "outputs/metrics/threshold_sweep.csv",
+      "created_by": "scripts/run_rf_experiments.py",
+      "used_by": ["Page 3 - Champion Trade-off"],
+      "description": "Validation threshold sweep used to compare screening decision support operating points.",
+      "current_status": "baseline",
+      "future_status": "may be extended with cost and review-capacity assumptions"
+    },
+    {
+      "name": "rf_improvement_table",
+      "type": "metrics_table",
+      "path": "outputs/metrics/rf_improvement_table.csv",
+      "created_by": "scripts/run_rf_experiments.py",
+      "used_by": ["Page 2 - Model Benchmark"],
+      "description": "Random Forest iteration table used in the current baseline workflow story.",
+      "current_status": "baseline",
+      "future_status": "may be replaced or compared with upgraded benchmark artifacts"
+    },
+    {
+      "name": "final_test_metrics",
+      "type": "metrics_table",
+      "path": "outputs/metrics/final_test_metrics.csv",
+      "created_by": "scripts/evaluate_final_model.py",
+      "used_by": ["Page 3 - Champion Trade-off"],
+      "description": "Final holdout metrics for the selected Random Forest baseline screening model.",
+      "current_status": "baseline",
+      "future_status": "may be replaced or compared with upgraded benchmark artifacts"
+    },
+    {
+      "name": "final_feature_importance",
+      "type": "metrics_table",
+      "path": "outputs/metrics/final_feature_importance.csv",
+      "created_by": "scripts/evaluate_final_model.py",
+      "used_by": ["Page 4 - Explainability"],
+      "description": "Top model-important sensor signals from the selected Random Forest baseline model.",
+      "current_status": "baseline",
+      "future_status": "may be extended with stability or permutation importance artifacts"
+    },
+    {
+      "name": "final_confusion_matrix",
+      "type": "figure",
+      "path": "outputs/figures/final_confusion_matrix.png",
+      "created_by": "scripts/evaluate_final_model.py",
+      "used_by": ["Page 3 - Champion Trade-off"],
+      "description": "Final holdout confusion matrix for the selected threshold.",
+      "current_status": "baseline",
+      "future_status": "may be replaced or compared with upgraded benchmark artifacts"
+    },
+    {
+      "name": "final_roc_curve",
+      "type": "figure",
+      "path": "outputs/figures/final_roc_curve.png",
+      "created_by": "scripts/evaluate_final_model.py",
+      "used_by": ["Page 2 - Model Benchmark"],
+      "description": "ROC curve for the selected baseline model on the holdout split.",
+      "current_status": "baseline",
+      "future_status": "may be replaced or compared with upgraded benchmark artifacts"
+    },
+    {
+      "name": "final_pr_curve",
+      "type": "figure",
+      "path": "outputs/figures/final_pr_curve.png",
+      "created_by": "scripts/evaluate_final_model.py",
+      "used_by": ["Page 2 - Model Benchmark"],
+      "description": "Precision-recall curve for the selected baseline model on the holdout split.",
+      "current_status": "baseline",
+      "future_status": "may be replaced or compared with upgraded benchmark artifacts"
+    },
+    {
+      "name": "final_feature_importance_figure",
+      "type": "figure",
+      "path": "outputs/figures/final_feature_importance.png",
+      "created_by": "scripts/evaluate_final_model.py",
+      "used_by": ["Page 4 - Explainability"],
+      "description": "Feature importance chart for model-important sensor signals.",
+      "current_status": "baseline",
+      "future_status": "may be extended with additional explainability artifacts"
+    },
+    {
+      "name": "experiment_summary",
+      "type": "report",
+      "path": "reports/experiment_summary.md",
+      "created_by": "scripts/export_experiment_summary.py",
+      "used_by": ["Page 5 - MLOps, API, and AI Summary"],
+      "description": "Markdown summary of the current baseline workflow and results.",
+      "current_status": "baseline",
+      "future_status": "may be expanded after the upgraded benchmark is created"
+    },
+    {
+      "name": "model_card",
+      "type": "report",
+      "path": "reports/model_card.md",
+      "created_by": "scripts/export_experiment_summary.py",
+      "used_by": ["Page 5 - MLOps, API, and AI Summary"],
+      "description": "Model card for the selected Random Forest baseline screening model.",
+      "current_status": "baseline",
+      "future_status": "may be updated after champion model selection changes"
+    },
+    {
+      "name": "portfolio_summary_notebook",
+      "type": "notebook",
+      "path": "notebooks/SECOM_Fail_Screening_Portfolio_Summary.ipynb",
+      "created_by": "notebook workflow",
+      "used_by": ["Page 5 - MLOps, API, and AI Summary"],
+      "description": "Portfolio notebook that summarizes the current baseline workflow and artifacts.",
+      "current_status": "baseline",
+      "future_status": "may be updated after app and benchmark upgrades"
+    }
+  ]
+}

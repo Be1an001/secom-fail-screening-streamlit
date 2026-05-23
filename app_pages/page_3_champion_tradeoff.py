@@ -4,8 +4,17 @@ from __future__ import annotations
 
 import streamlit as st
 
-from app_utils.artifact_loader import artifact_exists, load_csv_artifact
-from app_utils.layout_utils import render_info_box, render_page_intro
+from app_utils.artifact_loader import (
+    artifact_exists,
+    filter_manifest_artifacts,
+    load_artifact_manifest,
+    load_csv_artifact,
+)
+from app_utils.layout_utils import (
+    render_info_box,
+    render_manifest_artifacts,
+    render_page_intro,
+)
 from app_utils.metric_utils import format_count, format_metric, format_percent
 
 
@@ -49,12 +58,26 @@ def render() -> None:
 
     if artifact_exists(THRESHOLD_SWEEP):
         st.subheader("Current threshold sweep artifact")
-        st.dataframe(load_csv_artifact(THRESHOLD_SWEEP), use_container_width=True)
+        sweep = load_csv_artifact(THRESHOLD_SWEEP)
+        st.write(
+            f"The threshold sweep artifact contains {format_count(len(sweep))} "
+            "candidate operating-point rows."
+        )
+        st.dataframe(sweep.head(25), use_container_width=True)
+        st.caption("Showing the first 25 rows to keep the app page light.")
     else:
         st.warning(f"Missing threshold sweep artifact: `{THRESHOLD_SWEEP}`")
+
+    if artifact_exists("outputs/artifact_manifest.json"):
+        manifest = load_artifact_manifest()
+        render_manifest_artifacts(
+            "Manifest artifacts for this page",
+            filter_manifest_artifacts(manifest, page="Page 3 - Champion Trade-off"),
+        )
 
     st.subheader("Planned Page Direction")
     st.write(
         "Later phases will add a simple cost trade-off and review-capacity "
-        "view so reviewers can compare threshold choices."
+        "view. Threshold should be treated as a decision lever, not as a fixed "
+        "automatic decision rule."
     )

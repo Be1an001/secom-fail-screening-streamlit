@@ -4,8 +4,19 @@ from __future__ import annotations
 
 import streamlit as st
 
-from app_utils.artifact_loader import artifact_exists, load_markdown_artifact
-from app_utils.layout_utils import render_artifact_list, render_info_box, render_page_intro
+from app_utils.artifact_loader import (
+    artifact_exists,
+    filter_manifest_artifacts,
+    load_artifact_manifest,
+    load_markdown_artifact,
+    validate_manifest_paths,
+)
+from app_utils.layout_utils import (
+    render_artifact_list,
+    render_info_box,
+    render_manifest_artifacts,
+    render_page_intro,
+)
 
 
 REPORT_ARTIFACTS = [
@@ -32,13 +43,31 @@ def render() -> None:
     available_reports = [path for path in REPORT_ARTIFACTS if artifact_exists(path)]
     render_artifact_list("Available report artifacts", available_reports)
 
+    if artifact_exists("outputs/artifact_manifest.json"):
+        manifest = load_artifact_manifest()
+        validate_manifest_paths(manifest)
+        st.subheader("Artifact manifest")
+        st.write(
+            f"The baseline manifest lists {len(manifest['artifacts'])} existing "
+            "baseline artifacts."
+        )
+        render_manifest_artifacts(
+            "Manifest artifacts for this page",
+            filter_manifest_artifacts(
+                manifest,
+                page="Page 5 - MLOps, API, and AI Summary",
+            ),
+        )
+    else:
+        st.warning("Missing artifact manifest: `outputs/artifact_manifest.json`")
+
     if artifact_exists("reports/model_card.md"):
         with st.expander("Current model card artifact"):
             st.markdown(load_markdown_artifact("reports/model_card.md"))
 
     st.subheader("Planned Page Direction")
     st.write(
-        "Later phases may add an artifact manifest, a minimal FastAPI artifact "
-        "service, a future controlled RAG-lite summary, and a future agentic "
-        "workflow concept. These are not implemented in this phase."
+        "Later phases may add an MLflow summary export, a minimal FastAPI "
+        "artifact service, a future controlled RAG-lite summary, and a future "
+        "agentic workflow concept. These are not implemented in this phase."
     )
