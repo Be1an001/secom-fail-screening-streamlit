@@ -67,7 +67,7 @@ def render() -> None:
         with st.expander("Current model card artifact"):
             st.markdown(load_markdown_artifact("reports/model_card.md"))
 
-    st.write("These future workflow features are not implemented in this phase.")
+    st.write("These future workflow features are not implemented in this phase. This page does not implement MLflow summary export, FastAPI service, controlled RAG-lite summary, or agentic workflow automation yet.")
     render_future_work_note(
         [
             "MLflow summary export",
