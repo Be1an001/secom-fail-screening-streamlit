@@ -20,6 +20,33 @@ def render_info_box(message: str) -> None:
     st.info(message)
 
 
+def render_prototype_note() -> None:
+    """Render the shared prototype artifact note."""
+
+    st.info(
+        "These are prototype artifacts for screening decision support. "
+        "They are not final model-selection results."
+    )
+
+
+def render_illustrative_cost_note() -> None:
+    """Render the shared illustrative-cost note."""
+
+    st.info(
+        "These cost scenarios are illustrative and are not validated "
+        "manufacturing costs."
+    )
+
+
+def render_no_production_decision_note() -> None:
+    """Render the shared non-production threshold note."""
+
+    st.warning(
+        "This analysis does not create a production decision rule and does "
+        "not select a final champion model."
+    )
+
+
 def render_responsible_use_note() -> None:
     """Render the shared responsible-use note for baseline app pages."""
 

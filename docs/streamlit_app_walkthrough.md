@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This app is an artifact-driven Streamlit app for the UCI SECOM fail-screening benchmark. It presents the current baseline workflow and existing baseline artifacts for screening decision support.
+This app is an artifact-driven Streamlit app for the UCI SECOM fail-screening benchmark. It presents the current baseline workflow, prototype benchmark artifacts, and threshold / cost trade-off artifacts for screening decision support.
 
 The app does not retrain models at runtime. It reads metrics, figures, reports, and the artifact manifest that already exist in the repository.
 
@@ -24,16 +24,26 @@ streamlit run app.py
 
 - SECOM dataset size and class imbalance
 - current baseline validation metrics
-- final holdout threshold metrics
-- threshold sweep artifact preview
+- prototype benchmark model comparison
+- prototype threshold sweep availability
+- threshold / cost trade-off selected thresholds
+- illustrative cost scenario report
 - model-important sensor signals
 - existing reports and artifact manifest status
 
 ## Planned Future Work
 
-Later phases may add a planned literature-inspired upgrade, SOTA-inspired methods as a future method direction, cost threshold views, richer explainability artifacts, a minimal FastAPI artifact service, a future controlled RAG-lite summary, and a future agentic workflow concept.
+Later phases may add richer explainability artifacts, final benchmark polish, a minimal FastAPI artifact service, a future controlled RAG-lite summary, and a future agentic workflow concept.
 
 These future items are not implemented yet.
+
+## Prototype Benchmark and Cost Views
+
+Page 2 shows the prototype literature-inspired benchmark artifacts from `outputs/metrics/benchmark_model_comparison_prototype.csv`. These results are not final model-selection results.
+
+Page 3 shows selected thresholds from `outputs/metrics/cost_selected_thresholds_prototype.csv`. The cost scenarios are illustrative, are not validated manufacturing costs, and do not create a production decision rule.
+
+The app may describe a row as best under this illustrative scenario, but it does not select a final champion model.
 
 ## Responsible-Use Note
 
