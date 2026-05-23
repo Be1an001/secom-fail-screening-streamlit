@@ -126,6 +126,20 @@ def test_app_references_prototype_benchmark_and_cost_artifacts() -> None:
     assert "top_sensor_signals_prototype.csv" in page_4_text
 
 
+def test_page_5_describes_artifact_tracking_without_overclaiming() -> None:
+    page_5_text = PAGE_MODULES[4].read_text(encoding="utf-8").lower()
+
+    assert "outputs/artifact_manifest.json" in page_5_text
+    assert "local mlflow tracking" in page_5_text
+    assert "mlflow_runs_summary.csv" in page_5_text
+    assert "fastapi service" in page_5_text
+    assert "controlled rag-lite summary" in page_5_text
+    assert "deployed mlflow tracking server" in page_5_text
+    assert "production mlops platform" not in page_5_text
+    assert "fastapi service is implemented" not in page_5_text
+    assert "rag-lite summary is implemented" not in page_5_text
+
+
 def test_page_2_describes_model_display_grouping() -> None:
     page_2_text = PAGE_MODULES[1].read_text(encoding="utf-8")
 

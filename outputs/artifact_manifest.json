@@ -246,6 +246,16 @@
       "description": "Markdown report explaining prototype explainability, feature stability, and responsible-use limits.",
       "current_status": "prototype",
       "future_status": "may be expanded after reviewer feedback"
+    },
+    {
+      "name": "mlflow_artifact_tracking_summary",
+      "type": "report",
+      "path": "reports/mlflow_artifact_tracking_summary.md",
+      "created_by": "manual documentation",
+      "used_by": ["Page 5 - MLOps, API, and AI Summary"],
+      "description": "Short report explaining artifact-driven app design, local MLflow tracking, ignored MLflow files, and exported summary behavior.",
+      "current_status": "documentation",
+      "future_status": "may be updated if a real exported MLflow summary artifact is created"
     }
   ]
 }

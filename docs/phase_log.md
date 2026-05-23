@@ -16,13 +16,14 @@ Use this log to keep phase work easy to review.
 | Phase 6 | 2026-05-24 | Completed | Updated the Streamlit app to display prototype benchmark and threshold / cost trade-off artifacts. | App reads existing artifacts only and keeps responsible-use wording. |
 | Phase 6.5 | 2026-05-24 | Completed | Clarified benchmark model display grouping in the app and documentation. | All six models remain in artifacts; no metrics were changed. |
 | Phase 7 | 2026-05-24 | Completed | Added prototype explainability artifacts for Random Forest and XGBoost cost-sensitive models. | Uses validation-split permutation importance and feature stability; no benchmark or cost metrics changed. |
+| Phase 8 | 2026-05-24 | Completed | Polished Page 5, clarified MLOps-lite artifact tracking, and added a safe MLflow summary export script. | No model scripts were rerun; no fake MLflow artifacts were created. |
 
 ## Future Phase Placeholders
 
 | Phase | Planned purpose | Notes |
 |---|---|---|
-| Phase 7 | Plan FastAPI and controlled RAG-lite summary | Keep scope minimal. |
-| Phase 8 | Implement service and summary prototype | No committed secrets. |
+| Phase 9 | Plan FastAPI artifact service | Keep scope minimal. |
+| Phase 10 | Plan controlled RAG-lite summary | No committed secrets. |
 
 ## Validation Notes
 
