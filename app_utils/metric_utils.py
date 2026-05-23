@@ -30,6 +30,21 @@ def format_metric(value: object, digits: int = 3) -> str:
     return f"{number:.{digits}f}"
 
 
+def format_threshold(value: object) -> str:
+    """Format a model threshold value."""
+
+    return format_metric(value, digits=3)
+
+
+def format_cost(value: object) -> str:
+    """Format an illustrative cost value."""
+
+    number = _to_float(value)
+    if number is None:
+        return "n/a"
+    return f"{number:,.2f}"
+
+
 def _to_float(value: object) -> float | None:
     if value is None or value == "":
         return None

@@ -22,6 +22,12 @@ PAGE_MODULES = [
     PAGE_DIR / "page_4_explainability.py",
     PAGE_DIR / "page_5_mlops_ai_api.py",
 ]
+PROTOTYPE_BENCHMARK_ARTIFACT = (
+    PROJECT_ROOT / "outputs" / "metrics" / "benchmark_model_comparison_prototype.csv"
+)
+COST_SELECTED_ARTIFACT = (
+    PROJECT_ROOT / "outputs" / "metrics" / "cost_selected_thresholds_prototype.csv"
+)
 EXPECTED_PAGE_TITLES = {
     "Project & Data Problem",
     "Model Benchmark",
@@ -44,6 +50,8 @@ IMPLEMENTED_CLAIM_PHRASES = {
     "rag-lite summary is implemented",
     "docker deployment is implemented",
     "sota performance achieved",
+    "final champion model selected",
+    "is a production decision rule",
 }
 
 
@@ -82,14 +90,29 @@ def test_page_modules_do_not_import_future_optional_packages() -> None:
 
 
 def test_app_text_keeps_future_features_future_facing() -> None:
-    app_text = "\n".join(path.read_text(encoding="utf-8").lower() for path in PAGE_MODULES)
+    app_text = "\n".join(
+        path.read_text(encoding="utf-8").lower() for path in PAGE_MODULES
+    )
 
     for phrase in IMPLEMENTED_CLAIM_PHRASES:
         assert phrase not in app_text
 
-    assert "not a completed six-model benchmark" in app_text
+    assert "not final model-selection results" in app_text
     assert "not implemented in this phase" in app_text
+    assert "illustrative cost scenario" in app_text
+    assert "does not select a final champion model" in app_text
+    assert "not create a production decision rule" in app_text
     assert "does not" in app_text
+
+
+def test_app_references_prototype_benchmark_and_cost_artifacts() -> None:
+    page_2_text = PAGE_MODULES[1].read_text(encoding="utf-8")
+    page_3_text = PAGE_MODULES[2].read_text(encoding="utf-8")
+
+    assert PROTOTYPE_BENCHMARK_ARTIFACT.is_file()
+    assert COST_SELECTED_ARTIFACT.is_file()
+    assert "benchmark_model_comparison_prototype.csv" in page_2_text
+    assert "cost_selected_thresholds_prototype.csv" in page_3_text
 
 
 def test_manifest_paths_still_validate() -> None:

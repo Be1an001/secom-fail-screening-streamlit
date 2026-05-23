@@ -24,8 +24,18 @@ from app_utils.layout_utils import (
 REPORT_ARTIFACTS = [
     "reports/experiment_summary.md",
     "reports/model_card.md",
+    "reports/benchmark_prototype_summary.md",
+    "reports/cost_threshold_prototype_report.md",
     "outputs/README.md",
 ]
+PROTOTYPE_ARTIFACT_PATHS = {
+    "outputs/metrics/benchmark_model_comparison_prototype.csv",
+    "outputs/metrics/benchmark_threshold_sweep_prototype.csv",
+    "outputs/metrics/cost_selected_thresholds_prototype.csv",
+    "outputs/metrics/cost_threshold_sweep_prototype.csv",
+    "reports/benchmark_prototype_summary.md",
+    "reports/cost_threshold_prototype_report.md",
+}
 
 
 def render() -> None:
@@ -49,9 +59,22 @@ def render() -> None:
         manifest = load_artifact_manifest()
         validate_manifest_paths(manifest)
         st.subheader("Artifact manifest")
+        prototype_count = sum(
+            1
+            for artifact in manifest["artifacts"]
+            if artifact.get("current_status") == "prototype"
+        )
         st.write(
-            f"The baseline manifest lists {len(manifest['artifacts'])} existing "
-            "baseline artifacts."
+            f"The artifact manifest lists {len(manifest['artifacts'])} "
+            f"artifacts, including {prototype_count} prototype artifacts."
+        )
+        render_artifact_list(
+            "Benchmark and cost trade-off artifacts",
+            [
+                path
+                for path in sorted(PROTOTYPE_ARTIFACT_PATHS)
+                if artifact_exists(path)
+            ],
         )
         render_manifest_artifacts(
             "Manifest artifacts for this page",
@@ -67,7 +90,11 @@ def render() -> None:
         with st.expander("Current model card artifact"):
             st.markdown(load_markdown_artifact("reports/model_card.md"))
 
-    st.write("These future workflow features are not implemented in this phase. This page does not implement MLflow summary export, FastAPI service, controlled RAG-lite summary, or agentic workflow automation yet.")
+    st.write(
+        "These future workflow features are not implemented in this phase. "
+        "This page does not implement MLflow summary export, FastAPI service, "
+        "controlled RAG-lite summary, or agentic workflow automation yet."
+    )
     render_future_work_note(
         [
             "MLflow summary export",

@@ -13,12 +13,12 @@ Use this log to keep phase work easy to review.
 | Phase 3 | 2026-05-23 | Completed | Polished the baseline app and added smoke validation. | Smoke tests keep future features future-facing. |
 | Phase 4 | 2026-05-23 | Completed | Added a literature-inspired benchmark prototype and prototype artifacts. | Benchmark script ran successfully; Phase 4B adjusted conservative XGBoost, LightGBM, and training-only SMOTE settings. |
 | Phase 5 | 2026-05-23 | Completed | Added prototype threshold / cost trade-off analysis for benchmark models. | Cost analysis consumes existing threshold artifacts without retraining. |
+| Phase 6 | 2026-05-24 | Completed | Updated the Streamlit app to display prototype benchmark and threshold / cost trade-off artifacts. | App reads existing artifacts only and keeps responsible-use wording. |
 
 ## Future Phase Placeholders
 
 | Phase | Planned purpose | Notes |
 |---|---|---|
-| Phase 6 | Add explainability artifacts | Use model-important sensor signals wording. |
 | Phase 7 | Plan FastAPI and controlled RAG-lite summary | Keep scope minimal. |
 | Phase 8 | Implement service and summary prototype | No committed secrets. |
 
