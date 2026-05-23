@@ -60,7 +60,7 @@ This is prototype work. It does not claim SOTA performance, does not select a fi
 
 ## Threshold and Cost Trade-Off
 
-Future threshold work should explain how lower or higher thresholds affect:
+Threshold work should explain how lower or higher thresholds affect:
 
 - fail recall
 - false positives
@@ -70,6 +70,17 @@ Future threshold work should explain how lower or higher thresholds affect:
 - simple cost assumptions
 
 This should be framed as screening decision support.
+
+## Prototype Threshold / Cost Trade-Off Analysis
+
+Phase 5 adds illustrative cost scenarios for the Phase 4 prototype threshold
+sweeps. The analysis treats false negatives as missed fail cases and false
+positives as added review workload.
+
+The current prototype uses simple false-negative and false-positive cost
+assumptions. These assumptions are not production rules. They are a practical
+way to show that the preferred threshold can change when quality risk and
+review workload are weighted differently.
 
 ## Explainability
 
