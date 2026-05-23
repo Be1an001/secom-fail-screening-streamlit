@@ -1,4 +1,4 @@
-"""Champion threshold trade-off page."""
+"""Threshold / cost trade-off page."""
 
 from __future__ import annotations
 
@@ -27,6 +27,7 @@ from app_utils.metric_utils import (
     format_percent,
     format_threshold,
 )
+from app_utils.model_display import get_model_display
 
 
 FINAL_TEST_METRICS = "outputs/metrics/final_test_metrics.csv"
@@ -56,6 +57,11 @@ def render() -> None:
         "thresholds may catch more fail cases but can increase review workload.",
     )
     render_prototype_note()
+    st.write(
+        "Cost scenario results may highlight different models under different "
+        "assumptions. This page uses display labels and roles for readability, "
+        "but it does not change the underlying threshold artifacts."
+    )
     render_illustrative_cost_note()
     render_no_production_decision_note()
 
@@ -105,15 +111,24 @@ def render() -> None:
 
 
 def _render_cost_controls(selected: object) -> None:
+    selected = _add_display_roles(selected)
     scenario_options = sorted(selected["scenario"].dropna().unique().tolist())
     scenario = st.selectbox("Illustrative cost scenario", scenario_options)
     scenario_rows = selected[selected["scenario"] == scenario].copy()
 
     model_options = sorted(scenario_rows["model_name"].dropna().unique().tolist())
-    model_name = st.selectbox("Model", model_options)
+    model_name = st.selectbox(
+        "Model",
+        model_options,
+        format_func=_format_model_option,
+    )
     selected_row = scenario_rows[scenario_rows["model_name"] == model_name].iloc[0]
 
     st.subheader("Selected threshold for this model and scenario")
+    st.caption(
+        f"{selected_row['short_label']} - {selected_row['display_role']}. "
+        f"{selected_row['main_message']}"
+    )
     cols = st.columns(4)
     cols[0].metric(
         "Threshold",
@@ -147,7 +162,7 @@ def _render_cost_controls(selected: object) -> None:
 
 
 def _format_cost_table(rows: object) -> object:
-    display = rows.loc[:, COST_DISPLAY_COLUMNS].copy()
+    display = rows.loc[:, ["short_label", "display_role", *COST_DISPLAY_COLUMNS]].copy()
     display["selected_threshold"] = display["selected_threshold"].map(
         format_threshold
     )
@@ -156,6 +171,25 @@ def _format_cost_table(rows: object) -> object:
         display[column] = display[column].map(format_percent)
     display["f2"] = display["f2"].map(lambda value: format_metric(value, digits=3))
     return display
+
+
+def _add_display_roles(rows: object) -> object:
+    enriched = rows.copy()
+    enriched["display_role"] = enriched["model_name"].map(
+        lambda name: get_model_display(str(name))["display_role"]
+    )
+    enriched["short_label"] = enriched["model_name"].map(
+        lambda name: get_model_display(str(name))["short_label"]
+    )
+    enriched["main_message"] = enriched["model_name"].map(
+        lambda name: get_model_display(str(name))["main_message"]
+    )
+    return enriched
+
+
+def _format_model_option(model_name: str) -> str:
+    metadata = get_model_display(model_name)
+    return f"{metadata['short_label']} ({metadata['display_role']})"
 
 
 def _render_baseline_threshold_context() -> None:

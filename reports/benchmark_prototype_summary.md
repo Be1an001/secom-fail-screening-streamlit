@@ -33,6 +33,20 @@ final six-model benchmark and not a SOTA result.
 | lightgbm_class_weighted | 0.0850 | 0.1905 | 0.1176 | 0.1695 | 0.1072 | 0.6056 | 0.1083 |
 | xgboost_training_only_smote | 0.0500 | 0.6190 | 0.1048 | 0.3125 | 0.1253 | 0.6402 | 0.3949 |
 
+## Display Grouping
+
+All six models remain in the benchmark artifacts. The Streamlit app uses
+display grouping for readability:
+
+- Main comparison: logistic_regression_pca_baseline, random_forest_reference,
+  xgboost_cost_sensitive
+- Baseline warning: dummy_majority_baseline
+- Secondary prototype comparison: lightgbm_class_weighted,
+  xgboost_training_only_smote
+
+This display grouping does not remove models and does not create a final
+champion model.
+
 ## Skipped or Failed Candidates
 
 No rows.

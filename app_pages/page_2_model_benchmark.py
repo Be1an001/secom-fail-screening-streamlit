@@ -19,6 +19,12 @@ from app_utils.layout_utils import (
     render_prototype_note,
 )
 from app_utils.metric_utils import format_metric, format_percent, format_threshold
+from app_utils.model_display import (
+    BASELINE_WARNING,
+    MAIN_COMPARISON,
+    SECONDARY_PROTOTYPE_COMPARISON,
+    get_model_display,
+)
 
 
 VALIDATION_METRICS = "outputs/metrics/validation_metrics.csv"
@@ -53,21 +59,56 @@ def render() -> None:
     )
     render_prototype_note()
     render_info_box(
+        "All six models remain in the full benchmark table. The app highlights "
+        "a smaller set of models for the main portfolio story. This display "
+        "grouping is for readability; it does not remove models from the "
+        "benchmark and does not create a final champion model."
+    )
+    render_info_box(
         "Random Forest reference currently has the strongest F2 in the "
         "prototype benchmark. XGBoost cost-sensitive provides a higher-recall "
-        "option, but with a higher flagged sample rate. This page makes no "
-        "SOTA performance claim."
+        "option with higher review workload. Logistic + PCA remains useful "
+        "as a classical baseline. This page makes no SOTA performance claim."
     )
 
     if artifact_exists(PROTOTYPE_MODEL_COMPARISON):
-        comparison = load_csv_artifact(PROTOTYPE_MODEL_COMPARISON)
-        st.subheader("Prototype benchmark leaderboard")
+        comparison = _add_display_roles(load_csv_artifact(PROTOTYPE_MODEL_COMPARISON))
+        _render_model_highlights(comparison)
+        _render_role_section(
+            comparison,
+            MAIN_COMPARISON,
+            "Main comparison",
+            (
+                "These models receive the most explanation in the portfolio "
+                "story because they compare a classical baseline, the current "
+                "Random Forest reference, and a cost-sensitive boosting option."
+            ),
+        )
+        _render_role_section(
+            comparison,
+            BASELINE_WARNING,
+            "Baseline warning",
+            (
+                "The dummy model is retained to show why accuracy alone is "
+                "misleading in rare-fail screening."
+            ),
+        )
+        _render_role_section(
+            comparison,
+            SECONDARY_PROTOTYPE_COMPARISON,
+            "Secondary prototype comparison",
+            (
+                "These models stay visible as secondary prototype comparisons. "
+                "They help document boosting-family and training-only "
+                "resampling behavior without becoming the main story."
+            ),
+        )
+        st.subheader("Full six-model benchmark table")
         st.dataframe(
             _format_leaderboard(comparison),
             use_container_width=True,
             hide_index=True,
         )
-        _render_model_highlights(comparison)
     else:
         render_missing_artifact_warning(PROTOTYPE_MODEL_COMPARISON)
 
@@ -113,8 +154,71 @@ def render() -> None:
     )
 
 
+def _add_display_roles(comparison: object) -> object:
+    enriched = comparison.copy()
+    enriched["display_role"] = enriched["model_name"].map(
+        lambda name: get_model_display(str(name))["display_role"]
+    )
+    enriched["short_label"] = enriched["model_name"].map(
+        lambda name: get_model_display(str(name))["short_label"]
+    )
+    enriched["main_message"] = enriched["model_name"].map(
+        lambda name: get_model_display(str(name))["main_message"]
+    )
+    return enriched
+
+
+def _render_role_section(
+    comparison: object,
+    display_role: str,
+    title: str,
+    summary: str,
+) -> None:
+    rows = comparison[comparison["display_role"] == display_role].copy()
+    if rows.empty:
+        return
+
+    st.subheader(title)
+    st.write(summary)
+    st.dataframe(
+        _format_role_table(rows),
+        use_container_width=True,
+        hide_index=True,
+    )
+
+
+def _format_role_table(rows: object) -> object:
+    display = rows.loc[
+        :,
+        [
+            "short_label",
+            "threshold",
+            "recall",
+            "precision",
+            "f2",
+            "flagged_sample_rate",
+            "main_message",
+        ],
+    ].copy()
+    for column in ["threshold", "recall", "precision", "f2", "flagged_sample_rate"]:
+        display[column] = display[column].map(
+            lambda value: format_metric(value, digits=3)
+        )
+    return display
+
+
 def _format_leaderboard(comparison: object) -> object:
     leaderboard = comparison.loc[:, LEADERBOARD_COLUMNS].copy()
+    leaderboard.insert(
+        0,
+        "display_role",
+        comparison["display_role"],
+    )
+    leaderboard.insert(
+        0,
+        "short_label",
+        comparison["short_label"],
+    )
     numeric_columns = [
         "threshold",
         "recall",

@@ -51,6 +51,12 @@ def render() -> None:
         "No FastAPI service, OpenAI call, or future controlled RAG-lite summary "
         "runs in this app skeleton."
     )
+    render_info_box(
+        "The artifact-driven app now includes full six-model prototype "
+        "benchmark artifacts, display grouping for readability, and "
+        "threshold/cost trade-off artifacts. Future explainability upgrade "
+        "work is still planned."
+    )
 
     available_reports = [path for path in REPORT_ARTIFACTS if artifact_exists(path)]
     render_artifact_list("Available report artifacts", available_reports)

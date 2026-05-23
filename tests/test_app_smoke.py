@@ -10,6 +10,7 @@ import ast
 from pathlib import Path
 
 from app_utils.artifact_loader import load_artifact_manifest, validate_manifest_paths
+from app_utils.model_display import MODEL_DISPLAY_ROLES
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -36,6 +37,7 @@ EXPECTED_PAGE_TITLES = {
     "MLOps, API, and AI Summary",
 }
 FORBIDDEN_IMPORTS = {
+    "docker",
     "fastapi",
     "imblearn",
     "lightgbm",
@@ -102,6 +104,7 @@ def test_app_text_keeps_future_features_future_facing() -> None:
     assert "illustrative cost scenario" in app_text
     assert "does not select a final champion model" in app_text
     assert "not create a production decision rule" in app_text
+    assert "sota performance achieved" not in app_text
     assert "does not" in app_text
 
 
@@ -113,6 +116,30 @@ def test_app_references_prototype_benchmark_and_cost_artifacts() -> None:
     assert COST_SELECTED_ARTIFACT.is_file()
     assert "benchmark_model_comparison_prototype.csv" in page_2_text
     assert "cost_selected_thresholds_prototype.csv" in page_3_text
+
+
+def test_page_2_describes_model_display_grouping() -> None:
+    page_2_text = PAGE_MODULES[1].read_text(encoding="utf-8")
+
+    assert "Main comparison" in page_2_text
+    assert "Baseline warning" in page_2_text
+    assert "Secondary prototype comparison" in page_2_text
+    assert "Full six-model benchmark table" in page_2_text
+    assert "does not remove models" in page_2_text
+    assert "does not create a final champion model" in page_2_text
+
+
+def test_all_six_model_names_are_represented_in_display_mapping() -> None:
+    expected_model_names = {
+        "dummy_majority_baseline",
+        "logistic_regression_pca_baseline",
+        "random_forest_reference",
+        "xgboost_cost_sensitive",
+        "lightgbm_class_weighted",
+        "xgboost_training_only_smote",
+    }
+
+    assert set(MODEL_DISPLAY_ROLES) == expected_model_names
 
 
 def test_manifest_paths_still_validate() -> None:

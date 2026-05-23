@@ -41,6 +41,14 @@ These future items are not implemented yet.
 
 Page 2 shows the prototype literature-inspired benchmark artifacts from `outputs/metrics/benchmark_model_comparison_prototype.csv`. These results are not final model-selection results.
 
+The Page 2 display groups models for readability while keeping the full six-model benchmark table visible:
+
+- Main comparison: Logistic + PCA, Random Forest Reference, and XGBoost Cost-Sensitive
+- Baseline warning: Dummy Majority
+- Secondary prototype comparison: LightGBM Weighted and XGBoost + Training-only SMOTE
+
+This display grouping does not remove models from the benchmark and does not create a final champion model.
+
 Page 3 shows selected thresholds from `outputs/metrics/cost_selected_thresholds_prototype.csv`. The cost scenarios are illustrative, are not validated manufacturing costs, and do not create a production decision rule.
 
 The app may describe a row as best under this illustrative scenario, but it does not select a final champion model.
