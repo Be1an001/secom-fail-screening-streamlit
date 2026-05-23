@@ -17,13 +17,13 @@ Use this log to keep phase work easy to review.
 | Phase 6.5 | 2026-05-24 | Completed | Clarified benchmark model display grouping in the app and documentation. | All six models remain in artifacts; no metrics were changed. |
 | Phase 7 | 2026-05-24 | Completed | Added prototype explainability artifacts for Random Forest and XGBoost cost-sensitive models. | Uses validation-split permutation importance and feature stability; no benchmark or cost metrics changed. |
 | Phase 8 | 2026-05-24 | Completed | Polished Page 5, clarified MLOps-lite artifact tracking, and added a safe MLflow summary export script. | No model scripts were rerun; no fake MLflow artifacts were created. |
+| Phase 9 | 2026-05-24 | Completed | Added a minimal read-only FastAPI artifact service and controlled RAG-lite fallback summaries. | Uses preset questions and committed artifacts only; no OpenAI key is required. |
 
 ## Future Phase Placeholders
 
 | Phase | Planned purpose | Notes |
 |---|---|---|
-| Phase 9 | Plan FastAPI artifact service | Keep scope minimal. |
-| Phase 10 | Plan controlled RAG-lite summary | No committed secrets. |
+| Phase 10 | Final app and docs polish | Keep scope minimal. |
 
 ## Validation Notes
 

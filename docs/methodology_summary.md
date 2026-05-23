@@ -123,6 +123,17 @@ are ignored. A compact exported MLflow summary may be generated only when real
 local MLflow run data exists. This is portfolio-scale artifact tracking, not a
 production MLOps platform.
 
+## Minimal API and Controlled RAG-Lite Summary
+
+Phase 9 adds a minimal FastAPI artifact service for local portfolio review. The
+service is read-only and returns committed artifacts as JSON. It is not a
+production backend and does not run model training or artifact generation.
+
+Phase 9 also adds a controlled RAG-lite summary helper. It accepts preset
+question keys only, builds compact artifact-grounded context, and falls back to
+deterministic summaries when OpenAI is unavailable. It does not accept
+free-form prompts and does not send raw SECOM CSV files to an LLM.
+
 ## Limitations and Non-Goals
 
 - The dataset is public and anonymous.
@@ -133,3 +144,4 @@ production MLOps platform.
 - The project does not provide automatic pass/fail decisions.
 - The project does not identify physical root causes.
 - The project does not include a deployed MLflow tracking server.
+- The project does not include a production backend or general chatbot.

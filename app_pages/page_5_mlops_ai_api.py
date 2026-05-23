@@ -12,6 +12,7 @@ from app_utils.artifact_loader import (
     load_markdown_artifact,
     validate_manifest_paths,
 )
+from app_utils.ai_summary import generate_controlled_summary, is_openai_available
 from app_utils.layout_utils import (
     render_artifact_list,
     render_artifact_tracking_note,
@@ -21,6 +22,7 @@ from app_utils.layout_utils import (
     render_missing_artifact_warning,
     render_page_intro,
 )
+from app_utils.rag_context import get_preset_questions
 
 
 REPORT_ARTIFACTS = [
@@ -60,8 +62,8 @@ def render() -> None:
 
     render_artifact_tracking_note()
     render_info_box(
-        "No FastAPI service, OpenAI call, or future controlled RAG-lite summary "
-        "runs in this app skeleton."
+        "The optional FastAPI artifact service is a local read-only portfolio "
+        "demo. It is not a production backend."
     )
     render_info_box(
         "The app now includes full six-model prototype benchmark artifacts, "
@@ -72,6 +74,11 @@ def render() -> None:
         "Local MLflow tracking files such as `mlflow.db`, `mlruns/`, and "
         "`mlartifacts/` are intentionally ignored. An exported MLflow summary "
         "may be shown here only when real local run data is available."
+    )
+    render_info_box(
+        "The controlled RAG-lite summary panel uses preset questions and compact "
+        "artifact-grounded context. They are not a general chatbot, and raw "
+        "CSV files are not sent to an LLM."
     )
 
     available_reports = [path for path in REPORT_ARTIFACTS if artifact_exists(path)]
@@ -130,17 +137,56 @@ def render() -> None:
         with st.expander("Current model card artifact"):
             st.markdown(load_markdown_artifact("reports/model_card.md"))
 
+    _render_api_and_summary_section()
+
     st.write(
         "These future workflow features are not implemented in this phase. "
         "This page does not implement a deployed MLflow tracking server, "
-        "FastAPI service, controlled RAG-lite summary, or agentic workflow "
-        "automation yet."
+        "production backend, general chatbot, or agentic workflow automation."
     )
     render_future_work_note(
         [
             "review of exported MLflow summary if real local run data exists",
-            "future FastAPI artifact service",
-            "future controlled RAG-lite summary",
+            "possible refinement of the local FastAPI artifact service",
+            "optional OpenAI API use for controlled RAG-lite summaries",
             "future agentic workflow concept",
         ]
     )
+
+
+def _render_api_and_summary_section() -> None:
+    st.subheader("Local API and controlled summary")
+    st.write("Run the read-only artifact service locally with:")
+    st.code("uvicorn api.main:app --reload", language="bash")
+    render_artifact_list(
+        "Available local API endpoints",
+        [
+            "GET /health",
+            "GET /manifest",
+            "GET /metrics/benchmark",
+            "GET /metrics/cost-selected-thresholds",
+            "GET /metrics/explainability/top-sensors",
+            "GET /reports/model-card",
+            "GET /reports/cost-threshold",
+            "GET /reports/explainability",
+            "GET /summary/questions",
+            "GET /summary/{question_key}",
+        ],
+    )
+
+    st.write(
+        "No API key is stored in the repo. OpenAI API use is optional and the "
+        "fallback summary works without secrets or network access."
+    )
+    st.caption(
+        "Optional OpenAI status: "
+        f"{'available' if is_openai_available() else 'fallback summary only'}."
+    )
+
+    questions = get_preset_questions()
+    question_key = st.selectbox(
+        "Controlled RAG-lite preset question",
+        list(questions.keys()),
+        format_func=lambda key: questions[key],
+    )
+    st.write(generate_controlled_summary(question_key))
