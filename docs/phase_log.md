@@ -14,6 +14,7 @@ Use this log to keep phase work easy to review.
 | Phase 4 | 2026-05-23 | Completed | Added a literature-inspired benchmark prototype and prototype artifacts. | Benchmark script ran successfully; Phase 4B adjusted conservative XGBoost, LightGBM, and training-only SMOTE settings. |
 | Phase 5 | 2026-05-23 | Completed | Added prototype threshold / cost trade-off analysis for benchmark models. | Cost analysis consumes existing threshold artifacts without retraining. |
 | Phase 6 | 2026-05-24 | Completed | Updated the Streamlit app to display prototype benchmark and threshold / cost trade-off artifacts. | App reads existing artifacts only and keeps responsible-use wording. |
+| Phase 6.5 | 2026-05-24 | Completed | Clarified benchmark model display grouping in the app and documentation. | All six models remain in artifacts; no metrics were changed. |
 
 ## Future Phase Placeholders
 

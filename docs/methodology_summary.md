@@ -58,6 +58,19 @@ Phase 4 adds a literature-inspired benchmark prototype. It tests fixed, practica
 
 This is prototype work. It does not claim SOTA performance, does not select a final champion model, and does not replace a later formal paper review.
 
+## Prototype Model Display Grouping
+
+All six models remain in the prototype benchmark artifacts. The Streamlit app
+uses display grouping to make the portfolio story easier to follow:
+
+- main comparison models for the classical baseline, Random Forest reference,
+  and cost-sensitive XGBoost option
+- a baseline warning model to show why accuracy alone is misleading
+- secondary prototype comparison models for LightGBM and training-only SMOTE
+
+This grouping is for readability. It does not remove models from the benchmark
+and does not create a final champion model.
+
 ## Threshold and Cost Trade-Off
 
 Threshold work should explain how lower or higher thresholds affect:
