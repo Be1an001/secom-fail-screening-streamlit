@@ -90,9 +90,12 @@ def test_page_5_describes_mlflow_and_future_boundaries() -> None:
     assert "artifact-driven" in page_text
     assert "local mlflow tracking" in page_text
     assert "exported mlflow summary" in page_text
-    assert "future fastapi artifact service" in page_text
-    assert "future controlled rag-lite summary" in page_text
+    assert "fastapi artifact service" in page_text
+    assert "controlled rag-lite summary" in page_text
+    assert "optional openai api use" in page_text
     assert "deployed mlflow tracking server" in page_text
+    assert "not a production backend" in page_text
+    assert "not a general chatbot" in page_text
     assert "production mlops platform" not in page_text
     assert "full enterprise" not in page_text
 

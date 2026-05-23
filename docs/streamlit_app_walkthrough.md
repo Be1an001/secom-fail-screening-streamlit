@@ -33,7 +33,8 @@ streamlit run app.py
 
 ## Planned Future Work
 
-Later phases may add richer explainability artifacts, final benchmark polish, a minimal FastAPI artifact service, a future controlled RAG-lite summary, and a future agentic workflow concept.
+Later phases may add final benchmark polish, optional OpenAI API use for
+controlled summaries, and a future agentic workflow concept.
 
 These future items are not implemented yet.
 
@@ -75,6 +76,24 @@ exported MLflow summary only when real local run data exists.
 
 This is MLOps-lite evidence for a portfolio project. It is not a production
 MLOps platform, and no deployed MLflow tracking server is included.
+
+## Local API and Controlled RAG-Lite View
+
+Page 5 now documents the minimal FastAPI artifact service and controlled
+RAG-lite summary helper. The local API can be run with:
+
+```bash
+uvicorn api.main:app --reload
+```
+
+The API is read-only and returns JSON from committed artifacts such as the
+manifest, prototype benchmark metrics, selected cost thresholds, top sensor
+signals, and Markdown reports.
+
+The controlled RAG-lite summary uses preset questions and compact
+artifact-grounded context. It is not a general chatbot, does not accept
+arbitrary prompts, and does not send raw SECOM CSV files to an LLM. The fallback
+summary works without an OpenAI API key.
 
 ## Responsible-Use Note
 

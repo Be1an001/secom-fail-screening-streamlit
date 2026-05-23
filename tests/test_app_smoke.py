@@ -132,9 +132,11 @@ def test_page_5_describes_artifact_tracking_without_overclaiming() -> None:
     assert "outputs/artifact_manifest.json" in page_5_text
     assert "local mlflow tracking" in page_5_text
     assert "mlflow_runs_summary.csv" in page_5_text
-    assert "fastapi service" in page_5_text
+    assert "fastapi artifact service" in page_5_text
     assert "controlled rag-lite summary" in page_5_text
     assert "deployed mlflow tracking server" in page_5_text
+    assert "not a production backend" in page_5_text
+    assert "not a general chatbot" in page_5_text
     assert "production mlops platform" not in page_5_text
     assert "fastapi service is implemented" not in page_5_text
     assert "rag-lite summary is implemented" not in page_5_text
