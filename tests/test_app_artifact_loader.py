@@ -5,10 +5,13 @@ from __future__ import annotations
 import pytest
 
 from app_utils.artifact_loader import (
+    filter_manifest_artifacts,
     list_existing_artifacts,
+    load_artifact_manifest,
     load_csv_artifact,
     load_markdown_artifact,
     project_root,
+    validate_manifest_paths,
 )
 
 
@@ -53,4 +56,50 @@ def test_list_existing_artifacts_returns_only_existing_paths() -> None:
     assert existing == [
         "outputs/metrics/final_test_metrics.csv",
         "reports/model_card.md",
+    ]
+
+
+def test_load_artifact_manifest_returns_baseline_manifest() -> None:
+    manifest = load_artifact_manifest()
+
+    assert manifest["project"] == "secom-fail-screening-streamlit"
+    assert manifest["manifest_version"] == "0.1.0"
+    assert manifest["scope"] == "baseline artifacts"
+    assert len(manifest["artifacts"]) >= 1
+
+
+def test_validate_manifest_paths_accepts_existing_artifacts() -> None:
+    manifest = load_artifact_manifest()
+
+    artifact_paths = validate_manifest_paths(manifest)
+
+    assert "outputs/metrics/final_test_metrics.csv" in artifact_paths
+    assert "reports/model_card.md" in artifact_paths
+
+
+def test_validate_manifest_paths_catches_missing_paths() -> None:
+    manifest = {
+        "artifacts": [
+            {
+                "path": "outputs/metrics/missing_file.csv",
+            }
+        ]
+    }
+
+    with pytest.raises(FileNotFoundError, match="missing_file.csv"):
+        validate_manifest_paths(manifest)
+
+
+def test_filter_manifest_artifacts_by_page_and_type() -> None:
+    manifest = load_artifact_manifest()
+
+    page_artifacts = filter_manifest_artifacts(
+        manifest,
+        page="Page 3 - Champion Trade-off",
+        artifact_type="metrics_table",
+    )
+
+    assert [artifact["name"] for artifact in page_artifacts] == [
+        "threshold_sweep",
+        "final_test_metrics",
     ]

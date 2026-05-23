@@ -30,3 +30,20 @@ def render_artifact_list(title: str, artifacts: Sequence[str]) -> None:
 
     for artifact in artifacts:
         st.write(f"- `{artifact}`")
+
+
+def render_manifest_artifacts(title: str, artifacts: Sequence[dict[str, object]]) -> None:
+    """Render a compact list of manifest artifact entries."""
+
+    st.subheader(title)
+    if not artifacts:
+        st.caption("No manifest artifacts are listed for this page yet.")
+        return
+
+    for artifact in artifacts:
+        name = artifact.get("name", "unnamed artifact")
+        path = artifact.get("path", "missing path")
+        description = artifact.get("description", "")
+        st.write(f"- `{path}` - **{name}**")
+        if description:
+            st.caption(str(description))
