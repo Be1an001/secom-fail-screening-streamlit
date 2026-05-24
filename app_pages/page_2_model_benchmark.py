@@ -11,12 +11,12 @@ from app_utils.artifact_loader import (
     load_csv_artifact,
 )
 from app_utils.layout_utils import (
-    render_future_work_note,
     render_info_box,
     render_manifest_artifacts,
     render_missing_artifact_warning,
     render_page_intro,
     render_prototype_note,
+    render_scope_note,
 )
 from app_utils.metric_utils import format_metric, format_percent, format_threshold
 from app_utils.model_display import (
@@ -106,7 +106,7 @@ def render() -> None:
         st.subheader("Full six-model benchmark table")
         st.dataframe(
             _format_leaderboard(comparison),
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
     else:
@@ -134,7 +134,7 @@ def render() -> None:
                 "pr_auc",
                 "review_rate",
             ]
-            st.dataframe(metrics[display_columns], use_container_width=True)
+            st.dataframe(metrics[display_columns], width="stretch")
         else:
             render_missing_artifact_warning(VALIDATION_METRICS)
 
@@ -145,7 +145,7 @@ def render() -> None:
             filter_manifest_artifacts(manifest, page="Page 2 - Model Benchmark"),
         )
 
-    render_future_work_note(
+    render_scope_note(
         [
             "formal literature review notes for selected methods",
             "final benchmark refinement after reviewer feedback",
@@ -182,7 +182,7 @@ def _render_role_section(
     st.write(summary)
     st.dataframe(
         _format_role_table(rows),
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
     )
 

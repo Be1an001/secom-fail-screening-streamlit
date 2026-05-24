@@ -12,10 +12,10 @@ from app_utils.artifact_loader import (
 )
 from app_utils.layout_utils import (
     render_artifact_list,
-    render_future_work_note,
     render_missing_artifact_warning,
     render_page_intro,
     render_responsible_use_note,
+    render_scope_note,
 )
 from app_utils.metric_utils import format_count, format_percent
 
@@ -74,7 +74,7 @@ def render() -> None:
         except FileNotFoundError as exc:
             st.warning(str(exc))
 
-    render_future_work_note(
+    render_scope_note(
         [
             "clearer class balance visuals",
             "missingness summaries",

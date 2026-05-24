@@ -12,13 +12,13 @@ from app_utils.artifact_loader import (
     load_markdown_artifact,
 )
 from app_utils.layout_utils import (
-    render_future_work_note,
     render_illustrative_cost_note,
     render_manifest_artifacts,
     render_missing_artifact_warning,
     render_no_production_decision_note,
     render_page_intro,
     render_prototype_note,
+    render_scope_note,
 )
 from app_utils.metric_utils import (
     format_cost,
@@ -101,7 +101,7 @@ def render() -> None:
         "scenario. This page does not select a final champion model and does "
         "not create a production decision rule."
     )
-    render_future_work_note(
+    render_scope_note(
         [
             "reviewer-approved cost assumptions",
             "clearer threshold decision support visuals",
@@ -156,7 +156,7 @@ def _render_cost_controls(selected: object) -> None:
     st.subheader("All selected thresholds for this scenario")
     st.dataframe(
         _format_cost_table(scenario_rows),
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
     )
 

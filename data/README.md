@@ -1,6 +1,7 @@
 # Data Note
 
-This folder contains the public UCI SECOM dataset files used by the notebook and script workflow.
+This folder contains the public UCI SECOM dataset files used by the scripts,
+reports, and Streamlit app artifacts.
 
 ## Files
 
@@ -16,9 +17,9 @@ These files come from the **UCI Machine Learning Repository - SECOM dataset**.
 
 Direct source links:
 
-- `secom.data`: https://archive.ics.uci.edu/ml/machine-learning-databases/secom/secom.data
-- `secom_labels.data`: https://archive.ics.uci.edu/ml/machine-learning-databases/secom/secom_labels.data
-- `secom.names`: https://archive.ics.uci.edu/ml/machine-learning-databases/secom/secom.names
+- [secom.data](https://archive.ics.uci.edu/ml/machine-learning-databases/secom/secom.data)
+- [secom_labels.data](https://archive.ics.uci.edu/ml/machine-learning-databases/secom/secom_labels.data)
+- [secom.names](https://archive.ics.uci.edu/ml/machine-learning-databases/secom/secom.names)
 
 ## How the Project Uses the Files
 
@@ -51,7 +52,7 @@ This file is kept as the UCI metadata reference. It describes the semiconductor 
 
 ## Project Data Summary
 
-Based on the final notebook:
+Based on the project data loader and app artifacts:
 
 - **Rows:** 1,567
 - **Loaded sensor features:** 590
@@ -60,11 +61,16 @@ Based on the final notebook:
 - **Fail rate:** 6.64%
 - **Timestamp range:** July 2008 to October 2008
 
-The UCI metadata may describe the dataset at a slightly different attribute-count level. For this project, the README follows the actual notebook-loaded structure: 590 sensor columns from `secom.data`, with labels and timestamps read from `secom_labels.data`.
+The UCI metadata may describe the dataset at a slightly different
+attribute-count level. For this project, the README follows the loaded
+structure: 590 sensor columns from `secom.data`, with labels and timestamps
+read from `secom_labels.data`.
 
 ## Public Repository Note
 
-The raw SECOM files are included here because they are public academic dataset files and small enough for this repository. Keeping them in the repo makes the final notebook and scripts easier to review and rerun.
+The raw SECOM files are included here because they are public academic dataset
+files and small enough for this repository. Keeping them in the repo makes the
+scripts and app artifacts easier to review and rerun.
 
 The script workflow and final portfolio notebook expect these local files to be present and check for them before running.
 

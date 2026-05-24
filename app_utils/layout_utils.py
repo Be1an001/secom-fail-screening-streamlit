@@ -67,11 +67,14 @@ def render_artifact_tracking_note() -> None:
     )
 
 
-def render_future_work_note(items: Sequence[str]) -> None:
-    """Render a compact future-work note."""
+def render_scope_note(items: Sequence[str]) -> None:
+    """Render a compact scope note."""
 
-    st.subheader("Future work")
-    st.write("The following items are planned for later phases, not complete now:")
+    st.subheader("Scope notes")
+    st.write(
+        "The following items are outside the current portfolio app scope or "
+        "possible extensions:"
+    )
     for item in items:
         st.write(f"- {item}")
 

@@ -13,11 +13,11 @@ from app_utils.artifact_loader import (
     load_markdown_artifact,
 )
 from app_utils.layout_utils import (
-    render_future_work_note,
     render_info_box,
     render_manifest_artifacts,
     render_missing_artifact_warning,
     render_page_intro,
+    render_scope_note,
 )
 
 
@@ -59,7 +59,7 @@ def render() -> None:
 
     if artifact_exists(FEATURE_IMPORTANCE_CSV):
         st.subheader("Current model-important sensor signals")
-        st.dataframe(load_csv_artifact(FEATURE_IMPORTANCE_CSV), use_container_width=True)
+        st.dataframe(load_csv_artifact(FEATURE_IMPORTANCE_CSV), width="stretch")
     else:
         render_missing_artifact_warning(FEATURE_IMPORTANCE_CSV)
 
@@ -70,7 +70,7 @@ def render() -> None:
             filter_manifest_artifacts(manifest, page="Page 4 - Explainability"),
         )
 
-    render_future_work_note(
+    render_scope_note(
         [
             "reviewer feedback on sensor-signal explanation wording",
             "possible SHAP extension if it stays lightweight",
@@ -96,7 +96,7 @@ def _render_prototype_explainability() -> None:
         st.write("Top model-important sensor signals across focus models")
         st.dataframe(
             load_csv_artifact(TOP_SENSOR_SIGNALS).head(20),
-            use_container_width=True,
+            width="stretch",
         )
     else:
         render_missing_artifact_warning(TOP_SENSOR_SIGNALS)
@@ -106,7 +106,7 @@ def _render_prototype_explainability() -> None:
             st.write("Permutation importance")
             st.dataframe(
                 load_csv_artifact(PERMUTATION_IMPORTANCE),
-                use_container_width=True,
+                width="stretch",
             )
         else:
             render_missing_artifact_warning(PERMUTATION_IMPORTANCE)
@@ -115,7 +115,7 @@ def _render_prototype_explainability() -> None:
             st.write("Feature stability")
             st.dataframe(
                 load_csv_artifact(FEATURE_STABILITY),
-                use_container_width=True,
+                width="stretch",
             )
         else:
             render_missing_artifact_warning(FEATURE_STABILITY)

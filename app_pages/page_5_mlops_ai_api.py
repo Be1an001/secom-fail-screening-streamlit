@@ -20,11 +20,11 @@ from app_utils.ai_summary import (
 from app_utils.layout_utils import (
     render_artifact_list,
     render_artifact_tracking_note,
-    render_future_work_note,
     render_info_box,
     render_manifest_artifacts,
     render_missing_artifact_warning,
     render_page_intro,
+    render_scope_note,
 )
 from app_utils.rag_context import get_preset_questions
 
@@ -60,8 +60,8 @@ def render() -> None:
     render_page_intro(
         "MLOps, API, and AI Summary",
         "This artifact-driven page summarizes current MLOps-lite evidence, "
-        "artifact tracking, and future API and AI summary work that remains "
-        "planned.",
+        "artifact tracking, the local API artifact service, and controlled "
+        "AI summary behavior.",
     )
 
     render_artifact_tracking_note()
@@ -80,10 +80,12 @@ def render() -> None:
         "may be shown here only when real local run data is available."
     )
     render_info_box(
-        "The controlled RAG-lite summary can use an optional OpenAI summary "
-        "path with preset questions and compact artifact-grounded context. It "
-        "is not a general chatbot, and raw CSVs are not sent to an LLM."
+        "Optional OpenAI summary path: the controlled RAG-lite summary can use "
+        "optional OpenAI API use for preset questions and compact "
+        "artifact-grounded context. It is not a general chatbot, and raw CSVs "
+        "are not sent to an LLM."
     )
+    st.caption("Raw CSVs are not sent to an LLM.")
 
     available_reports = [path for path in REPORT_ARTIFACTS if artifact_exists(path)]
     render_artifact_list("Available report artifacts", available_reports)
@@ -123,7 +125,7 @@ def render() -> None:
     if artifact_exists(MLFLOW_SUMMARY):
         st.dataframe(
             load_csv_artifact(MLFLOW_SUMMARY),
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
     else:
@@ -144,16 +146,15 @@ def render() -> None:
     _render_api_and_summary_section()
 
     st.write(
-        "These future workflow features are not implemented in this phase. "
-        "This page does not implement a deployed MLflow tracking server, "
-        "production backend, general chatbot, or agentic workflow automation."
+        "The app does not implement a deployed MLflow tracking server, "
+        "production backend, general chatbot, or agentic workflow automation. "
+        "Those capabilities are outside the current portfolio app scope."
     )
-    render_future_work_note(
+    render_scope_note(
         [
             "review of exported MLflow summary if real local run data exists",
             "possible refinement of the local FastAPI artifact service",
-            "optional OpenAI API use for controlled RAG-lite summaries",
-            "future agentic workflow concept",
+            "agentic workflow concept as a possible extension",
         ]
     )
 

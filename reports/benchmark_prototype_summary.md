@@ -2,7 +2,7 @@
 
 This report summarizes a literature-inspired benchmark prototype for
 SECOM screening decision support. It is a prototype artifact, not a
-final six-model benchmark and not a SOTA result.
+final model-selection result and not a SOTA result.
 
 ## Scope
 
@@ -53,8 +53,10 @@ No rows.
 
 ## Exported Artifacts
 
-- Model comparison: `outputs/metrics/benchmark_model_comparison_prototype.csv`
-- Threshold sweep: `outputs/metrics/benchmark_threshold_sweep_prototype.csv`
+- Model comparison:
+  [benchmark_model_comparison_prototype.csv](../outputs/metrics/benchmark_model_comparison_prototype.csv)
+- Threshold sweep:
+  [benchmark_threshold_sweep_prototype.csv](../outputs/metrics/benchmark_threshold_sweep_prototype.csv)
 - Threshold sweep rows: 1086
 
 ## Limitations
@@ -63,7 +65,7 @@ No rows.
 - It does not claim SOTA performance or better-than-research results.
 - It does not select a final champion model.
 - Feature importance and physical root-cause analysis are out of scope.
-- Future phases should review papers formally and refine the protocol.
+- Future work should review papers formally and refine the protocol.
 
 ## Config
 
