@@ -1,269 +1,268 @@
-# secom-fail-screening-streamlit
-Baseline SECOM fail-screening workflow being upgraded toward an artifact-driven Streamlit app for benchmark review, threshold trade-off analysis, explainability, and MLOps-lite demonstration.
+# SECOM Fail-Screening Decision Support App
 
-This project analyzes semiconductor pass/fail screening using the public UCI SECOM sensor dataset. The goal was to compare classification models under severe class imbalance and explain the screening trade-off in a careful, reproducible way.
+## Project Overview
 
-This is an individual applied machine learning portfolio project. It uses a Python/Jupyter notebook, reusable scripts, generated metrics, local MLflow tracking, and final Markdown reports. It is not a production semiconductor quality-control system.
+This repository is a portfolio-scale machine learning project for the public
+UCI SECOM semiconductor dataset. It presents a rare fail-screening problem,
+class imbalance, leakage-safe preprocessing, prototype model comparison,
+threshold / cost trade-offs, explainability artifacts, and MLOps-lite evidence
+through an artifact-driven Streamlit app.
 
-## Project Type / Status / Tools
+The project is screening decision support. It is not an automatic pass/fail
+decision system, not physical root-cause analysis, and not a production
+manufacturing system.
 
-- **Project type:** Applied machine learning / manufacturing analytics
-- **Status:** Individual portfolio project
-- **Main workflow:** Script-based experiments plus final portfolio notebook
-- **Dataset:** Public UCI SECOM semiconductor sensor data
-- **Main model family:** Random Forest
-- **Tracking:** Local MLflow experiment tracking
-- **Main tools:** Python, pandas, scikit-learn, matplotlib, seaborn, MLflow, pytest, ruff
-- **Production status:** Screening-style ML prototype, not a deployed system
+## Live App / Demo
 
-## Business Problem
+Live Streamlit app:
 
-Semiconductor manufacturing can generate many sensor and process measurements. A useful analytics question is whether those measurements can help flag units that are more likely to fail downstream testing.
+<https://secom-fail-screening.streamlit.app/>
 
-The challenge is that fail cases are rare. A model can look strong by raw accuracy while missing the fail class. For this reason, this project focuses on fail-class recall, F2-score, balanced accuracy, PR-AUC, confusion matrix counts, and flagged sample rate.
+The FastAPI artifact service is local/demo-oriented unless a separate API URL
+is explicitly provided.
 
-The final result should be interpreted as a screening signal. It is not an automated accept/reject rule and not a real fab deployment.
+Documentation starts at the [documentation guide](docs/README.md). A short
+reviewer summary is available in [project_summary.md](docs/project_summary.md),
+and app usage details are in [user_guide.md](docs/user_guide.md).
 
-## Project Objective
+## Why This Project Matters
 
-The objective was to build a reproducible applied ML workflow that:
-
-- loads and validates the SECOM data
-- handles missing sensor values without preprocessing leakage
-- compares baseline and Random Forest experiments on validation data
-- selects thresholds using validation probabilities only
-- evaluates the selected candidate once on the holdout test split
-- tracks local experiment runs with MLflow
-- exports metrics, figures, and documentation artifacts for review
+SECOM fail cases are rare. A model can look strong by raw accuracy while
+missing the fail class. This project focuses on fail recall, F2-score,
+PR-AUC, balanced accuracy, confusion counts, and flagged sample rate so the
+screening trade-off is visible.
 
 ## Dataset
 
-This repository includes the public UCI SECOM files used by the workflow.
+The repository includes the public UCI SECOM files:
 
 | File | Purpose |
 |---|---|
-| `data/secom.data` | Sensor feature matrix |
-| `data/secom_labels.data` | Raw labels and timestamps |
-| `data/secom.names` | UCI metadata |
+| [data/secom.data](data/secom.data) | Anonymous sensor feature matrix |
+| [data/secom_labels.data](data/secom_labels.data) | Raw labels and timestamps |
+| [data/secom.names](data/secom.names) | UCI metadata |
 
 Dataset summary:
 
-- **Rows:** 1,567
-- **Loaded anonymous sensor features:** 590
-- **Pass samples:** 1,463
-- **Fail samples:** 104
-- **Fail rate:** 6.64%
-- **Label mapping:** `-1 -> 0` for pass, `1 -> 1` for fail
+- Rows: 1,567
+- Sensor features loaded from `secom.data`: 590
+- Pass samples: 1,463
+- Fail samples: 104
+- Fail rate: about 6.64%
+- Label mapping: `-1 -> 0` pass, `1 -> 1` fail
 
-The UCI metadata describes 591 attributes. This project loads 590 sensor columns from `secom.data` and reads labels and timestamps separately from `secom_labels.data`.
+## What the App Shows
 
-## My Role / Contribution
+The Streamlit app has five pages:
 
-This was an individual portfolio project. I organized the project around a script-based workflow, reusable Python modules, validation experiments, local MLflow tracking, final holdout evaluation, and a final notebook that reads the generated outputs.
+1. Project & Data Problem
+2. Model Benchmark
+3. Champion Trade-off
+4. Explainability
+5. MLOps, API, and AI Summary
 
-## Methodology
+The app reads committed artifacts from [outputs](outputs/),
+[reports](reports/), and
+[the artifact manifest](outputs/artifact_manifest.json). It does not retrain
+models at runtime.
 
-The workflow separates validation model comparison from final holdout evaluation.
+## Modeling Workflow
 
-1. Load SECOM data from `data/`.
-2. Map raw labels into binary pass/fail values.
-3. Create a stratified 60/20/20 train, validation, and test split.
-4. Fit preprocessing on the training split only.
-5. Drop high-missing columns using the training split.
-6. Apply median imputation.
-7. Use a tree-model path for Random Forest experiments.
-8. Use a linear baseline path with imputation, variance filtering, scaling, and PCA.
-9. Run validation-only baseline and Random Forest experiments.
-10. Select thresholds using validation probabilities only.
-11. Track runs with local MLflow.
-12. Evaluate the selected model and threshold once on the holdout test split.
-13. Export CSV metrics, final figures, experiment summary, and model card.
+The workflow uses:
 
-The test split is not used for model selection, threshold selection, or hyperparameter tuning.
+- stratified train / validation / test splits
+- training-only missingness filtering
+- training-only imputation
+- PCA for the linear baseline path
+- threshold selection on validation predictions
+- reserved holdout test evaluation for baseline artifacts
+- local MLflow tracking when scripts are run locally
 
-## Key Findings
+## Prototype Benchmark Results
 
-- The fail class is rare: 104 fail cases out of 1,567 rows.
-- At the default `0.50` threshold, the current Random Forest configuration missed every fail case on the validation split.
-- Validation threshold tuning changed the operating point from "flag nothing" to "catch more fail cases but flag more samples."
-- The selected experiment was `rf_current_config_threshold_tuned`.
-- The final validation-selected threshold was `0.110`.
-- On the final holdout split, the model detected **11 of 21 fail cases**.
-- The same threshold also flagged **56 pass cases** as fail.
-- The final flagged sample rate was **0.2134**, meaning about 21% of test samples would be sent for review at this threshold.
-- PR-AUC and flagged sample rate are important because the fail class is rare.
+The full prototype benchmark keeps all six models in the artifacts:
 
-## Visual Highlights
+- Dummy Majority Baseline
+- Logistic Regression + PCA
+- Random Forest Reference
+- XGBoost Cost-Sensitive
+- LightGBM Class-Weighted
+- XGBoost + Training-only SMOTE
 
-### Final confusion matrix
+The app groups models for readability only. It does not remove models and does
+not select a final champion model.
 
-The confusion matrix shows the screening trade-off: the model detected some fail cases but also flagged many pass cases.
+Current interpretation:
 
-![Final confusion matrix](outputs/figures/final_confusion_matrix.png)
+- Dummy Majority shows why accuracy alone is misleading.
+- Logistic Regression + PCA is a useful classical baseline.
+- Random Forest Reference currently has the strongest prototype F2.
+- XGBoost Cost-Sensitive provides a higher-recall trade-off with higher review
+  workload.
+- LightGBM and XGBoost + SMOTE remain secondary prototype comparisons.
 
-### Final precision-recall curve
+These are prototype benchmark results, not SOTA performance claims.
 
-The PR curve is important because the fail class is rare.
+## Threshold and Cost Trade-off
 
-![Final precision-recall curve](outputs/figures/final_pr_curve.png)
+The threshold / cost analysis shows how operating points affect missed fail
+cases and review workload. Cost scenarios are illustrative and are not
+validated manufacturing costs.
 
-### Final feature importance
+Thresholds are decision levers for review, not automatic pass/fail rules.
 
-Feature importance shows model-driven signal ranking, not physical root-cause proof.
+## Explainability
 
-![Final feature importance](outputs/figures/final_feature_importance.png)
+Explainability artifacts include baseline feature importance, prototype
+permutation importance, feature stability, and top sensor signal summaries.
+They describe model-important sensor signals.
 
-The ROC curve is also available in [`outputs/figures/final_roc_curve.png`](outputs/figures/final_roc_curve.png).
+The SECOM sensor names are anonymous. These artifacts do not identify physical
+root causes and are not causal proof.
 
-## Model Evaluation Note
+## MLOps-lite and Artifact Tracking
 
-The final threshold was selected on validation data and then evaluated on the holdout test split. The result should be treated as split-specific.
+The app uses [outputs/artifact_manifest.json](outputs/artifact_manifest.json) as a lightweight artifact
+registry. It tracks metrics, figures, reports, benchmark artifacts,
+cost-analysis artifacts, explainability artifacts, and documentation reports.
 
-Final holdout test metrics from `outputs/metrics/final_test_metrics.csv`:
+Local MLflow tracking can support experiment review. Local files such as
+`mlflow.db`, `mlruns/`, and `mlartifacts/` are ignored. A compact exported
+MLflow summary may be generated only when real local MLflow run data exists.
 
-| Metric | Value |
-|---|---:|
-| Selected experiment | `rf_current_config_threshold_tuned` |
-| Threshold | 0.110 |
-| Recall | 0.5238 |
-| F2-score | 0.3642 |
-| Balanced accuracy | 0.6663 |
-| PR-AUC | 0.2192 |
-| ROC-AUC | 0.7978 |
-| True positives | 11 |
-| False positives | 56 |
-| False negatives | 10 |
-| True negatives | 237 |
-| Flagged sample rate | 0.2134 |
+## FastAPI and Controlled RAG-lite Summary
 
-This suggests useful screening signal, not a production quality decision system.
+The repo includes a minimal read-only FastAPI artifact service for local review.
+It serves the manifest, benchmark metrics, selected cost thresholds, top sensor
+signals, reports, and fallback summaries as JSON.
 
-## Repository Structure
+The controlled RAG-lite summary uses preset questions and compact
+artifact-grounded context. Optional OpenAI summaries can be enabled with
+Streamlit secrets or environment variables. Raw CSVs are not sent to the LLM,
+and there is no free-form chatbot.
+
+## Project Structure
 
 | Path | Description |
 |---|---|
-| `data/` | Public SECOM data files and dataset note |
-| `notebooks/` | Final portfolio notebook |
-| `src/secom_ml/` | Reusable data, split, preprocessing, model, metric, threshold, plot, and tracking helpers |
-| `scripts/` | Command-line scripts for experiments, final evaluation, and report export |
-| `configs/` | YAML configuration files for experiments and final evaluation |
-| `outputs/metrics/` | Generated CSV metrics from the latest local script run |
-| `outputs/figures/` | Final script-generated figures |
-| `reports/` | Generated experiment summary and model card |
-| `tests/` | Lightweight tests for data loading, metrics, and threshold selection |
+| [app.py](app.py) | Streamlit app entry point |
+| [app_pages/](app_pages/) | Five Streamlit page modules |
+| [app_utils/](app_utils/) | Artifact loading, formatting, display, and summary helpers |
+| [api/](api/) | Minimal read-only FastAPI artifact service |
+| [configs/](configs/) | Experiment, benchmark, cost, and explainability configs |
+| [data/](data/) | Public SECOM source files |
+| [docs/](docs/) | Documentation guide, user guide, design notes, and release checklist |
+| [Dockerfile](Dockerfile) | Optional local Streamlit container packaging |
+| [outputs/](outputs/) | Committed metrics, figures, and artifact manifest |
+| [reports/](reports/) | Markdown reports used by the app and reviewers |
+| [scripts/](scripts/) | Reproducible experiment and artifact export scripts |
+| [src/secom_ml/](src/secom_ml/) | Reusable data science and ML helpers |
+| [tests/](tests/) | Lightweight validation and wording guardrails |
 
-## How to Reproduce
+## How to Run Locally
 
-This repository has a script-based workflow, generated outputs, and a final notebook. The commands below reproduce the local analysis workflow without implying production deployment.
-
-Install requirements:
+From the repository root:
 
 ```bash
+cd path\to\secom-fail-screening-streamlit
 python -m pip install -r requirements.txt
 ```
 
-Run tests and linting:
+Run the Streamlit app:
+
+```bash
+streamlit run app.py
+```
+
+Expected local app URL:
+
+<http://localhost:8501>
+
+Run the local FastAPI artifact service:
+
+```bash
+python -m uvicorn api.main:app --reload
+```
+
+Open API docs locally:
+
+<http://127.0.0.1:8000/docs>
+
+Optional local Docker run:
+
+```bash
+docker build -t secom-fail-screening-streamlit:local .
+docker run --rm -p 8501:8501 secom-fail-screening-streamlit:local
+```
+
+Docker is optional local packaging. Streamlit Community Cloud deployment does
+not require Docker.
+
+Execute the portfolio summary notebook:
+
+```bash
+python -m pip install jupyter nbformat nbclient ipykernel
+python -m jupyter nbconvert --to notebook --execute notebooks/SECOM_Fail_Screening_Portfolio_Summary.ipynb --inplace
+```
+
+## Optional OpenAI Summary Setup
+
+Do not commit secrets.
+
+For Streamlit Community Cloud, add this in App settings -> Secrets. For local
+testing, use environment variables or a local `.streamlit/secrets.toml` that is
+not committed:
+
+```toml
+OPENAI_API_KEY = "your-key-here"
+OPENAI_SUMMARY_MODEL = "gpt-5.4-mini"
+OPENAI_SUMMARY_ENABLED = true
+```
+
+Fallback summaries work without OpenAI configuration.
+
+## Validation
+
+From the repository root:
 
 ```bash
 python -m pytest
 python -m ruff check .
+python -m compileall app.py app_pages app_utils api src scripts tests
+git diff --check
 ```
 
-Run validation experiments:
+Detailed validation and local run notes are in the
+[User Guide](docs/user_guide.md).
 
-```bash
-python scripts/run_rf_experiments.py --config configs/rf_experiments.yaml
-```
+## Responsible Use and Limitations
 
-Run final holdout evaluation:
-
-```bash
-python scripts/evaluate_final_model.py --config configs/final_rf.yaml
-```
-
-Export the Markdown reports:
-
-```bash
-python scripts/export_experiment_summary.py
-```
-
-Open MLflow locally:
-
-```bash
-mlflow ui --backend-store-uri sqlite:///mlflow.db
-```
-
-Notes:
-
-- MLflow local files are ignored by Git.
-- Script runs overwrite CSV and Markdown report outputs deterministically with the current configs and random seed.
-- MLflow keeps local run history in ignored local files.
-- The final notebook can be opened in VS Code or Jupyter after the generated outputs exist.
-
-## MLflow Tracking Notes
-
-The experiment scripts use local MLflow tracking.
-
-- Tracking URI: `sqlite:///mlflow.db`
-- Experiment name: `secom-pass-fail-screening`
-- One run is logged for each validation experiment.
-- A separate run is logged for final holdout evaluation.
-
-This is a local reproducibility layer. It is not a cloud deployment, model registry, or production monitoring setup.
-
-## Evidence and Key Artifacts
-
-Generated metrics:
-
-- [`outputs/metrics/validation_metrics.csv`](outputs/metrics/validation_metrics.csv)
-- [`outputs/metrics/threshold_sweep.csv`](outputs/metrics/threshold_sweep.csv)
-- [`outputs/metrics/rf_improvement_table.csv`](outputs/metrics/rf_improvement_table.csv)
-- [`outputs/metrics/final_test_metrics.csv`](outputs/metrics/final_test_metrics.csv)
-- [`outputs/metrics/final_feature_importance.csv`](outputs/metrics/final_feature_importance.csv)
-
-Generated figures:
-
-- [`outputs/figures/final_confusion_matrix.png`](outputs/figures/final_confusion_matrix.png)
-- [`outputs/figures/final_pr_curve.png`](outputs/figures/final_pr_curve.png)
-- [`outputs/figures/final_roc_curve.png`](outputs/figures/final_roc_curve.png)
-- [`outputs/figures/final_feature_importance.png`](outputs/figures/final_feature_importance.png)
-
-Reports:
-
-- [`reports/experiment_summary.md`](reports/experiment_summary.md)
-- [`reports/model_card.md`](reports/model_card.md)
-
-Notebook:
-
-- [`notebooks/SECOM_Fail_Screening_Portfolio_Summary.ipynb`](notebooks/SECOM_Fail_Screening_Portfolio_Summary.ipynb)
-
-## Limitations
-
-- The dataset is public and anonymous.
-- The fail class is small, with only 104 fail cases overall.
-- The validation and test splits each contain only 21 fail cases.
-- Results are based on one stratified random split.
-- A time-based validation split is not yet included.
-- Threshold selection uses validation metrics, not a real engineering cost function.
-- Feature importance values are model-driven signals, not physical root-cause proof.
-- No real fab validation, stakeholder adoption, operational rollout, monitoring system, or cost savings are claimed.
-- The project does not include a GenAI/LLM component, dashboard, SQL layer, data warehouse, full MLOps platform, or deployed app.
-
-## Future Improvements
-
-Useful next steps would be:
-
-- add repeated split or time-based validation
-- compare thresholds against review-capacity assumptions
-- add calibration checks for predicted probabilities
-- check feature-importance stability across resamples
-- document threshold trade-offs with a simple cost or review-capacity example
-- keep the final portfolio notebook updated when script results change
+- This is a portfolio-scale project using a public, anonymous dataset.
+- The fail class is small.
+- Results are prototype artifacts and split-specific.
+- Literature-inspired methods and SOTA-inspired methods do not imply SOTA
+  performance.
+- The app supports screening decision support only.
+- The project does not make automatic pass/fail decisions.
+- The project does not identify physical root causes or causal sensor
+  explanations.
+- The local API is not a production backend.
+- The controlled RAG-lite summary is not a general chatbot.
 
 ## Related Files
 
-- Final notebook: [`notebooks/SECOM_Fail_Screening_Portfolio_Summary.ipynb`](notebooks/SECOM_Fail_Screening_Portfolio_Summary.ipynb)
-- Dataset note: [`data/README.md`](data/README.md)
-- Output guide: [`outputs/README.md`](outputs/README.md)
-- Experiment summary: [`reports/experiment_summary.md`](reports/experiment_summary.md)
-- Model card: [`reports/model_card.md`](reports/model_card.md)
+- [Documentation guide](docs/README.md)
+- [Project summary](docs/project_summary.md)
+- [User guide](docs/user_guide.md)
+- [Product Requirements Document](docs/product_requirements_document_prd.md)
+- [Technical Design Document](docs/technical_design_document_tdd.md)
+- [Development history](docs/development_history.md)
+- [Docker usage](docs/docker_usage.md)
+- [Outputs guide](outputs/README.md)
+- [Reports guide](reports/README.md)
+- [Scripts guide](scripts/README.md)
+- [Configs guide](configs/README.md)
+- [Artifact manifest](outputs/artifact_manifest.json)
+- [Benchmark report](reports/benchmark_prototype_summary.md)
+- [Cost report](reports/cost_threshold_prototype_report.md)
+- [Explainability report](reports/explainability_prototype_report.md)

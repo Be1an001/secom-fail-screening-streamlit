@@ -89,7 +89,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--dry-run",
         action="store_true",
-        help="Print the planned experiment names without training models.",
+        help="Print the configured experiment names without training models.",
     )
     return parser.parse_args()
 

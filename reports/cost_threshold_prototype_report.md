@@ -85,13 +85,15 @@ artifacts and does not retrain models.
 
 ## Exported Artifacts
 
-- Cost threshold sweep: `outputs/metrics/cost_threshold_sweep_prototype.csv`
-- Selected thresholds: `outputs/metrics/cost_selected_thresholds_prototype.csv`
+- Cost threshold sweep:
+  [cost_threshold_sweep_prototype.csv](../outputs/metrics/cost_threshold_sweep_prototype.csv)
+- Selected thresholds:
+  [cost_selected_thresholds_prototype.csv](../outputs/metrics/cost_selected_thresholds_prototype.csv)
 - Cost threshold sweep rows: 9774
 - Selected threshold rows: 54
 
 ## Caution
 
 A model can be best under this illustrative scenario while still being
-too costly for a real review workflow. Future phases should compare
+too costly for a real review workflow. Future work should compare
 these scenarios with clearer review-capacity and quality assumptions.

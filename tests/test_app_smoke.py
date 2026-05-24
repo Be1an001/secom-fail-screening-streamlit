@@ -103,7 +103,7 @@ def test_app_text_keeps_future_features_future_facing() -> None:
         assert phrase not in app_text
 
     assert "not final model-selection results" in app_text
-    assert "not implemented in this phase" in app_text
+    assert "outside the current portfolio app scope" in app_text
     assert "illustrative cost scenario" in app_text
     assert "does not select a final champion model" in app_text
     assert "not create a production decision rule" in app_text

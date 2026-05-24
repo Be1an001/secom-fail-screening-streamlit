@@ -51,11 +51,16 @@ These focus models are useful for the current portfolio story. The other benchma
 
 ## Exported Artifacts
 
-- Permutation importance: `outputs/metrics/permutation_importance_prototype.csv`
-- Feature stability: `outputs/metrics/feature_stability_prototype.csv`
-- Top sensor signals: `outputs/metrics/top_sensor_signals_prototype.csv`
-- Permutation importance figure: `outputs/figures/permutation_importance_prototype.png`
-- Feature stability figure: `outputs/figures/feature_stability_prototype.png`
+- Permutation importance:
+  [permutation_importance_prototype.csv](../outputs/metrics/permutation_importance_prototype.csv)
+- Feature stability:
+  [feature_stability_prototype.csv](../outputs/metrics/feature_stability_prototype.csv)
+- Top sensor signals:
+  [top_sensor_signals_prototype.csv](../outputs/metrics/top_sensor_signals_prototype.csv)
+- Permutation importance figure:
+  [permutation_importance_prototype.png](../outputs/figures/permutation_importance_prototype.png)
+- Feature stability figure:
+  [feature_stability_prototype.png](../outputs/figures/feature_stability_prototype.png)
 
 ## Limitations
 

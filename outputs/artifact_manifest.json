@@ -4,7 +4,7 @@
   "scope": "baseline and prototype artifacts",
   "notes": [
     "This manifest tracks existing baseline artifacts and prototype benchmark artifacts.",
-    "Future phases may add final benchmark, explainability, MLflow summary, API, and RAG-lite artifacts."
+    "The app uses committed baseline, benchmark, cost, explainability, report, API, and summary artifacts."
   ],
   "artifacts": [
     {

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Phase 9 adds two optional portfolio-scale features:
+This project includes two optional portfolio-scale features:
 
 - a minimal FastAPI artifact service
 - a controlled RAG-lite summary helper
@@ -81,4 +81,4 @@ in the repository.
 - No arbitrary user prompt is accepted.
 - Raw CSVs are not sent to an LLM.
 - No API key is stored in the repository.
-- No Docker or deployment automation is included in this phase.
+- No Docker or deployment automation is included.

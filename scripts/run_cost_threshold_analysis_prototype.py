@@ -412,7 +412,7 @@ def build_report(
         "## Caution",
         "",
         "A model can be best under this illustrative scenario while still being ",
-        "too costly for a real review workflow. Future phases should compare ",
+        "too costly for a real review workflow. Additional review can compare ",
         "these scenarios with clearer review-capacity and quality assumptions.",
     ]
     return "\n".join(lines).replace(" \n", "\n")

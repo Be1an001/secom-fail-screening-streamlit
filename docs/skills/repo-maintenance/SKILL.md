@@ -1,6 +1,6 @@
-# Repo Maintenance Skill
+# Repo Maintenance Notes
 
-Use this skill for future maintenance phases in this repository.
+Use these notes when maintaining this repository.
 
 ## Safe Audit Checklist
 
@@ -8,15 +8,15 @@ Use this skill for future maintenance phases in this repository.
 - Inspect relevant files before editing.
 - Summarize raw data and large artifacts without printing huge files.
 - Check for secrets, local MLflow files, caches, and model binaries.
-- Keep confirmed facts separate from assumptions.
+- Separate confirmed facts from assumptions.
 
 ## Documentation Update Checklist
 
-- Use simple English.
+- Use concise public-facing English.
 - Preserve useful existing content.
 - Fix stale paths and unsupported claims.
-- Keep future features clearly labeled as planned.
-- Do not turn governance docs into enterprise process.
+- Keep limitations clear and release-ready.
+- Prefer Markdown links for referenced project files.
 
 ## Artifact Safety Checklist
 
@@ -30,7 +30,7 @@ Use this skill for future maintenance phases in this repository.
 Use concise conventional-style summaries, for example:
 
 ```text
-docs: add project governance foundation
+docs: refine final documentation structure
 ```
 
 ## PR Description Checklist
@@ -46,14 +46,14 @@ docs: add project governance foundation
 Run when available:
 
 ```bash
-py -m pytest
-py -m ruff check .
-py -m compileall src scripts tests
+python -m pytest
+python -m ruff check .
+python -m compileall app.py app_pages app_utils api src scripts tests
 git diff --check
 git status --short
 ```
 
-If `py` is unavailable, try `python`.
+If `python` is unavailable, try `py`.
 
 ## Wording Rules
 
@@ -67,6 +67,8 @@ Use:
 - model-important sensor signals
 - artifact-driven Streamlit app
 - controlled RAG-lite summary
-- future agentic workflow concept
+- agentic workflow concept
 
-Do not claim production deployment, automatic pass/fail decision, physical root cause, causal sensor explanation, full enterprise MLOps platform, SOTA performance, or better than existing research.
+Do not claim production deployment, automatic pass/fail decision, physical root
+cause, causal sensor explanation, full enterprise MLOps platform, SOTA
+performance, or better than existing research.
