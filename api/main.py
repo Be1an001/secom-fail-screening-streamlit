@@ -123,7 +123,7 @@ def controlled_summary(question_key: str) -> ControlledSummaryResponse:
     return ControlledSummaryResponse(
         question_key=question_key,
         question=questions[question_key],
-        answer=generate_controlled_summary(question_key),
+        answer=generate_controlled_summary(question_key, use_openai=False),
         used_openai=False,
     )
 

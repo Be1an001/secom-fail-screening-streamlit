@@ -92,8 +92,19 @@ signals, and Markdown reports.
 
 The controlled RAG-lite summary uses preset questions and compact
 artifact-grounded context. It is not a general chatbot, does not accept
-arbitrary prompts, and does not send raw SECOM CSV files to an LLM. The fallback
-summary works without an OpenAI API key.
+arbitrary prompts, and raw CSVs are not sent to an LLM. The fallback summary
+works without an OpenAI API key.
+
+OpenAI summaries are optional. To enable them in Streamlit Community Cloud, add
+this TOML in `App settings` -> `Secrets`:
+
+```toml
+OPENAI_API_KEY = "your-key-here"
+OPENAI_SUMMARY_MODEL = "gpt-5.4-mini"
+OPENAI_SUMMARY_ENABLED = true
+```
+
+Do not commit `.streamlit/secrets.toml`, `.env`, or any API key.
 
 ## Responsible-Use Note
 
