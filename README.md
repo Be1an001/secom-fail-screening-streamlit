@@ -53,18 +53,24 @@ Dataset summary:
 
 ## What the App Shows
 
-The Streamlit app has five pages:
+The Streamlit app has five polished portfolio pages:
 
-1. Project & Data Problem
-2. Model Benchmark
-3. Champion Trade-off
+1. Overview
+2. Benchmark
+3. Cost Trade-off
 4. Explainability
-5. MLOps, API, and AI Summary
+5. API & AI Summary
 
 The app reads committed artifacts from [outputs](outputs/),
 [reports](reports/), and
 [the artifact manifest](outputs/artifact_manifest.json). It does not retrain
 models at runtime.
+
+The first page now frames the project as a guided workflow story from
+rare-fail data through leakage-safe benchmarking, threshold trade-offs,
+explainability, and artifact-grounded summaries. Evidence links are secondary
+and appear in collapsed sections so the app reads like a finished portfolio
+data product.
 
 ## Modeling Workflow
 
@@ -139,7 +145,12 @@ signals, reports, and fallback summaries as JSON.
 The controlled RAG-lite summary uses preset questions and compact
 artifact-grounded context. Optional OpenAI summaries can be enabled with
 Streamlit secrets or environment variables. Raw CSVs are not sent to the LLM,
-and there is no free-form chatbot.
+and there is no free-form chatbot. In the app, summaries are generated only
+after the reviewer chooses a preset question and clicks `Generate summary`.
+
+The FastAPI layer is a read-only artifact service for local review and
+integration testing. It serves selected project artifacts, metrics, reports,
+and summary endpoints; it does not train models or regenerate files.
 
 ## Project Structure
 

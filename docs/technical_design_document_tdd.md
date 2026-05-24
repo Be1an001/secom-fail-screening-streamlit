@@ -63,6 +63,14 @@ The Streamlit app loads:
 The app presents screening decision support, not an automatic pass/fail
 decision.
 
+The app uses a light portfolio theme defined in
+[.streamlit/config.toml](../.streamlit/config.toml) plus small shared layout
+helpers. Page content is organized with hero sections, KPI cards, compact
+tables, calm scope notes, full-width explainability figures, and collapsed
+evidence links. The Overview page uses a guided workflow story for interview
+review. The UI layer does not change metrics, artifacts, API behavior, or
+model outputs.
+
 ## Six-Model Prototype Benchmark
 
 The current prototype benchmark keeps all six models in artifacts:
@@ -115,7 +123,8 @@ explainability, report, and app-support artifacts.
 ## FastAPI Boundary
 
 The FastAPI service is minimal and read-only. It serves selected committed
-artifacts through local endpoints such as:
+artifacts, metrics, reports, and summary endpoints through local endpoints
+such as:
 
 - `/health`
 - `/manifest`
@@ -153,7 +162,20 @@ Fallback summaries work without an API key. Optional OpenAI summaries require
 explicit configuration through Streamlit secrets or environment variables.
 
 No API keys should be committed. No free-form chatbot or arbitrary prompt path
-is included.
+is included. In the Streamlit app, a summary is generated only after the user
+selects a preset question and clicks `Generate summary`. The button attempts
+the optional OpenAI summary path when configuration is available, and the
+fallback summary remains available when OpenAI is unavailable, disabled, or
+fails.
+
+## Agentic Analytics Extension Concept
+
+The app includes an architecture extension concept for an agentic analytics
+workflow: artifact monitor, benchmark reviewer, cost trade-off analyst,
+explainability reviewer, summary generator, and human approval. A tool
+framework such as LangGraph could orchestrate this review flow, but LangGraph
+is not implemented in this project and the app does not perform autonomous
+decision-making.
 
 ## Testing and Validation Plan
 

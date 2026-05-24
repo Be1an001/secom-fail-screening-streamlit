@@ -40,29 +40,33 @@ Related docs:
 
 ## App Pages
 
-1. Project & Data Problem
-2. Model Benchmark
-3. Champion Trade-off
+1. Overview
+2. Benchmark
+3. Cost Trade-off
 4. Explainability
-5. MLOps, API, and AI Summary
+5. API & AI Summary
 
-The visible Page 3 content focuses on threshold and cost trade-offs. The page
-does not select a final champion model.
+The Overview page opens with the project story, KPI cards, and workflow
+timeline. Page 3 focuses on threshold and cost trade-offs and does not select a
+final champion model.
 
 ## Core Features
 
 - Baseline workflow summary
+- Light portfolio-style Streamlit interface with calm scope notes
 - Full six-model prototype benchmark table
 - Display grouping for main comparison, baseline warning, and secondary
   prototype comparison models
 - Threshold / cost trade-off view with illustrative cost scenarios
 - Model-important sensor signal view from prototype explainability artifacts
 - Artifact manifest and evidence links
+- Collapsed evidence sections for source metrics, reports, and figures
 - MLOps-lite artifact tracking summary
 - Minimal read-only FastAPI artifact service for local portfolio review
 - Controlled RAG-lite summaries using preset questions and artifact-grounded
   context
 - Optional OpenAI controlled summaries with fallback behavior
+- Generate-on-click controlled summary panel with preset questions only
 - Optional local Docker packaging for Streamlit app review
 
 ## Non-Goals

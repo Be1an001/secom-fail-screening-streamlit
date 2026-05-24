@@ -11,6 +11,9 @@ import pandas as pd
 
 
 DEFAULT_MANIFEST_PATH = "outputs/artifact_manifest.json"
+GITHUB_BLOB_BASE_URL = (
+    "https://github.com/Be1an001/secom-fail-screening-streamlit/blob/main"
+)
 
 
 def project_root() -> Path:
@@ -37,6 +40,13 @@ def artifact_exists(relative_path: str | Path) -> bool:
     """Return whether a repository artifact exists."""
 
     return artifact_path(relative_path).exists()
+
+
+def artifact_github_url(relative_path: str | Path) -> str:
+    """Return a GitHub blob URL for a repository-relative artifact path."""
+
+    normalized = str(relative_path).replace("\\", "/").lstrip("/")
+    return f"{GITHUB_BLOB_BASE_URL}/{normalized}"
 
 
 def load_csv_artifact(relative_path: str | Path) -> pd.DataFrame:

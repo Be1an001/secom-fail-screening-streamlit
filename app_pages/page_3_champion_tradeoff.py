@@ -12,13 +12,14 @@ from app_utils.artifact_loader import (
     load_markdown_artifact,
 )
 from app_utils.layout_utils import (
+    render_evidence_expander,
     render_illustrative_cost_note,
-    render_manifest_artifacts,
+    render_kpi_cards,
     render_missing_artifact_warning,
     render_no_production_decision_note,
     render_page_intro,
-    render_prototype_note,
-    render_scope_note,
+    render_section_header,
+    render_subtle_note,
 )
 from app_utils.metric_utils import (
     format_cost,
@@ -54,13 +55,8 @@ def render() -> None:
     render_page_intro(
         "Threshold and Cost Trade-off",
         "Threshold is a decision lever for screening decision support. Lower "
-        "thresholds may catch more fail cases but can increase review workload.",
-    )
-    render_prototype_note()
-    st.write(
-        "Cost scenario results may highlight different models under different "
-        "assumptions. This page uses display labels and roles for readability, "
-        "but it does not change the underlying threshold artifacts."
+        "thresholds may catch more fail cases, but they can also increase "
+        "review workload.",
     )
     render_illustrative_cost_note()
     render_no_production_decision_note()
@@ -71,43 +67,22 @@ def render() -> None:
     else:
         render_missing_artifact_warning(COST_SELECTED_THRESHOLDS)
 
-    with st.expander("Baseline holdout and threshold artifacts"):
+    with st.expander("Baseline holdout and threshold context", expanded=False):
         _render_baseline_threshold_context()
 
-    if artifact_exists(COST_THRESHOLD_SWEEP):
-        cost_sweep = load_csv_artifact(COST_THRESHOLD_SWEEP)
-        st.caption(
-            f"The prototype cost threshold sweep artifact contains "
-            f"{format_count(len(cost_sweep))} model-threshold-scenario rows."
-        )
-    else:
-        render_missing_artifact_warning(COST_THRESHOLD_SWEEP)
-
     if artifact_exists(COST_REPORT):
-        with st.expander("Cost trade-off report"):
+        with st.expander("Cost trade-off report", expanded=False):
             st.markdown(load_markdown_artifact(COST_REPORT))
     else:
         render_missing_artifact_warning(COST_REPORT)
 
-    if artifact_exists("outputs/artifact_manifest.json"):
-        manifest = load_artifact_manifest()
-        render_manifest_artifacts(
-            "Manifest artifacts for this page",
-            filter_manifest_artifacts(manifest, page="Page 3 - Champion Trade-off"),
-        )
-
-    st.write(
-        "Rows in this page can be described as best under this illustrative "
-        "scenario. This page does not select a final champion model and does "
-        "not create a production decision rule."
+    render_subtle_note(
+        "Rows can be read as best under this illustrative scenario. This page "
+        "does not create a production decision rule or select a final champion "
+        "model.",
+        title="How to read this page",
     )
-    render_scope_note(
-        [
-            "reviewer-approved cost assumptions",
-            "clearer threshold decision support visuals",
-            "app integration with final benchmark review",
-        ]
-    )
+    _render_evidence_links()
 
 
 def _render_cost_controls(selected: object) -> None:
@@ -124,36 +99,83 @@ def _render_cost_controls(selected: object) -> None:
     )
     selected_row = scenario_rows[scenario_rows["model_name"] == model_name].iloc[0]
 
-    st.subheader("Selected threshold for this model and scenario")
+    render_section_header(
+        "Selected threshold",
+        "Cost assumptions can change which operating point looks most useful.",
+    )
     st.caption(
         f"{selected_row['short_label']} - {selected_row['display_role']}. "
         f"{selected_row['main_message']}"
     )
-    cols = st.columns(4)
-    cols[0].metric(
-        "Threshold",
-        format_threshold(selected_row["selected_threshold"]),
-    )
-    cols[1].metric("Total cost", format_cost(selected_row["total_cost"]))
-    cols[2].metric("Cost per sample", format_cost(selected_row["cost_per_sample"]))
-    cols[3].metric("Flagged rate", format_percent(selected_row["flagged_sample_rate"]))
 
-    cols = st.columns(4)
-    cols[0].metric("Recall", format_percent(selected_row["recall"]))
-    cols[1].metric("Precision", format_percent(selected_row["precision"]))
-    cols[2].metric("F2-score", format_metric(selected_row["f2"], digits=3))
-    cols[3].metric(
-        "Confusion counts",
-        (
-            f"TP {format_count(selected_row['tp'])} / "
-            f"FP {format_count(selected_row['fp'])} / "
-            f"FN {format_count(selected_row['fn'])} / "
-            f"TN {format_count(selected_row['tn'])}"
-        ),
+    render_section_header("Decision and workload")
+    render_kpi_cards(
+        [
+            {
+                "label": "Threshold",
+                "value": format_threshold(selected_row["selected_threshold"]),
+                "caption": "Selected under this scenario",
+            },
+            {
+                "label": "Flagged rate",
+                "value": format_percent(selected_row["flagged_sample_rate"]),
+                "caption": "Estimated review workload",
+            },
+        ],
+        columns=2,
     )
 
-    st.caption(str(selected_row.get("notes", "")))
-    st.subheader("All selected thresholds for this scenario")
+    render_section_header("Performance")
+    render_kpi_cards(
+        [
+            {
+                "label": "Recall",
+                "value": format_percent(selected_row["recall"]),
+                "caption": "Share of fail cases caught",
+            },
+            {
+                "label": "Precision",
+                "value": format_percent(selected_row["precision"]),
+                "caption": "Share of flags that are fail cases",
+            },
+            {
+                "label": "F2-score",
+                "value": format_metric(selected_row["f2"], digits=3),
+                "caption": "Recall-weighted metric",
+            },
+        ],
+        columns=3,
+    )
+
+    render_section_header("Cost and confusion matrix")
+    render_kpi_cards(
+        [
+            {
+                "label": "Total cost",
+                "value": format_cost(selected_row["total_cost"]),
+                "caption": "Illustrative cost units",
+            },
+            {
+                "label": "Cost per sample",
+                "value": format_cost(selected_row["cost_per_sample"]),
+                "caption": "Cost normalized by validation samples",
+            },
+            {
+                "label": "Reviewed counts",
+                "value": (
+                    f"TP {format_count(selected_row['tp'])} / "
+                    f"FP {format_count(selected_row['fp'])}"
+                ),
+                "caption": (
+                    f"FN {format_count(selected_row['fn'])} / "
+                    f"TN {format_count(selected_row['tn'])}"
+                ),
+            },
+        ],
+        columns=3,
+    )
+
+    render_section_header("Selected thresholds for this scenario")
     st.dataframe(
         _format_cost_table(scenario_rows),
         width="stretch",
@@ -197,20 +219,65 @@ def _render_baseline_threshold_context() -> None:
         final_metrics = load_csv_artifact(FINAL_TEST_METRICS)
         row = final_metrics.iloc[0]
 
-        st.subheader("Baseline holdout summary")
-        columns = st.columns(4)
-        columns[0].metric("Threshold", format_threshold(row["threshold"]))
-        columns[1].metric("Fail recall", format_percent(row["recall"]))
-        columns[2].metric("F2-score", format_metric(row["f2"], digits=3))
-        columns[3].metric("Flagged rate", format_percent(row["review_rate"]))
+        render_section_header("Baseline holdout summary")
+        render_kpi_cards(
+            [
+                {
+                    "label": "Threshold",
+                    "value": format_threshold(row["threshold"]),
+                    "caption": "Baseline operating point",
+                },
+                {
+                    "label": "Fail recall",
+                    "value": format_percent(row["recall"]),
+                    "caption": "Holdout fail recall",
+                },
+                {
+                    "label": "F2-score",
+                    "value": format_metric(row["f2"], digits=3),
+                    "caption": "Recall-weighted metric",
+                },
+                {
+                    "label": "Flagged rate",
+                    "value": format_percent(row["review_rate"]),
+                    "caption": "Baseline review workload",
+                },
+            ],
+            columns=4,
+        )
     else:
         render_missing_artifact_warning(FINAL_TEST_METRICS)
 
     if artifact_exists(THRESHOLD_SWEEP):
         sweep = load_csv_artifact(THRESHOLD_SWEEP)
-        st.write(
+        st.caption(
             f"The baseline threshold sweep artifact contains "
             f"{format_count(len(sweep))} candidate operating-point rows."
         )
     else:
         render_missing_artifact_warning(THRESHOLD_SWEEP)
+
+
+def _render_evidence_links() -> None:
+    artifacts: list[str | dict[str, object]] = [
+        COST_SELECTED_THRESHOLDS,
+        COST_THRESHOLD_SWEEP,
+        COST_REPORT,
+        FINAL_TEST_METRICS,
+        THRESHOLD_SWEEP,
+    ]
+
+    if artifact_exists("outputs/artifact_manifest.json"):
+        manifest = load_artifact_manifest()
+        artifacts.extend(
+            filter_manifest_artifacts(manifest, page="Page 3 - Champion Trade-off")
+        )
+
+    render_evidence_expander(artifacts)
+
+    if artifact_exists(COST_THRESHOLD_SWEEP):
+        cost_sweep = load_csv_artifact(COST_THRESHOLD_SWEEP)
+        st.caption(
+            "Full cost threshold sweep rows available: "
+            f"{format_count(len(cost_sweep))}."
+        )

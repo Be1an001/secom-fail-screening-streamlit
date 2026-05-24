@@ -57,7 +57,7 @@ def get_model_display(model_name: str) -> dict[str, str]:
     fallback = {
         "display_role": "Unassigned",
         "short_label": model_name,
-        "main_message": "No display note is configured for this model.",
+        "main_message": "No display note is available for this model.",
     }
     return MODEL_DISPLAY_ROLES.get(model_name, fallback)
 

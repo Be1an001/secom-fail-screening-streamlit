@@ -11,17 +11,18 @@ from app_utils.artifact_loader import (
     load_csv_artifact,
 )
 from app_utils.layout_utils import (
-    render_info_box,
-    render_manifest_artifacts,
+    render_card_grid,
+    render_evidence_expander,
+    render_kpi_cards,
     render_missing_artifact_warning,
     render_page_intro,
     render_prototype_note,
-    render_scope_note,
+    render_section_header,
+    render_subtle_note,
 )
 from app_utils.metric_utils import format_metric, format_percent, format_threshold
 from app_utils.model_display import (
     BASELINE_WARNING,
-    MAIN_COMPARISON,
     SECONDARY_PROTOTYPE_COMPARISON,
     get_model_display,
 )
@@ -34,6 +35,7 @@ PROTOTYPE_MODEL_COMPARISON = (
 PROTOTYPE_THRESHOLD_SWEEP = (
     "outputs/metrics/benchmark_threshold_sweep_prototype.csv"
 )
+BENCHMARK_REPORT = "reports/benchmark_prototype_summary.md"
 LEADERBOARD_COLUMNS = [
     "model_name",
     "model_group",
@@ -46,6 +48,11 @@ LEADERBOARD_COLUMNS = [
     "roc_auc",
     "flagged_sample_rate",
 ]
+MAIN_MODEL_ORDER = [
+    "logistic_regression_pca_baseline",
+    "random_forest_reference",
+    "xgboost_cost_sensitive",
+]
 
 
 def render() -> None:
@@ -53,57 +60,46 @@ def render() -> None:
 
     render_page_intro(
         "Model Benchmark",
-        "This page compares the current baseline workflow with a prototype "
-        "literature-inspired benchmark. These results are prototype artifacts, "
-        "not final model-selection results.",
+        "Compare the current baseline workflow with a prototype "
+        "literature-inspired benchmark. The display grouping helps the "
+        "portfolio story, while the full six-model benchmark remains visible. "
+        "These results are not final model-selection results.",
     )
     render_prototype_note()
-    render_info_box(
-        "All six models remain in the full benchmark table. The app highlights "
-        "a smaller set of models for the main portfolio story. This display "
+    render_subtle_note(
+        "All six models remain in the full benchmark table. This display "
         "grouping is for readability; it does not remove models from the "
-        "benchmark and does not create a final champion model."
-    )
-    render_info_box(
-        "Random Forest reference currently has the strongest F2 in the "
-        "prototype benchmark. XGBoost cost-sensitive provides a higher-recall "
-        "option with higher review workload. Logistic + PCA remains useful "
-        "as a classical baseline. This page makes no SOTA performance claim."
+        "benchmark and does not create a final champion model.",
+        title="Display grouping",
     )
 
     if artifact_exists(PROTOTYPE_MODEL_COMPARISON):
         comparison = _add_display_roles(load_csv_artifact(PROTOTYPE_MODEL_COMPARISON))
         _render_model_highlights(comparison)
-        _render_role_section(
-            comparison,
-            MAIN_COMPARISON,
-            "Main comparison",
-            (
-                "These models receive the most explanation in the portfolio "
-                "story because they compare a classical baseline, the current "
-                "Random Forest reference, and a cost-sensitive boosting option."
-            ),
-        )
+        _render_main_model_cards(comparison)
         _render_role_section(
             comparison,
             BASELINE_WARNING,
-            "Baseline warning",
+            "Accuracy warning baseline",
             (
-                "The dummy model is retained to show why accuracy alone is "
-                "misleading in rare-fail screening."
+                "Dummy Majority stays in the benchmark to show why accuracy "
+                "alone is misleading when fail samples are rare."
             ),
         )
         _render_role_section(
             comparison,
             SECONDARY_PROTOTYPE_COMPARISON,
-            "Secondary prototype comparison",
+            "Secondary prototype comparisons",
             (
-                "These models stay visible as secondary prototype comparisons. "
-                "They help document boosting-family and training-only "
-                "resampling behavior without becoming the main story."
+                "LightGBM and XGBoost + Training-only SMOTE remain visible as "
+                "secondary comparisons for boosting-family and leakage-safe "
+                "resampling behavior."
             ),
         )
-        st.subheader("Full six-model benchmark table")
+        render_section_header(
+            "Full six-model benchmark table",
+            "The table keeps every prototype model and does not claim SOTA performance.",
+        )
         st.dataframe(
             _format_leaderboard(comparison),
             width="stretch",
@@ -112,16 +108,7 @@ def render() -> None:
     else:
         render_missing_artifact_warning(PROTOTYPE_MODEL_COMPARISON)
 
-    if artifact_exists(PROTOTYPE_THRESHOLD_SWEEP):
-        sweep = load_csv_artifact(PROTOTYPE_THRESHOLD_SWEEP)
-        st.caption(
-            f"The prototype threshold sweep artifact is available with "
-            f"{len(sweep):,} threshold rows."
-        )
-    else:
-        render_missing_artifact_warning(PROTOTYPE_THRESHOLD_SWEEP)
-
-    with st.expander("Baseline validation metrics"):
+    with st.expander("Baseline validation metrics", expanded=False):
         if artifact_exists(VALIDATION_METRICS):
             metrics = load_csv_artifact(VALIDATION_METRICS)
             display_columns = [
@@ -134,24 +121,11 @@ def render() -> None:
                 "pr_auc",
                 "review_rate",
             ]
-            st.dataframe(metrics[display_columns], width="stretch")
+            st.dataframe(metrics[display_columns], width="stretch", hide_index=True)
         else:
             render_missing_artifact_warning(VALIDATION_METRICS)
 
-    if artifact_exists("outputs/artifact_manifest.json"):
-        manifest = load_artifact_manifest()
-        render_manifest_artifacts(
-            "Manifest artifacts for this page",
-            filter_manifest_artifacts(manifest, page="Page 2 - Model Benchmark"),
-        )
-
-    render_scope_note(
-        [
-            "formal literature review notes for selected methods",
-            "final benchmark refinement after reviewer feedback",
-            "explainability artifacts for model-important sensor signals",
-        ]
-    )
+    _render_evidence_links()
 
 
 def _add_display_roles(comparison: object) -> object:
@@ -168,6 +142,81 @@ def _add_display_roles(comparison: object) -> object:
     return enriched
 
 
+def _render_model_highlights(comparison: object) -> None:
+    completed = comparison[comparison["status"] == "completed"].copy()
+    if completed.empty:
+        return
+
+    best_f2 = completed.sort_values(
+        by=["f2", "model_name"],
+        ascending=[False, True],
+    ).iloc[0]
+    high_recall = completed.sort_values(
+        by=["recall", "flagged_sample_rate", "model_name"],
+        ascending=[False, True, True],
+    ).iloc[0]
+
+    render_section_header(
+        "Prototype highlights",
+        "A quick reading of the current benchmark artifacts.",
+    )
+    render_kpi_cards(
+        [
+            {
+                "label": "Strongest prototype F2",
+                "value": get_model_display(str(best_f2["model_name"]))["short_label"],
+                "caption": (
+                    f"F2 {format_metric(best_f2['f2'])} at threshold "
+                    f"{format_threshold(best_f2['threshold'])}"
+                ),
+            },
+            {
+                "label": "Higher-recall option",
+                "value": get_model_display(str(high_recall["model_name"]))[
+                    "short_label"
+                ],
+                "caption": (
+                    f"Recall {format_percent(high_recall['recall'])}; flagged "
+                    f"rate {format_percent(high_recall['flagged_sample_rate'])}"
+                ),
+            },
+        ],
+        columns=2,
+    )
+    render_subtle_note(
+        "Random Forest Reference currently has the strongest prototype F2. "
+        "XGBoost Cost-Sensitive provides a higher-recall option with higher "
+        "review workload. This page makes no SOTA performance claim.",
+        title="Benchmark reading",
+    )
+
+
+def _render_main_model_cards(comparison: object) -> None:
+    render_section_header(
+        "Main comparison models",
+        "The portfolio story emphasizes a classical baseline, the Random Forest reference, and the cost-sensitive boosting option.",
+    )
+    cards = []
+    for model_name in MAIN_MODEL_ORDER:
+        rows = comparison[comparison["model_name"] == model_name]
+        if rows.empty:
+            continue
+        row = rows.iloc[0]
+        metadata = get_model_display(model_name)
+        cards.append(
+            {
+                "title": metadata["short_label"],
+                "body": (
+                    f"{metadata['main_message']} F2 {format_metric(row['f2'])}, "
+                    f"recall {format_percent(row['recall'])}, precision "
+                    f"{format_percent(row['precision'])}, flagged rate "
+                    f"{format_percent(row['flagged_sample_rate'])}."
+                ),
+            }
+        )
+    render_card_grid(cards, columns=3)
+
+
 def _render_role_section(
     comparison: object,
     display_role: str,
@@ -178,8 +227,7 @@ def _render_role_section(
     if rows.empty:
         return
 
-    st.subheader(title)
-    st.write(summary)
+    render_section_header(title, summary)
     st.dataframe(
         _format_role_table(rows),
         width="stretch",
@@ -209,16 +257,8 @@ def _format_role_table(rows: object) -> object:
 
 def _format_leaderboard(comparison: object) -> object:
     leaderboard = comparison.loc[:, LEADERBOARD_COLUMNS].copy()
-    leaderboard.insert(
-        0,
-        "display_role",
-        comparison["display_role"],
-    )
-    leaderboard.insert(
-        0,
-        "short_label",
-        comparison["short_label"],
-    )
+    leaderboard.insert(0, "display_role", comparison["display_role"])
+    leaderboard.insert(0, "short_label", comparison["short_label"])
     numeric_columns = [
         "threshold",
         "recall",
@@ -235,35 +275,16 @@ def _format_leaderboard(comparison: object) -> object:
     return leaderboard
 
 
-def _render_model_highlights(comparison: object) -> None:
-    completed = comparison[comparison["status"] == "completed"].copy()
-    if completed.empty:
-        return
-
-    best_f2 = completed.sort_values(
-        by=["f2", "model_name"],
-        ascending=[False, True],
-    ).iloc[0]
-    high_recall = completed.sort_values(
-        by=["recall", "flagged_sample_rate", "model_name"],
-        ascending=[False, True, True],
-    ).iloc[0]
-
-    st.subheader("Prototype highlights")
-    cols = st.columns(2)
-    cols[0].metric(
-        "Strongest prototype F2",
-        str(best_f2["model_name"]),
-        help=(
-            f"F2 {format_metric(best_f2['f2'])} at threshold "
-            f"{format_threshold(best_f2['threshold'])}."
-        ),
-    )
-    cols[1].metric(
-        "Highest prototype recall",
-        str(high_recall["model_name"]),
-        help=(
-            f"Recall {format_percent(high_recall['recall'])}; flagged rate "
-            f"{format_percent(high_recall['flagged_sample_rate'])}."
-        ),
-    )
+def _render_evidence_links() -> None:
+    artifacts: list[str | dict[str, object]] = [
+        PROTOTYPE_MODEL_COMPARISON,
+        PROTOTYPE_THRESHOLD_SWEEP,
+        VALIDATION_METRICS,
+        BENCHMARK_REPORT,
+    ]
+    if artifact_exists("outputs/artifact_manifest.json"):
+        manifest = load_artifact_manifest()
+        artifacts.extend(
+            filter_manifest_artifacts(manifest, page="Page 2 - Model Benchmark")
+        )
+    render_evidence_expander(artifacts)

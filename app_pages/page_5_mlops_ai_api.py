@@ -12,19 +12,18 @@ from app_utils.artifact_loader import (
     load_markdown_artifact,
     validate_manifest_paths,
 )
-from app_utils.ai_summary import (
-    generate_controlled_summary,
-    is_openai_available,
-    is_openai_summary_enabled,
-)
+from app_utils.ai_summary import generate_controlled_summary
 from app_utils.layout_utils import (
-    render_artifact_list,
     render_artifact_tracking_note,
-    render_info_box,
-    render_manifest_artifacts,
+    render_card_grid,
+    render_evidence_expander,
+    render_kpi_cards,
     render_missing_artifact_warning,
     render_page_intro,
-    render_scope_note,
+    render_process_timeline,
+    render_section_header,
+    render_summary_card,
+    typewriter_text,
 )
 from app_utils.rag_context import get_preset_questions
 
@@ -52,76 +51,105 @@ PROTOTYPE_ARTIFACT_PATHS = {
 }
 MLFLOW_SUMMARY = "outputs/metrics/mlflow_runs_summary.csv"
 ARTIFACT_TRACKING_REPORT = "reports/mlflow_artifact_tracking_summary.md"
+SUMMARY_TEXT_KEY = "controlled_summary_text"
+SUMMARY_ANIMATE_KEY = "controlled_summary_animate"
 
 
 def render() -> None:
-    """Render the MLOps, API, and AI summary placeholder page."""
+    """Render the MLOps, API, and AI summary page."""
 
     render_page_intro(
-        "MLOps, API, and AI Summary",
-        "This artifact-driven page summarizes current MLOps-lite evidence, "
-        "artifact tracking, the local API artifact service, and controlled "
-        "AI summary behavior.",
+        "API & AI Summary",
+        "Explore the artifact-driven registry, local/demo FastAPI artifact "
+        "service, and AI Summary feature that answers preset questions from "
+        "compact project evidence.",
     )
 
     render_artifact_tracking_note()
-    render_info_box(
-        "The optional FastAPI artifact service is a local read-only portfolio "
-        "demo. It is not a production backend."
+    render_card_grid(
+        [
+            {
+                "title": "Lightweight artifact registry",
+                "body": "outputs/artifact_manifest.json connects metrics, figures, and reports to the app.",
+            },
+            {
+                "title": "Local/demo API service",
+                "body": "FastAPI endpoints serve existing artifacts only; they do not train models.",
+            },
+            {
+                "title": "Controlled RAG-lite summary",
+                "body": "Preset questions use compact artifact-grounded context. Raw CSVs are not sent.",
+            },
+        ],
+        columns=3,
     )
-    render_info_box(
-        "The app now includes full six-model prototype benchmark artifacts, "
-        "display grouping for readability, threshold/cost trade-off artifacts, "
-        "and prototype explainability artifacts."
+    render_summary_card(
+        "Portfolio boundary",
+        "The API is not a production backend. AI Summary is not a general chatbot. "
+        "Both features are included for portfolio review.",
     )
-    render_info_box(
-        "Local MLflow tracking files such as `mlflow.db`, `mlruns/`, and "
-        "`mlartifacts/` are intentionally ignored. An exported MLflow summary "
-        "may be shown here only when real local run data is available."
-    )
-    render_info_box(
-        "Optional OpenAI summary path: the controlled RAG-lite summary can use "
-        "optional OpenAI API use for preset questions and compact "
-        "artifact-grounded context. It is not a general chatbot, and raw CSVs "
-        "are not sent to an LLM."
-    )
-    st.caption("Raw CSVs are not sent to an LLM.")
 
-    available_reports = [path for path in REPORT_ARTIFACTS if artifact_exists(path)]
-    render_artifact_list("Available report artifacts", available_reports)
+    _render_artifact_manifest_summary()
+    _render_mlflow_summary()
+    _render_api_overview()
+    _render_controlled_summary_panel()
+    _render_agentic_workflow_concept()
+    _render_evidence_links()
 
-    if artifact_exists("outputs/artifact_manifest.json"):
-        manifest = load_artifact_manifest()
-        validate_manifest_paths(manifest)
-        st.subheader("Artifact manifest")
-        prototype_count = sum(
-            1
-            for artifact in manifest["artifacts"]
-            if artifact.get("current_status") == "prototype"
-        )
-        st.write(
-            f"The artifact manifest lists {len(manifest['artifacts'])} "
-            f"artifacts, including {prototype_count} prototype artifacts."
-        )
-        render_artifact_list(
-            "Benchmark and cost trade-off artifacts",
-            [
-                path
-                for path in sorted(PROTOTYPE_ARTIFACT_PATHS)
-                if artifact_exists(path)
-            ],
-        )
-        render_manifest_artifacts(
-            "Manifest artifacts for this page",
-            filter_manifest_artifacts(
-                manifest,
-                page="Page 5 - MLOps, API, and AI Summary",
-            ),
-        )
-    else:
+
+def _render_artifact_manifest_summary() -> None:
+    render_section_header(
+        "Artifact tracking",
+        "The public app reads committed artifacts instead of live experiment stores.",
+    )
+    if not artifact_exists("outputs/artifact_manifest.json"):
         render_missing_artifact_warning("outputs/artifact_manifest.json")
+        return
 
-    st.subheader("Exported MLflow summary")
+    manifest = load_artifact_manifest()
+    validate_manifest_paths(manifest)
+    prototype_count = sum(
+        1
+        for artifact in manifest["artifacts"]
+        if artifact.get("current_status") == "prototype"
+    )
+    available_reports = [path for path in REPORT_ARTIFACTS if artifact_exists(path)]
+    available_prototype = [
+        path for path in sorted(PROTOTYPE_ARTIFACT_PATHS) if artifact_exists(path)
+    ]
+
+    render_kpi_cards(
+        [
+            {
+                "label": "Manifest artifacts",
+                "value": str(len(manifest["artifacts"])),
+                "caption": "Tracked evidence entries",
+            },
+            {
+                "label": "Prototype artifacts",
+                "value": str(prototype_count),
+                "caption": "Benchmark, cost, and explainability outputs",
+            },
+            {
+                "label": "Reports",
+                "value": str(len(available_reports)),
+                "caption": "Markdown evidence files",
+            },
+            {
+                "label": "Key prototype files",
+                "value": str(len(available_prototype)),
+                "caption": "Metrics and reports used by the app",
+            },
+        ],
+        columns=4,
+    )
+
+
+def _render_mlflow_summary() -> None:
+    render_section_header(
+        "MLOps-lite evidence",
+        "Local MLflow tracking can support experiment review; committed views use exported artifacts.",
+    )
     if artifact_exists(MLFLOW_SUMMARY):
         st.dataframe(
             load_csv_artifact(MLFLOW_SUMMARY),
@@ -129,87 +157,137 @@ def render() -> None:
             hide_index=True,
         )
     else:
-        st.caption(
-            "No exported MLflow summary artifact is available yet. Run "
-            "`python scripts/export_mlflow_runs_summary.py` after local MLflow "
-            "tracking data exists to create one."
+        render_summary_card(
+            "Exported MLflow summary",
+            "No exported MLflow run summary is available in the public artifacts. "
+            "The export script can create one when local run data exists.",
         )
 
     if artifact_exists(ARTIFACT_TRACKING_REPORT):
-        with st.expander("MLflow and artifact tracking summary"):
+        with st.expander("MLflow and artifact tracking report", expanded=False):
             st.markdown(load_markdown_artifact(ARTIFACT_TRACKING_REPORT))
 
-    if artifact_exists("reports/model_card.md"):
-        with st.expander("Current model card artifact"):
-            st.markdown(load_markdown_artifact("reports/model_card.md"))
 
-    _render_api_and_summary_section()
-
-    st.write(
-        "The app does not implement a deployed MLflow tracking server, "
-        "production backend, general chatbot, or agentic workflow automation. "
-        "Those capabilities are outside the current portfolio app scope."
+def _render_api_overview() -> None:
+    render_section_header(
+        "Read-only artifact service",
+        "The local FastAPI service exposes selected project artifacts, metrics, reports, and summary endpoints for review or integration testing.",
     )
-    render_scope_note(
-        [
-            "review of exported MLflow summary if real local run data exists",
-            "possible refinement of the local FastAPI artifact service",
-            "agentic workflow concept as a possible extension",
-        ]
+    render_summary_card(
+        "FastAPI artifact service",
+        "It does not train models or regenerate files. It simply reads the "
+        "same committed artifacts that power the app.",
     )
+    with st.expander("Run the local artifact service", expanded=False):
+        st.code("python -m uvicorn api.main:app --reload", language="bash")
+        st.markdown("API docs: <http://127.0.0.1:8000/docs>")
+        st.markdown(
+            "- `GET /health`\n"
+            "- `GET /manifest`\n"
+            "- `GET /metrics/benchmark`\n"
+            "- `GET /metrics/cost-selected-thresholds`\n"
+            "- `GET /metrics/explainability/top-sensors`\n"
+            "- `GET /reports/model-card`\n"
+            "- `GET /reports/cost-threshold`\n"
+            "- `GET /reports/explainability`\n"
+            "- `GET /summary/questions`\n"
+            "- `GET /summary/{question_key}`"
+        )
 
 
-def _render_api_and_summary_section() -> None:
-    st.subheader("Local API and controlled summary")
-    st.write("Run the read-only artifact service locally with:")
-    st.code("uvicorn api.main:app --reload", language="bash")
-    render_artifact_list(
-        "Available local API endpoints",
-        [
-            "GET /health",
-            "GET /manifest",
-            "GET /metrics/benchmark",
-            "GET /metrics/cost-selected-thresholds",
-            "GET /metrics/explainability/top-sensors",
-            "GET /reports/model-card",
-            "GET /reports/cost-threshold",
-            "GET /reports/explainability",
-            "GET /summary/questions",
-            "GET /summary/{question_key}",
-        ],
-    )
-
-    st.write(
-        "No API key is stored in the repo. OpenAI API use is optional, and the "
-        "fallback summary works without secrets, OpenAI package access, or "
-        "network access."
+def _render_controlled_summary_panel() -> None:
+    render_section_header(
+        "AI Summary",
+        "Generate a concise, artifact-grounded summary from preset project questions.",
     )
     st.caption(
-        "Optional OpenAI status: "
-        f"{'enabled and configured' if is_openai_available() else 'fallback summary only'}."
+        "This summary uses a controlled RAG-lite pattern: preset questions over "
+        "compact project artifacts, not free-form chat. Raw CSVs are not sent."
     )
 
     questions = get_preset_questions()
     question_key = st.selectbox(
-        "Controlled RAG-lite preset question",
+        "Preset question",
         list(questions.keys()),
         format_func=lambda key: questions[key],
     )
-    use_openai = st.checkbox(
-        "Use OpenAI summary if configured",
-        value=False,
-        help=(
-            "Requires OPENAI_SUMMARY_ENABLED=true, OPENAI_API_KEY, and "
-            "OPENAI_SUMMARY_MODEL in Streamlit secrets or environment variables."
-        ),
-    )
-    if use_openai and not is_openai_available():
-        if not is_openai_summary_enabled():
-            st.caption("OpenAI summary is disabled; showing fallback summary.")
-        else:
-            st.caption(
-                "OpenAI summary is not fully configured or the package is "
-                "unavailable; showing fallback summary."
-            )
 
-    st.write(generate_controlled_summary(question_key, use_openai=use_openai))
+    if st.button("Generate summary", type="primary"):
+        with st.spinner("Generating summary from curated artifacts..."):
+            st.session_state[SUMMARY_TEXT_KEY] = generate_controlled_summary(
+                question_key,
+                use_openai=True,
+            )
+            st.session_state[SUMMARY_ANIMATE_KEY] = True
+
+    summary = st.session_state.get(SUMMARY_TEXT_KEY)
+    if summary:
+        render_section_header("Generated summary")
+        if st.session_state.get(SUMMARY_ANIMATE_KEY):
+            typewriter_text(str(summary))
+            st.session_state[SUMMARY_ANIMATE_KEY] = False
+        else:
+            st.markdown(str(summary))
+    else:
+        render_summary_card(
+            "Ready when you are",
+            "Choose a question and generate a concise project summary.",
+        )
+
+
+def _render_agentic_workflow_concept() -> None:
+    render_section_header(
+        "Extension Concept: Agentic Analytics Workflow",
+        "The current app separates artifacts, metrics, reports, and summaries. A future orchestration layer could review those steps while keeping human approval before any decision.",
+    )
+    render_process_timeline(
+        [
+            {
+                "title": "Artifact monitor",
+                "body": "Check whether expected metrics, figures, and reports exist.",
+            },
+            {
+                "title": "Benchmark reviewer",
+                "body": "Compare model outputs against the evaluation benchmark.",
+            },
+            {
+                "title": "Cost trade-off analyst",
+                "body": "Summarize threshold choices under illustrative review scenarios.",
+            },
+            {
+                "title": "Explainability reviewer",
+                "body": "Inspect model-important sensor signals and wording boundaries.",
+            },
+            {
+                "title": "Summary generator",
+                "body": "Create preset artifact-grounded summaries for review.",
+            },
+            {
+                "title": "Human approval",
+                "body": "Keep a person responsible for interpretation before any decision.",
+            },
+        ]
+    )
+    render_summary_card(
+        "Architecture extension concept",
+        "A tool framework such as LangGraph could orchestrate this review flow. "
+        "LangGraph is not implemented here, and this app does not perform "
+        "autonomous decision-making.",
+    )
+
+
+def _render_evidence_links() -> None:
+    artifacts: list[str | dict[str, object]] = [
+        "outputs/artifact_manifest.json",
+        *sorted(PROTOTYPE_ARTIFACT_PATHS),
+        *REPORT_ARTIFACTS,
+    ]
+    if artifact_exists("outputs/artifact_manifest.json"):
+        manifest = load_artifact_manifest()
+        artifacts.extend(
+            filter_manifest_artifacts(
+                manifest,
+                page="Page 5 - MLOps, API, and AI Summary",
+            )
+        )
+    render_evidence_expander(artifacts)

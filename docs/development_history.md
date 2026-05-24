@@ -77,6 +77,20 @@ commands, notebook execution instructions, and optional local Docker packaging
 for the Streamlit app. The notebook and Docker container were validated locally
 as release checks.
 
+### Stage 11 - Streamlit Portfolio UI and UX Polish
+
+The app interface was redesigned with a light portfolio theme, cleaner
+navigation, card-based page layouts, calmer scope notes, collapsed evidence
+links, a stronger overview workflow page, and a generate-on-click controlled
+summary experience. This changed presentation only; model artifacts, metrics,
+API behavior, and OpenAI summary boundaries stayed unchanged.
+
+The follow-up UX pass simplified sidebar labels, made the Overview page more
+interview-friendly, added more spacing between cards, displayed explainability
+figures vertically, clarified the read-only FastAPI artifact service, and
+presented the agentic analytics workflow as an extension concept rather than
+an implemented autonomous system.
+
 ## Key Design Decisions
 
 - Keep the project portfolio-scale rather than building an enterprise platform.

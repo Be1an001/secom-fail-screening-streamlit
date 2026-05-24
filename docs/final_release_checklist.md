@@ -6,10 +6,17 @@ Use this checklist before public portfolio review.
 
 - [ ] Streamlit app loads.
 - [ ] Five pages work.
+- [ ] Light portfolio theme loads.
+- [ ] Sidebar labels are simple and unnumbered.
+- [ ] Page 1 guided workflow story and KPI cards display.
 - [ ] Page 2 benchmark table displays.
 - [ ] Page 3 cost scenario selector works.
-- [ ] Page 4 explainability artifacts display.
-- [ ] Page 5 API / RAG-lite / OpenAI fallback text works.
+- [ ] Page 3 selected threshold cards have readable spacing.
+- [ ] Page 4 explainability figures display vertically.
+- [ ] Page 5 `Generate summary` button works.
+- [ ] Page 5 AI Summary uses preset questions only.
+- [ ] Page 5 agentic workflow section is labeled as an extension concept.
+- [ ] Evidence links appear in collapsed sections.
 
 ## Artifact QA
 
