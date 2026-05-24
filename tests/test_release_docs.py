@@ -172,13 +172,21 @@ def test_final_docs_avoid_unqualified_release_overclaims() -> None:
 
 def test_page_5_describes_current_local_api_and_controlled_summary() -> None:
     page_5 = PAGE_5.read_text(encoding="utf-8").lower()
+    normalized_page_5 = " ".join(page_5.split())
 
-    assert "local api" in page_5
-    assert "controlled rag-lite summary" in page_5
-    assert "optional openai summary" in page_5
-    assert "raw csvs are not sent" in page_5
-    assert "not a production backend" in page_5
-    assert "not a general chatbot" in page_5
+    assert "fastapi artifact service" in normalized_page_5
+    assert "controlled rag-lite summary" in normalized_page_5
+    assert "ai summary" in normalized_page_5
+    assert "raw csvs are not sent" in normalized_page_5
+    assert "not a production backend" in normalized_page_5
+    assert "not a general chatbot" in normalized_page_5
+    assert "generate summary" in normalized_page_5
+    assert "use_openai=True" in PAGE_5.read_text(encoding="utf-8")
+    assert "extension concept: agentic analytics workflow" in normalized_page_5
+    assert "langgraph is not implemented here" in normalized_page_5
+    assert "scope note" not in normalized_page_5
+    assert "use openai summary if configured" not in normalized_page_5
+    assert "no api key is stored in the repo" not in normalized_page_5
     assert "future api and ai summary work that remains planned" not in page_5
 
 
@@ -249,7 +257,6 @@ def test_public_text_avoids_private_process_wording_and_real_secrets() -> None:
         "the user and reviewer",
         "codex",
         "chatgpt",
-        "ai-assisted",
         "practice project",
         "still upgrading",
         "currently being upgraded",

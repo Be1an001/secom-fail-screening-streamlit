@@ -31,11 +31,12 @@ Main result interpretation:
 - Explainability artifacts identify model-important sensor signals, not
   physical causes.
 
-The app shows the data problem, benchmark grouping, threshold / cost
-trade-offs, explainability artifacts, artifact tracking, local API usage, and
-controlled summaries. It demonstrates practical ML workflow design, honest
-model evaluation, artifact-driven app development, responsible AI boundaries,
-and clear portfolio communication.
+The app uses a light portfolio-style interface with a guided overview
+workflow, benchmark grouping, threshold / cost trade-offs, vertical
+explainability figures, artifact tracking, local API usage, and controlled AI
+Summary. It demonstrates practical ML workflow design, honest model
+evaluation, artifact-driven app development, responsible AI boundaries, and
+clear portfolio communication.
 
 This project does not claim production use, automatic decision-making,
 physical root cause, causal explanation, or SOTA performance.

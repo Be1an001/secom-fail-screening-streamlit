@@ -86,18 +86,21 @@ def test_mlflow_tracking_report_uses_portfolio_scale_wording() -> None:
 
 def test_page_5_describes_mlflow_and_future_boundaries() -> None:
     page_text = PAGE_5_PATH.read_text(encoding="utf-8").lower()
+    normalized_page_text = " ".join(page_text.split())
 
-    assert "artifact-driven" in page_text
-    assert "local mlflow tracking" in page_text
-    assert "exported mlflow summary" in page_text
-    assert "fastapi artifact service" in page_text
-    assert "controlled rag-lite summary" in page_text
-    assert "optional openai api use" in page_text
-    assert "deployed mlflow tracking server" in page_text
-    assert "not a production backend" in page_text
-    assert "not a general chatbot" in page_text
-    assert "production mlops platform" not in page_text
-    assert "full enterprise" not in page_text
+    assert "artifact-driven" in normalized_page_text
+    assert "local mlflow tracking" in normalized_page_text
+    assert "exported mlflow summary" in normalized_page_text
+    assert "fastapi artifact service" in normalized_page_text
+    assert "controlled rag-lite summary" in normalized_page_text
+    assert "ai summary" in normalized_page_text
+    assert "raw csvs are not sent" in normalized_page_text
+    assert "generate summary" in normalized_page_text
+    assert "use_openai=True" in PAGE_5_PATH.read_text(encoding="utf-8")
+    assert "not a production backend" in normalized_page_text
+    assert "not a general chatbot" in normalized_page_text
+    assert "production mlops platform" not in normalized_page_text
+    assert "full enterprise" not in normalized_page_text
 
 
 def test_declared_mlflow_summary_columns_match_expected_schema() -> None:

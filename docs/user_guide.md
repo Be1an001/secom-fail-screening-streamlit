@@ -82,12 +82,17 @@ automation and does not include secrets.
 
 ## App Pages
 
-### 1. Project & Data Problem
+### 1. Overview
 
-This page explains the UCI SECOM dataset, the rare fail class, the label
-mapping, and why accuracy alone is misleading.
+This page is the main project opening. It shows a hero summary, KPI cards,
+the rare fail class, and a guided workflow story from data problem through
+leakage-safe benchmarking, threshold / cost trade-off, explainability, and
+artifact-grounded summaries.
 
-### 2. Model Benchmark
+Evidence links are kept in a collapsed section near the bottom so the page
+stays focused on the portfolio story.
+
+### 2. Benchmark
 
 This page displays the prototype benchmark from
 [benchmark_model_comparison_prototype.csv](../outputs/metrics/benchmark_model_comparison_prototype.csv).
@@ -105,7 +110,7 @@ Random Forest Reference currently has the strongest prototype F2. XGBoost
 Cost-Sensitive provides a higher-recall option with higher review workload.
 This is not a final champion selection.
 
-### 3. Champion Trade-off
+### 3. Cost Trade-off
 
 The visible page content focuses on threshold and cost trade-offs. Use the
 scenario and model controls to inspect selected thresholds from
@@ -117,8 +122,9 @@ manufacturing costs and do not create a production decision rule.
 
 ### 4. Explainability
 
-This page displays baseline feature importance and prototype explainability
-artifacts:
+This page displays explainability as evidence cards and full-width figures for
+readability. It shows prototype permutation importance, feature stability, top
+sensor signal tables, and baseline feature importance:
 
 - [permutation_importance_prototype.csv](../outputs/metrics/permutation_importance_prototype.csv)
 - [feature_stability_prototype.csv](../outputs/metrics/feature_stability_prototype.csv)
@@ -132,15 +138,26 @@ Reference and XGBoost Cost-Sensitive:
 ![Feature stability](../outputs/figures/feature_stability_prototype.png)
 
 These artifacts are not physical root-cause analysis and are not causal proof.
+Detailed CSVs and report links are available in collapsed sections.
 
-### 5. MLOps, API, and AI Summary
+### 5. API & AI Summary
 
-This page explains artifact tracking, local MLflow summary behavior, the local
-FastAPI artifact service, controlled RAG-lite summaries, and optional OpenAI
-summaries.
+This page explains artifact tracking, local MLflow summary behavior, the
+local/demo FastAPI artifact service, and AI Summary.
 
-The controlled summary panel uses preset questions only. There is no free-form
-chatbot and raw CSVs are not sent to an LLM.
+The controlled summary panel uses preset questions only. Choose a question and
+click `Generate summary`. The app then shows a concise summary with a light
+typewriter-style reveal. This is a controlled RAG-lite pattern: preset
+questions over compact project artifacts, not free-form chat. Raw CSVs are not
+sent to an LLM.
+
+The local FastAPI service is a read-only artifact service. It exposes selected
+project artifacts, metrics, reports, and summary endpoints for review or
+integration testing. It does not train models or regenerate files.
+
+Near the bottom, the page includes `Extension Concept: Agentic Analytics
+Workflow`. This is an architecture extension concept only. It does not claim
+LangGraph is implemented and does not perform autonomous decision-making.
 
 ## Local API Run
 
@@ -155,9 +172,9 @@ Open local API docs:
 
 <http://127.0.0.1:8000/docs>
 
-The API serves JSON from committed artifacts only. It is a local/demo artifact
-service, not a production backend. It does not train models or regenerate
-artifacts.
+The API serves JSON from committed artifacts only. It is a local/demo
+read-only artifact service, not a production backend. It does not train models
+or regenerate artifacts.
 
 ## Optional OpenAI Summary Setup
 
