@@ -45,11 +45,33 @@ The controlled summary layer uses preset questions only:
 - `mlops_artifact_tracking`
 - `limitations`
 
-The context builder uses compact artifact-grounded snapshots. It does not send
-raw SECOM data files or full CSV files to an LLM.
+The context builder uses compact artifact-grounded snapshots. Raw CSVs are not
+sent to an LLM, and raw SECOM data files are not sent to an LLM.
 
-OpenAI API use is optional and future-ready. The fallback summary works without
-an API key, without network access, and without the OpenAI package.
+OpenAI API use is optional. The fallback summary works without an API key,
+without network access, and without the OpenAI package.
+
+## Optional OpenAI Setup
+
+Do not commit secrets. Do not commit `.streamlit/secrets.toml` or `.env`.
+
+For local Streamlit testing, use `.streamlit/secrets.toml` only on your local
+machine:
+
+```toml
+OPENAI_API_KEY = "your-key-here"
+OPENAI_SUMMARY_MODEL = "gpt-5.4-mini"
+OPENAI_SUMMARY_ENABLED = true
+```
+
+For Streamlit Community Cloud, add the same TOML content in:
+
+`App settings` -> `Secrets`
+
+The app still shows fallback summaries when OpenAI is disabled, the key is
+missing, the model is missing, the package is unavailable, or the API call
+fails. The API key is stored in Streamlit secrets or environment variables, not
+in the repository.
 
 ## Boundaries
 
@@ -57,5 +79,6 @@ an API key, without network access, and without the OpenAI package.
 - This is not a full RAG system.
 - This is not a general chatbot.
 - No arbitrary user prompt is accepted.
+- Raw CSVs are not sent to an LLM.
 - No API key is stored in the repository.
 - No Docker or deployment automation is included in this phase.

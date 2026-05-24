@@ -12,7 +12,11 @@ from app_utils.artifact_loader import (
     load_markdown_artifact,
     validate_manifest_paths,
 )
-from app_utils.ai_summary import generate_controlled_summary, is_openai_available
+from app_utils.ai_summary import (
+    generate_controlled_summary,
+    is_openai_available,
+    is_openai_summary_enabled,
+)
 from app_utils.layout_utils import (
     render_artifact_list,
     render_artifact_tracking_note,
@@ -76,9 +80,9 @@ def render() -> None:
         "may be shown here only when real local run data is available."
     )
     render_info_box(
-        "The controlled RAG-lite summary panel uses preset questions and compact "
-        "artifact-grounded context. They are not a general chatbot, and raw "
-        "CSV files are not sent to an LLM."
+        "The controlled RAG-lite summary can use an optional OpenAI summary "
+        "path with preset questions and compact artifact-grounded context. It "
+        "is not a general chatbot, and raw CSVs are not sent to an LLM."
     )
 
     available_reports = [path for path in REPORT_ARTIFACTS if artifact_exists(path)]
@@ -175,12 +179,13 @@ def _render_api_and_summary_section() -> None:
     )
 
     st.write(
-        "No API key is stored in the repo. OpenAI API use is optional and the "
-        "fallback summary works without secrets or network access."
+        "No API key is stored in the repo. OpenAI API use is optional, and the "
+        "fallback summary works without secrets, OpenAI package access, or "
+        "network access."
     )
     st.caption(
         "Optional OpenAI status: "
-        f"{'available' if is_openai_available() else 'fallback summary only'}."
+        f"{'enabled and configured' if is_openai_available() else 'fallback summary only'}."
     )
 
     questions = get_preset_questions()
@@ -189,4 +194,21 @@ def _render_api_and_summary_section() -> None:
         list(questions.keys()),
         format_func=lambda key: questions[key],
     )
-    st.write(generate_controlled_summary(question_key))
+    use_openai = st.checkbox(
+        "Use OpenAI summary if configured",
+        value=False,
+        help=(
+            "Requires OPENAI_SUMMARY_ENABLED=true, OPENAI_API_KEY, and "
+            "OPENAI_SUMMARY_MODEL in Streamlit secrets or environment variables."
+        ),
+    )
+    if use_openai and not is_openai_available():
+        if not is_openai_summary_enabled():
+            st.caption("OpenAI summary is disabled; showing fallback summary.")
+        else:
+            st.caption(
+                "OpenAI summary is not fully configured or the package is "
+                "unavailable; showing fallback summary."
+            )
+
+    st.write(generate_controlled_summary(question_key, use_openai=use_openai))

@@ -20,3 +20,4 @@ Use this log for short project decisions that affect future phases.
 | 2026-05-24 | Keep local MLflow tracking separate from committed app artifacts. | Local MLflow files are environment-specific; the public app should use reviewed exported summaries only when real local run data exists. |
 | 2026-05-24 | Add only a read-only local FastAPI artifact service. | The API should demonstrate artifact access without implying a production backend or running model code. |
 | 2026-05-24 | Keep RAG-lite controlled by preset questions and compact artifacts. | The summary helper should stay artifact-grounded, avoid raw CSV payloads, and avoid a general chatbot pattern. |
+| 2026-05-24 | Enable OpenAI summaries only as an optional controlled path. | Real API calls require explicit configuration and must preserve fallback behavior, preset questions, and no raw CSV transfer. |

@@ -18,6 +18,7 @@ Use this log to keep phase work easy to review.
 | Phase 7 | 2026-05-24 | Completed | Added prototype explainability artifacts for Random Forest and XGBoost cost-sensitive models. | Uses validation-split permutation importance and feature stability; no benchmark or cost metrics changed. |
 | Phase 8 | 2026-05-24 | Completed | Polished Page 5, clarified MLOps-lite artifact tracking, and added a safe MLflow summary export script. | No model scripts were rerun; no fake MLflow artifacts were created. |
 | Phase 9 | 2026-05-24 | Completed | Added a minimal read-only FastAPI artifact service and controlled RAG-lite fallback summaries. | Uses preset questions and committed artifacts only; no OpenAI key is required. |
+| Phase 9.5 | 2026-05-24 | Completed | Enabled optional OpenAI summaries for controlled preset questions. | Fallback remains available; tests do not require API keys or network calls. |
 
 ## Future Phase Placeholders
 

@@ -132,7 +132,12 @@ production backend and does not run model training or artifact generation.
 Phase 9 also adds a controlled RAG-lite summary helper. It accepts preset
 question keys only, builds compact artifact-grounded context, and falls back to
 deterministic summaries when OpenAI is unavailable. It does not accept
-free-form prompts and does not send raw SECOM CSV files to an LLM.
+free-form prompts, and raw CSVs are not sent to an LLM.
+
+Phase 9.5 enables optional OpenAI summaries when `OPENAI_SUMMARY_ENABLED`,
+`OPENAI_API_KEY`, and `OPENAI_SUMMARY_MODEL` are configured in Streamlit
+secrets or environment variables. The app falls back safely when OpenAI is not
+configured or a call fails.
 
 ## Limitations and Non-Goals
 

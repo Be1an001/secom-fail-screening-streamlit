@@ -36,6 +36,7 @@ def test_summary_context_is_compact_and_artifact_grounded() -> None:
     assert "responsible_use_limits" in context
     assert "data/secom.data" not in text
     assert "data/secom_labels.data" not in text
+    assert "raw csv" not in text
 
 
 def test_fallback_answers_work_without_openai() -> None:
@@ -56,7 +57,8 @@ def test_unknown_preset_question_is_rejected() -> None:
         generate_controlled_summary("tell_me_anything", context)
 
 
-def test_generate_controlled_summary_uses_fallback_by_default() -> None:
+def test_generate_controlled_summary_uses_fallback_by_default(monkeypatch) -> None:
+    monkeypatch.setenv("OPENAI_SUMMARY_ENABLED", "false")
     answer = generate_controlled_summary("limitations")
 
     assert "not a production backend" in answer
