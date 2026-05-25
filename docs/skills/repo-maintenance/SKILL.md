@@ -17,6 +17,8 @@ Use these notes when maintaining this repository.
 - Fix stale paths and unsupported claims.
 - Keep limitations clear and release-ready.
 - Prefer Markdown links for referenced project files.
+- Link upgrade method claims to
+  [Literature References](../../literature_references.md) when relevant.
 
 ## Artifact Safety Checklist
 
@@ -63,12 +65,12 @@ Use:
 - fail-screening benchmark
 - baseline workflow
 - literature-inspired methods
-- SOTA-inspired methods
+- reference-supported upgrade methods
 - model-important sensor signals
 - artifact-driven Streamlit app
 - controlled RAG-lite summary
 - agentic workflow concept
 
 Do not claim production deployment, automatic pass/fail decision, physical root
-cause, causal sensor explanation, full enterprise MLOps platform, SOTA
+cause, causal sensor explanation, full enterprise MLOps platform, research-leading
 performance, or better than existing research.

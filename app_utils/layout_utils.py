@@ -10,6 +10,11 @@ import streamlit as st
 
 from app_utils.artifact_loader import artifact_github_url
 
+LITERATURE_REFERENCES_URL = (
+    "https://github.com/Be1an001/secom-fail-screening-streamlit/blob/main/"
+    "docs/literature_references.md"
+)
+
 
 def apply_portfolio_theme() -> None:
     """Apply a lightweight portfolio CSS layer."""
@@ -387,6 +392,15 @@ def render_responsible_use_note() -> None:
         "This app supports screening decision support. It does not make "
         "automatic pass/fail decisions.",
         title="Responsible use",
+    )
+
+
+def render_method_reference_note() -> None:
+    """Render a compact method reference link."""
+
+    st.caption(
+        "Upgrade method references are summarized in the "
+        f"[Literature References document]({LITERATURE_REFERENCES_URL})."
     )
 
 

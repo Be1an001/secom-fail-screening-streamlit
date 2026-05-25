@@ -14,6 +14,7 @@ from app_utils.layout_utils import (
     render_card_grid,
     render_evidence_expander,
     render_kpi_cards,
+    render_method_reference_note,
     render_missing_artifact_warning,
     render_page_intro,
     render_prototype_note,
@@ -60,10 +61,10 @@ def render() -> None:
 
     render_page_intro(
         "Model Benchmark",
-        "Compare the current baseline workflow with a prototype "
-        "literature-inspired benchmark. The display grouping helps the "
-        "portfolio story, while the full six-model benchmark remains visible. "
-        "These results are not final model-selection results.",
+        "Compare the original baseline group with later reference-supported "
+        "upgrade methods. The display grouping helps the portfolio story, "
+        "while the full six-model benchmark remains visible. These results "
+        "are not final model-selection results.",
     )
     render_prototype_note()
     render_subtle_note(
@@ -72,6 +73,7 @@ def render() -> None:
         "benchmark and does not create a final champion model.",
         title="Display grouping",
     )
+    render_method_reference_note()
 
     if artifact_exists(PROTOTYPE_MODEL_COMPARISON):
         comparison = _add_display_roles(load_csv_artifact(PROTOTYPE_MODEL_COMPARISON))
@@ -98,7 +100,7 @@ def render() -> None:
         )
         render_section_header(
             "Full six-model benchmark table",
-            "The table keeps every prototype model and does not claim SOTA performance.",
+            "The table keeps every prototype model and does not claim research-leading performance.",
         )
         st.dataframe(
             _format_leaderboard(comparison),
@@ -186,7 +188,7 @@ def _render_model_highlights(comparison: object) -> None:
     render_subtle_note(
         "Random Forest Reference currently has the strongest prototype F2. "
         "XGBoost Cost-Sensitive provides a higher-recall option with higher "
-        "review workload. This page makes no SOTA performance claim.",
+        "review workload. This page makes no research-leading performance claim.",
         title="Benchmark reading",
     )
 

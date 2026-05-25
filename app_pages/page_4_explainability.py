@@ -14,6 +14,7 @@ from app_utils.artifact_loader import (
 )
 from app_utils.layout_utils import (
     render_evidence_expander,
+    render_method_reference_note,
     render_missing_artifact_warning,
     render_page_intro,
     render_section_header,
@@ -48,6 +49,7 @@ def render() -> None:
         "diagnostics.",
         title="Interpretation boundary",
     )
+    render_method_reference_note()
 
     _render_prototype_figures()
     _render_top_sensor_table()

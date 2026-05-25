@@ -16,6 +16,8 @@ Related docs:
 - [User Guide](user_guide.md)
 - [Technical Design Document](technical_design_document_tdd.md)
 - [Methodology Summary](methodology_summary.md)
+- [Literature References](literature_references.md) for upgraded benchmark and
+  analysis methods
 - [Development History](development_history.md)
 
 ## Target Audience
@@ -76,7 +78,7 @@ final champion model.
 - No physical root cause claim
 - No causal sensor explanation
 - No full enterprise MLOps platform
-- No SOTA performance claim
+- No research-leading performance claim
 - No claim of being better than existing research
 - No general chatbot
 - No raw SECOM data upload or raw CSV transfer to an LLM
@@ -115,9 +117,14 @@ Baseline workflow:
 - Final holdout evaluation for a validation-selected Random Forest candidate
 - Local MLflow tracking support
 
+The baseline workflow came first through the original master's coursework
+version and general public example learning. These models are comparison
+references, not paper-reproduction models.
+
 Prototype upgrade:
 
-- Literature-inspired methods and SOTA-inspired method direction
+- Literature-informed upgrade methods, with method sources documented in
+  [Literature References](literature_references.md)
 - Full six-model prototype benchmark
 - Cost-aware threshold analysis
 - Prototype explainability with permutation importance and feature stability
@@ -126,5 +133,5 @@ Prototype upgrade:
 - Controlled RAG-lite summary with optional OpenAI support
 - Optional local Docker packaging for the Streamlit app
 
-The prototype upgrade does not claim SOTA performance or a final champion
+The prototype upgrade does not claim research-leading performance or a final champion
 model.

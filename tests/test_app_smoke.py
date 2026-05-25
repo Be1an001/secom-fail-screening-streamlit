@@ -58,7 +58,7 @@ IMPLEMENTED_CLAIM_PHRASES = {
     "openai integration is implemented",
     "rag-lite summary is implemented",
     "docker deployment is implemented",
-    "sota performance achieved",
+    "research-leading performance achieved",
     "final champion model selected",
     "is a production decision rule",
 }
@@ -124,7 +124,7 @@ def test_app_text_keeps_future_features_future_facing() -> None:
     assert "not create a production decision rule" in normalized_app_text
     assert "not physical root-cause analysis" in normalized_app_text
     assert "not a general chatbot" in normalized_app_text
-    assert "sota performance achieved" not in app_text
+    assert "research-leading performance achieved" not in app_text
     assert "does not" in app_text
 
 
@@ -137,7 +137,7 @@ def test_page_1_tells_portfolio_workflow_story() -> None:
         "Split before learning from the data",
         "Clean and prepare sensor features",
         "Build baseline references",
-        "Add literature-inspired candidates",
+        "Add upgrade candidates",
         "Compare model trade-offs",
         "Choose thresholds by cost scenario",
         "Explain model-important signals",
@@ -146,6 +146,24 @@ def test_page_1_tells_portfolio_workflow_story() -> None:
 
     for term in expected_terms:
         assert term in page_1_text
+
+
+def test_overview_next_step_cards_have_navigation_targets() -> None:
+    app_text = APP_PATH.read_text(encoding="utf-8")
+    page_1_text = PAGE_MODULES[0].read_text(encoding="utf-8")
+
+    assert "apply_pending_navigation" in app_text
+    assert "CURRENT_PAGE_KEY" in app_text
+    assert "queue_page_navigation" in page_1_text
+    assert 'queue_page_navigation(card["page"])' in page_1_text
+
+    for page_name in [
+        "Benchmark",
+        "Cost Trade-off",
+        "Explainability",
+        "API & AI Summary",
+    ]:
+        assert page_name in page_1_text
 
 
 def test_app_references_prototype_benchmark_and_cost_artifacts() -> None:

@@ -9,6 +9,7 @@ Use this checklist before public portfolio review.
 - [ ] Light portfolio theme loads.
 - [ ] Sidebar labels are simple and unnumbered.
 - [ ] Page 1 guided workflow story and KPI cards display.
+- [ ] Page 1 "What to explore next" buttons navigate within the app.
 - [ ] Page 2 benchmark table displays.
 - [ ] Page 3 cost scenario selector works.
 - [ ] Page 3 selected threshold cards have readable spacing.
@@ -40,7 +41,7 @@ Use this checklist before public portfolio review.
 - [ ] Fallback summary works.
 - [ ] Optional OpenAI summary works if secrets are configured.
 - [ ] Raw CSVs are not sent.
-- [ ] No free-form prompt input exists.
+- [ ] No free-form summary input exists.
 - [ ] No API key is shown in the app or logs.
 
 ## Local Validation QA
@@ -73,10 +74,14 @@ Use this checklist before public portfolio review.
 
 ## Responsible Wording QA
 
+- [ ] Upgrade method claims link to [Literature References](literature_references.md).
+- [ ] Baseline models are described as comparison references, not paper
+  reproductions.
+- [ ] No paper reproduction claim.
 - [ ] No production deployment claim.
 - [ ] No automatic pass/fail decision claim.
 - [ ] No physical root-cause claim.
-- [ ] No SOTA performance claim.
+- [ ] No research-leading performance claim.
 - [ ] No final champion claim.
 - [ ] No production backend claim.
 

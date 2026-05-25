@@ -22,6 +22,8 @@ honest, and portfolio-scale.
   [app_utils](app_utils/).
 - The local FastAPI artifact service lives in [api](api/).
 - Public documentation starts at [docs/README.md](docs/README.md).
+- Upgrade method references are summarized in
+  [docs/literature_references.md](docs/literature_references.md).
 
 ## Required Wording
 
@@ -31,7 +33,7 @@ Use these terms when appropriate:
 - fail-screening benchmark
 - baseline workflow
 - literature-inspired methods
-- SOTA-inspired methods
+- reference-supported upgrade methods
 - model-important sensor signals
 - artifact-driven Streamlit app
 - controlled RAG-lite summary
@@ -46,11 +48,11 @@ Do not claim:
 - physical root cause
 - causal sensor explanation
 - full enterprise MLOps platform
-- SOTA performance
+- research-leading performance
 - better than existing research
 
-SOTA-inspired methods may be discussed as a methodology direction. Do not
-claim SOTA performance unless the repo includes a reproducible same-condition
+reference-supported upgrade methods may be discussed as a methodology direction. Do not
+claim research-leading performance unless the repo includes a reproducible same-condition
 comparison against cited papers.
 
 ## Read Before Editing

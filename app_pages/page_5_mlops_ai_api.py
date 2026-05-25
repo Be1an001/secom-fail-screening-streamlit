@@ -238,7 +238,9 @@ def _render_controlled_summary_panel() -> None:
 def _render_agentic_workflow_concept() -> None:
     render_section_header(
         "Extension Concept: Agentic Analytics Workflow",
-        "The current app separates artifacts, metrics, reports, and summaries. A future orchestration layer could review those steps while keeping human approval before any decision.",
+        "The current app separates artifacts, metrics, reports, and summaries. "
+        "An orchestration layer could review those steps while keeping human "
+        "approval before any decision.",
     )
     render_process_timeline(
         [

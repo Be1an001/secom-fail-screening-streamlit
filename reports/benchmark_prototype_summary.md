@@ -2,7 +2,9 @@
 
 This report summarizes a literature-inspired benchmark prototype for
 SECOM screening decision support. It is a prototype artifact, not a
-final model-selection result and not a SOTA result.
+final model-selection result and not a research-leading result.
+Upgrade method references are summarized in
+[Literature References](../docs/literature_references.md).
 
 ## Scope
 
@@ -33,6 +35,24 @@ final model-selection result and not a SOTA result.
 | lightgbm_class_weighted | 0.0850 | 0.1905 | 0.1176 | 0.1695 | 0.1072 | 0.6056 | 0.1083 |
 | xgboost_training_only_smote | 0.0500 | 0.6190 | 0.1048 | 0.3125 | 0.1253 | 0.6402 | 0.3949 |
 
+## Baseline and Upgrade Story
+
+Baseline group:
+
+- dummy_majority_baseline
+- logistic_regression_pca_baseline
+- random_forest_reference
+
+Upgrade group:
+
+- xgboost_cost_sensitive
+- lightgbm_class_weighted
+- xgboost_training_only_smote
+
+The baseline group came from the original coursework baseline and general
+public example learning. The upgrade group contains the later
+literature-informed or method-reference-supported comparisons.
+
 ## Display Grouping
 
 All six models remain in the benchmark artifacts. The Streamlit app uses
@@ -62,10 +82,11 @@ No rows.
 ## Limitations
 
 - The benchmark is fixed-parameter prototype work.
-- It does not claim SOTA performance or better-than-research results.
+- It does not claim research-leading performance or better-than-research results.
 - It does not select a final champion model.
 - Feature importance and physical root-cause analysis are out of scope.
-- Future work should review papers formally and refine the protocol.
+- The upgrade group applies referenced method families without reproducing
+  papers.
 
 ## Config
 

@@ -78,7 +78,7 @@ in the repository.
 - This is not a production backend.
 - This is not a full RAG system.
 - This is not a general chatbot.
-- No arbitrary user prompt is accepted.
+- No arbitrary user question is accepted.
 - Raw CSVs are not sent to an LLM.
 - No API key is stored in the repository.
 - No Docker or deployment automation is included.

@@ -2,7 +2,9 @@
 
 This folder contains reviewed artifacts used by the Streamlit app, local API,
 reports, and documentation. Training and analysis scripts create these files;
-the app reads them without retraining models.
+the app reads them without retraining models. Upgrade method context for
+benchmark, cost, and explainability artifacts is summarized in
+[Literature References](../docs/literature_references.md).
 
 ## Artifact Manifest
 

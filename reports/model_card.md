@@ -42,6 +42,8 @@ The positive class is the fail class.
 ## Model Family
 
 Random Forest classifier with class imbalance handling from the selected validation experiment.
+This model is part of the original baseline comparison group. It is kept for
+reproducibility and comparison, not as a paper-reproduction model.
 
 ## Threshold Selection Method
 

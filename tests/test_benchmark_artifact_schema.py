@@ -78,7 +78,7 @@ def test_benchmark_config_lists_expected_models() -> None:
         assert model_name in config_text
 
     assert "training-only SMOTE" in config_text
-    assert "SOTA" not in config_text
+    assert "so" + "ta" not in config_text.lower()
 
 
 def test_benchmark_comparison_artifact_schema() -> None:

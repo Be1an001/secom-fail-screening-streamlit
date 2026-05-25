@@ -1,6 +1,9 @@
 # Reports Guide
 
 This folder contains Markdown reports used by the app and project reviewers.
+Upgrade method references for boosted-tree, resampling, cost, metric, and
+explainability choices are summarized in
+[Literature References](../docs/literature_references.md).
 
 | Report | Purpose |
 |---|---|
@@ -12,5 +15,5 @@ This folder contains Markdown reports used by the app and project reviewers.
 | [mlflow_artifact_tracking_summary.md](mlflow_artifact_tracking_summary.md) | MLOps-lite and artifact tracking summary |
 
 The reports use committed artifacts and cautious interpretation. They do not
-claim production use, physical root cause, a final champion model, or SOTA
+claim production use, physical root cause, a final champion model, or research-leading
 performance.
