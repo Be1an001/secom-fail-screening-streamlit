@@ -15,7 +15,7 @@
 - [ ] No automatic pass/fail decision claims
 - [ ] No physical root-cause claims
 - [ ] No causal sensor explanation claims
-- [ ] No unsupported SOTA performance claims
+- [ ] No unsupported research-leading performance claims
 
 ## Artifact / Secret Review
 - [ ] No secrets committed

@@ -17,6 +17,7 @@ API_RAG_DOC = PROJECT_ROOT / "docs" / "api_and_rag_lite.md"
 USER_GUIDE = PROJECT_ROOT / "docs" / "user_guide.md"
 OUTPUTS_README = PROJECT_ROOT / "outputs" / "README.md"
 PAGE_5 = PROJECT_ROOT / "app_pages" / "page_5_mlops_ai_api.py"
+PR_TEMPLATE = PROJECT_ROOT / ".github" / "pull_request_template.md"
 DOCKERFILE = PROJECT_ROOT / "Dockerfile"
 DOCKERIGNORE = PROJECT_ROOT / ".dockerignore"
 DOCKER_DOC = PROJECT_ROOT / "docs" / "docker_usage.md"
@@ -152,11 +153,13 @@ def test_docs_include_copy_ready_validation_and_runtime_commands() -> None:
 def test_final_docs_avoid_unqualified_release_overclaims() -> None:
     combined_docs = "\n".join(
         path.read_text(encoding="utf-8").lower()
-        for path in [README, API_RAG_DOC, USER_GUIDE]
+        for path in [README, API_RAG_DOC, USER_GUIDE, PR_TEMPLATE]
     )
+    stale_acronym = "so" + "ta"
 
     forbidden_unqualified_claims = [
         "research-leading performance achieved",
+        stale_acronym,
         "final champion model selected",
         "production backend is deployed",
         "deployed api endpoint",
