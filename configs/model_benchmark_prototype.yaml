@@ -1,6 +1,6 @@
 project:
   name: secom-fail-screening-streamlit
-  description: Literature-inspired benchmark prototype for SECOM fail screening.
+  description: Baseline and literature-informed upgrade benchmark prototype for SECOM fail screening.
 
 random_seed: 42
 
@@ -58,7 +58,7 @@ models:
       n_jobs: -1
     notes: Current Random Forest reference with a smaller prototype fit.
   - name: xgboost_cost_sensitive
-    model_group: literature_sota_inspired_prototype
+    model_group: literature_informed_upgrade
     model_type: xgboost_cost_sensitive
     preprocessing_path: tree
     requires:
@@ -78,7 +78,7 @@ models:
       n_jobs: 1
     notes: Conservative cost-sensitive boosting using one quarter of the training class imbalance ratio.
   - name: lightgbm_class_weighted
-    model_group: literature_sota_inspired_prototype
+    model_group: literature_informed_upgrade
     model_type: lightgbm_class_weighted
     preprocessing_path: tree
     requires:
@@ -97,7 +97,7 @@ models:
       verbose: -1
     notes: LightGBM binary imbalance prototype using is_unbalance.
   - name: xgboost_training_only_smote
-    model_group: literature_sota_inspired_prototype
+    model_group: literature_informed_upgrade
     model_type: xgboost_smote
     preprocessing_path: tree
     requires:

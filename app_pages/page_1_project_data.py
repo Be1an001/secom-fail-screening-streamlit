@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import streamlit as st
+
 from app_utils.artifact_loader import (
     artifact_exists,
     filter_manifest_artifacts,
@@ -13,13 +15,16 @@ from app_utils.layout_utils import (
     render_evidence_expander,
     render_hero,
     render_kpi_cards,
+    render_method_reference_note,
     render_missing_artifact_warning,
     render_process_timeline,
     render_responsible_use_note,
     render_section_header,
     render_subtle_note,
+    render_summary_card,
 )
 from app_utils.metric_utils import format_count, format_metric, format_percent
+from app_utils.navigation import queue_page_navigation
 
 
 DATA_ARTIFACTS = [
@@ -103,8 +108,8 @@ def render() -> None:
                 "body": "Dummy, Logistic + PCA, and Random Forest models define the starting comparison.",
             },
             {
-                "title": "Add literature-inspired candidates",
-                "body": "XGBoost, LightGBM, and training-only SMOTE variants test stronger imbalance-aware methods.",
+                "title": "Add upgrade candidates",
+                "body": "XGBoost, LightGBM, and training-only SMOTE variants test reference-supported imbalance methods.",
             },
             {
                 "title": "Compare model trade-offs",
@@ -124,31 +129,11 @@ def render() -> None:
             },
         ]
     )
+    render_method_reference_note()
 
     _render_result_snapshot()
 
-    render_section_header("What to explore next")
-    render_card_grid(
-        [
-            {
-                "title": "Benchmark page",
-                "body": "Compare the full six-model benchmark and the display grouping used for the portfolio story.",
-            },
-            {
-                "title": "Cost trade-off page",
-                "body": "Change the illustrative scenario and inspect how threshold choices affect review workload.",
-            },
-            {
-                "title": "Explainability page",
-                "body": "Review permutation importance, stability, and model-important sensor signals.",
-            },
-            {
-                "title": "API & AI Summary page",
-                "body": "Inspect artifact tracking, local API endpoints, and preset controlled summaries.",
-            },
-        ],
-        columns=2,
-    )
+    _render_next_steps_navigation()
 
     _render_data_evidence()
 
@@ -199,6 +184,48 @@ def _render_result_snapshot() -> None:
         "They do not select a final champion model.",
         title="Interpretation",
     )
+
+
+def _render_next_steps_navigation() -> None:
+    render_section_header(
+        "What to explore next",
+        "Use these cards to move through the app story.",
+    )
+    cards = [
+        {
+            "page": "Benchmark",
+            "title": "Benchmark",
+            "button": "Open Benchmark",
+            "body": "Compare the full six-model benchmark and the display grouping used for the portfolio story.",
+        },
+        {
+            "page": "Cost Trade-off",
+            "title": "Cost Trade-off",
+            "button": "Open Cost Trade-off",
+            "body": "Change the illustrative scenario and inspect how threshold choices affect review workload.",
+        },
+        {
+            "page": "Explainability",
+            "title": "Explainability",
+            "button": "Open Explainability",
+            "body": "Review permutation importance, stability, and model-important sensor signals.",
+        },
+        {
+            "page": "API & AI Summary",
+            "title": "API & AI Summary",
+            "button": "Open API & AI Summary",
+            "body": "Inspect artifact tracking, local API endpoints, and preset controlled summaries.",
+        },
+    ]
+
+    for start in range(0, len(cards), 2):
+        row_cards = cards[start : start + 2]
+        columns = st.columns(len(row_cards))
+        for column, card in zip(columns, row_cards, strict=True):
+            with column:
+                render_summary_card(card["title"], card["body"])
+                if st.button(card["button"], key=f"overview_nav_{card['page']}"):
+                    queue_page_navigation(card["page"])
 
 
 def _render_data_evidence() -> None:

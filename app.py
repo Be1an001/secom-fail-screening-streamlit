@@ -5,6 +5,7 @@ from __future__ import annotations
 import streamlit as st
 
 from app_utils.layout_utils import apply_portfolio_theme, render_sidebar_title
+from app_utils.navigation import CURRENT_PAGE_KEY, apply_pending_navigation
 from app_pages import (
     page_1_project_data,
     page_2_model_benchmark,
@@ -39,9 +40,12 @@ def main() -> None:
         "and AI-assisted summaries.",
     )
 
+    page_labels = list(PAGES.keys())
+    apply_pending_navigation(page_labels, default_page="Overview")
     selected_page = st.sidebar.radio(
         "Navigation",
-        list(PAGES.keys()),
+        page_labels,
+        key=CURRENT_PAGE_KEY,
         label_visibility="collapsed",
     )
     st.sidebar.markdown("---")

@@ -10,6 +10,7 @@
 ## Methodology and Design
 
 - [Methodology Summary](methodology_summary.md)
+- [Literature References](literature_references.md)
 - [Product Requirements Document](product_requirements_document_prd.md)
 - [Technical Design Document](technical_design_document_tdd.md)
 - [Development History](development_history.md)

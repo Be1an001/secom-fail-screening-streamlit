@@ -19,6 +19,8 @@ scripts and lightweight service boundaries:
 - [api](../api/): minimal read-only FastAPI artifact service
 - [Dockerfile](../Dockerfile): optional local Streamlit container packaging
 - [tests](../tests/): unit, schema, app smoke, API, and RAG-lite tests
+- [docs/literature_references.md](literature_references.md): verified upgrade
+  method references and project application notes
 
 ## Target Architecture
 
@@ -68,8 +70,8 @@ The app uses a light portfolio theme defined in
 helpers. Page content is organized with hero sections, KPI cards, compact
 tables, calm scope notes, full-width explainability figures, and collapsed
 evidence links. The Overview page uses a guided workflow story for interview
-review. The UI layer does not change metrics, artifacts, API behavior, or
-model outputs.
+review and includes in-app navigation buttons for the main follow-up pages. The
+UI layer does not change metrics, artifacts, API behavior, or model outputs.
 
 ## Six-Model Prototype Benchmark
 
@@ -82,8 +84,14 @@ The current prototype benchmark keeps all six models in artifacts:
 - LightGBM class-weighted model
 - XGBoost with training-only SMOTE
 
-The app groups these models for readability. The grouping does not remove
-models from the benchmark and does not create a final champion model.
+The first three models are the original baseline comparison group. They came
+from the coursework baseline and general public example learning. The last
+three models are the later literature-informed upgrade group. The app groups
+all six models for readability, but the grouping does not remove models from
+the benchmark and does not create a final champion model.
+
+The upgrade method sources are documented in
+[Literature References](literature_references.md).
 
 ## Threshold and Cost Trade-Off
 
@@ -99,6 +107,8 @@ The cost analysis consumes existing threshold sweep artifacts and computes:
 
 Cost scenarios are illustrative. They are not validated manufacturing costs and
 do not create a production decision rule.
+The cost framing is linked to the cost-sensitive learning reference in
+[Literature References](literature_references.md).
 
 ## Explainability
 
@@ -110,6 +120,8 @@ the main comparison models:
 
 These outputs are model-important sensor signals for anonymous sensor features.
 They are not physical root-cause analysis and not causal proof.
+The permutation-importance framing is linked to the explainability references
+in [Literature References](literature_references.md).
 
 ## Artifact Manifest
 
@@ -161,7 +173,7 @@ artifact-grounded context from reviewed artifacts and avoids raw CSV payloads.
 Fallback summaries work without an API key. Optional OpenAI summaries require
 explicit configuration through Streamlit secrets or environment variables.
 
-No API keys should be committed. No free-form chatbot or arbitrary prompt path
+No API keys should be committed. No free-form chatbot or arbitrary question path
 is included. In the Streamlit app, a summary is generated only after the user
 selects a preset question and clicks `Generate summary`. The button attempts
 the optional OpenAI summary path when configuration is available, and the

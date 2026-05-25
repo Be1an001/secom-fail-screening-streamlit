@@ -1,7 +1,7 @@
-"""Run the SECOM literature-inspired benchmark prototype.
+"""Run the SECOM baseline and upgrade benchmark prototype.
 
 This script trains a small, fixed set of baseline reference and
-literature-inspired model candidates. It is intended for manual artifact
+literature-informed upgrade candidates. It is intended for manual artifact
 generation, not for GitHub Actions CI.
 """
 
@@ -124,7 +124,7 @@ class PrototypeResult:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
-            "Run a literature-inspired SECOM fail-screening benchmark "
+            "Run a SECOM baseline and upgrade benchmark "
             "prototype and export reproducible artifacts."
         )
     )
@@ -644,7 +644,9 @@ def build_summary_report(
         "",
         "This report summarizes a literature-inspired benchmark prototype for ",
         "SECOM screening decision support. It is a prototype artifact, not a ",
-        "final model-selection result and not a SOTA result.",
+        "final model-selection result and not a research-leading result.",
+        "Upgrade method references are summarized in ",
+        "[Literature References](../docs/literature_references.md).",
         "",
         "## Scope",
         "",
@@ -680,6 +682,24 @@ def build_summary_report(
             ],
         ),
         "",
+        "## Baseline and Upgrade Story",
+        "",
+        "Baseline group:",
+        "",
+        "- dummy_majority_baseline",
+        "- logistic_regression_pca_baseline",
+        "- random_forest_reference",
+        "",
+        "Upgrade group:",
+        "",
+        "- xgboost_cost_sensitive",
+        "- lightgbm_class_weighted",
+        "- xgboost_training_only_smote",
+        "",
+        "The baseline group came from the original coursework baseline and general ",
+        "public example learning. The upgrade group contains the later ",
+        "literature-informed or method-reference-supported comparisons.",
+        "",
         "## Skipped or Failed Candidates",
         "",
         _markdown_table(skipped_or_failed, ["model_name", "status", "notes"]),
@@ -693,10 +713,11 @@ def build_summary_report(
         "## Limitations",
         "",
         "- The benchmark is fixed-parameter prototype work.",
-        "- It does not claim SOTA performance or better-than-research results.",
+        "- It does not claim research-leading performance or better-than-research results.",
         "- It does not select a final champion model.",
         "- Feature importance and physical root-cause analysis are out of scope.",
-        "- Additional literature review can refine the protocol.",
+        "- The upgrade group applies referenced method families without reproducing ",
+        "  papers.",
         "",
         "## Config",
         "",

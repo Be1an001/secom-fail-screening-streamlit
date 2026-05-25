@@ -21,7 +21,7 @@ TRUE_VALUES = {"1", "true", "yes", "on"}
 SYSTEM_INSTRUCTION = (
     "Use only the provided project context. Do not invent metrics, artifacts, "
     "deployment status, production readiness, root-cause claims, causal proof, "
-    "or SOTA performance. If the context is insufficient, say so briefly. "
+    "or research-leading performance. If the context is insufficient, say so briefly. "
     "Answer in 4 to 8 concise sentences."
 )
 

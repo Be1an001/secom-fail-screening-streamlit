@@ -23,7 +23,9 @@ is explicitly provided.
 
 Documentation starts at the [documentation guide](docs/README.md). A short
 reviewer summary is available in [project_summary.md](docs/project_summary.md),
-and app usage details are in [user_guide.md](docs/user_guide.md).
+app usage details are in [user_guide.md](docs/user_guide.md), and upgrade
+method references are summarized in
+[literature_references.md](docs/literature_references.md).
 
 ## Why This Project Matters
 
@@ -68,9 +70,9 @@ models at runtime.
 
 The first page now frames the project as a guided workflow story from
 rare-fail data through leakage-safe benchmarking, threshold trade-offs,
-explainability, and artifact-grounded summaries. Evidence links are secondary
-and appear in collapsed sections so the app reads like a finished portfolio
-data product.
+explainability, and artifact-grounded summaries. Its "What to explore next"
+cards navigate to the other app pages. Evidence links are secondary and appear
+in collapsed sections so the app reads like a finished portfolio data product.
 
 ## Modeling Workflow
 
@@ -88,15 +90,25 @@ The workflow uses:
 
 The full prototype benchmark keeps all six models in the artifacts:
 
+Baseline group:
+
 - Dummy Majority Baseline
 - Logistic Regression + PCA
 - Random Forest Reference
+
+Upgrade group:
+
 - XGBoost Cost-Sensitive
 - LightGBM Class-Weighted
 - XGBoost + Training-only SMOTE
 
 The app groups models for readability only. It does not remove models and does
 not select a final champion model.
+
+The baseline group came from the original master's coursework version and
+general public example learning. These models are comparison references, not
+paper-reproduction models. The upgrade group adds literature-informed or
+method-reference-supported comparisons.
 
 Current interpretation:
 
@@ -107,7 +119,9 @@ Current interpretation:
   workload.
 - LightGBM and XGBoost + SMOTE remain secondary prototype comparisons.
 
-These are prototype benchmark results, not SOTA performance claims.
+These are prototype benchmark results, not research-leading performance claims.
+The upgraded methods and analysis choices are linked to verified references in the
+[Literature References](docs/literature_references.md) document.
 
 ## Threshold and Cost Trade-off
 
@@ -251,8 +265,9 @@ Detailed validation and local run notes are in the
 - This is a portfolio-scale project using a public, anonymous dataset.
 - The fail class is small.
 - Results are prototype artifacts and split-specific.
-- Literature-inspired methods and SOTA-inspired methods do not imply SOTA
-  performance.
+- Literature-informed upgrade methods do not imply research-leading performance. See
+  [Literature References](docs/literature_references.md) for the upgrade method
+  sources used in the project story.
 - The app supports screening decision support only.
 - The project does not make automatic pass/fail decisions.
 - The project does not identify physical root causes or causal sensor
@@ -268,6 +283,7 @@ Detailed validation and local run notes are in the
 - [Product Requirements Document](docs/product_requirements_document_prd.md)
 - [Technical Design Document](docs/technical_design_document_tdd.md)
 - [Development history](docs/development_history.md)
+- [Literature references](docs/literature_references.md)
 - [Docker usage](docs/docker_usage.md)
 - [Outputs guide](outputs/README.md)
 - [Reports guide](reports/README.md)

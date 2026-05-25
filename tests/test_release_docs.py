@@ -68,6 +68,7 @@ def test_readme_has_final_portfolio_sections() -> None:
     assert "[Documentation guide](docs/README.md)" in readme
     assert "[User guide](docs/user_guide.md)" in readme
     assert "[Technical Design Document](docs/technical_design_document_tdd.md)" in readme
+    assert "[Literature references](docs/literature_references.md)" in readme
     assert "[Docker usage](docs/docker_usage.md)" in readme
 
 
@@ -87,6 +88,7 @@ def test_docs_navigation_and_professional_names_exist() -> None:
     assert "[User Guide](user_guide.md)" in docs_readme
     assert "[Product Requirements Document](product_requirements_document_prd.md)" in docs_readme
     assert "[Technical Design Document](technical_design_document_tdd.md)" in docs_readme
+    assert "[Literature References](literature_references.md)" in docs_readme
     assert "[Development History](development_history.md)" in docs_readme
     assert "[Docker Usage](docker_usage.md)" in docs_readme
 
@@ -154,7 +156,7 @@ def test_final_docs_avoid_unqualified_release_overclaims() -> None:
     )
 
     forbidden_unqualified_claims = [
-        "sota performance achieved",
+        "research-leading performance achieved",
         "final champion model selected",
         "production backend is deployed",
         "deployed api endpoint",

@@ -2,6 +2,8 @@
 
 Scripts are run manually to create or inspect artifacts. The Streamlit app and
 local API read committed artifacts and do not run these scripts at runtime.
+Upgrade method references for benchmark, cost, and explainability scripts are
+in [Literature References](../docs/literature_references.md).
 
 ## Baseline Experiment Scripts
 

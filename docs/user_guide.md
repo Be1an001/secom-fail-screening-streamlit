@@ -90,13 +90,17 @@ leakage-safe benchmarking, threshold / cost trade-off, explainability, and
 artifact-grounded summaries.
 
 Evidence links are kept in a collapsed section near the bottom so the page
-stays focused on the portfolio story.
+stays focused on the portfolio story. The "What to explore next" cards include
+buttons that navigate to the other app pages.
 
 ### 2. Benchmark
 
 This page displays the prototype benchmark from
 [benchmark_model_comparison_prototype.csv](../outputs/metrics/benchmark_model_comparison_prototype.csv).
 All six models remain in the full table.
+Upgrade method sources and metric framing are summarized in
+[Literature References](literature_references.md). The baseline group is kept
+as the original coursework comparison group, not as a paper-reproduction group.
 
 The display grouping is for readability:
 
@@ -139,6 +143,8 @@ Reference and XGBoost Cost-Sensitive:
 
 These artifacts are not physical root-cause analysis and are not causal proof.
 Detailed CSVs and report links are available in collapsed sections.
+The method reference note links to
+[Literature References](literature_references.md).
 
 ### 5. API & AI Summary
 
@@ -199,4 +205,4 @@ fallback summary works without OpenAI configuration.
 
 This project supports screening decision support for a public, anonymous
 dataset. It does not make automatic pass/fail decisions, identify physical
-root causes, provide causal explanations, or claim SOTA performance.
+root causes, provide causal explanations, or claim research-leading performance.

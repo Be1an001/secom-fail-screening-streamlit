@@ -23,12 +23,14 @@ instead of retraining models at runtime.
 The app began displaying baseline SECOM metrics, reports, figures, and the
 artifact manifest. This established the artifact-driven Streamlit app pattern.
 
-### Stage 3 - Literature-Inspired Benchmark
+### Stage 3 - Literature-Informed Upgrade Benchmark
 
 A six-model prototype benchmark added classical baselines, Random Forest,
 cost-sensitive XGBoost, LightGBM, and training-only SMOTE comparisons. The
-benchmark is literature-inspired and SOTA-inspired in method direction, but it
-does not claim SOTA performance.
+baseline models came from the original coursework comparison group. The
+boosting, resampling, cost, metric, and explainability upgrades are the
+reference-supported method layer. The benchmark does not claim research-leading
+performance.
 
 ### Stage 4 - Threshold and Cost Trade-off Analysis
 
@@ -91,6 +93,14 @@ figures vertically, clarified the read-only FastAPI artifact service, and
 presented the agentic analytics workflow as an extension concept rather than
 an implemented autonomous system.
 
+### Stage 12 - Literature Reference Audit
+
+The reference audit added a centralized
+[Literature References](literature_references.md) document and scoped formal
+citations to the upgraded benchmark and analysis methods. It aligned the
+baseline-first and upgrade-second story across the app, README, docs, reports,
+scripts, and notebook without changing artifacts or metrics.
+
 ## Key Design Decisions
 
 - Keep the project portfolio-scale rather than building an enterprise platform.
@@ -113,3 +123,7 @@ an implemented autonomous system.
   behavior.
 - Keep Docker packaging optional and local, with no image push or deployment
   automation.
+- Keep baseline models as comparison references rather than paper-reproduction
+  models.
+- Link literature-informed upgrade method claims to verified references
+  without claiming paper reproduction.

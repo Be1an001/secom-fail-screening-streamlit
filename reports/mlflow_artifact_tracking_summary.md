@@ -38,7 +38,7 @@ secrets or environment variables.
 
 Raw CSVs are not sent to an LLM, and no free-form chatbot is included.
 
-## Not Implemented
+## Scope Boundaries
 
 - No deployed MLflow tracking server is included.
 - No production MLOps platform is claimed.

@@ -58,7 +58,7 @@ def build_summary_context() -> dict[str, Any]:
             "not automatic pass/fail decision-making",
             "not physical root-cause analysis",
             "not causal proof",
-            "not SOTA performance",
+            "not research-leading performance",
             "not a general chatbot",
         ],
         "available_reports": [
@@ -92,6 +92,8 @@ def answer_without_llm(question_key: str, context: dict[str, Any]) -> str:
         xgb = find_record(rows, "xgboost_cost_sensitive")
         return (
             "The prototype benchmark keeps all six models in the artifacts. "
+            "It compares the original baseline group with later "
+            "reference-supported upgrade methods. "
             f"Random Forest Reference has prototype F2 {rf.get('f2', 'n/a')}, "
             "while XGBoost Cost-Sensitive is presented as a higher-recall "
             f"option with recall {xgb.get('recall', 'n/a')} and flagged rate "

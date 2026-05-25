@@ -1,8 +1,10 @@
 # Prototype Threshold / Cost Trade-Off Report
 
 This report summarizes a prototype threshold analysis for SECOM
-screening decision support. It uses existing Phase 4 threshold sweep
+screening decision support. It uses existing prototype threshold sweep
 artifacts and does not retrain models.
+Method references for cost-sensitive learning and imbalanced metrics are
+summarized in [Literature References](../docs/literature_references.md).
 
 ## Interpretation Notes
 
@@ -95,5 +97,5 @@ artifacts and does not retrain models.
 ## Caution
 
 A model can be best under this illustrative scenario while still being
-too costly for a real review workflow. Future work should compare
-these scenarios with clearer review-capacity and quality assumptions.
+too costly for a real review workflow. Any operational use would need validated
+review-capacity and quality assumptions.

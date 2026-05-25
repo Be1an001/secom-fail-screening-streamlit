@@ -1,6 +1,8 @@
 # Configs Guide
 
 This folder contains configuration files for reproducible scripts.
+The upgrade method choices behind benchmark, cost, and explainability configs
+are summarized in [Literature References](../docs/literature_references.md).
 
 ## Baseline Configs
 

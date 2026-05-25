@@ -15,6 +15,7 @@ from app_utils.layout_utils import (
     render_evidence_expander,
     render_illustrative_cost_note,
     render_kpi_cards,
+    render_method_reference_note,
     render_missing_artifact_warning,
     render_no_production_decision_note,
     render_page_intro,
@@ -60,6 +61,7 @@ def render() -> None:
     )
     render_illustrative_cost_note()
     render_no_production_decision_note()
+    render_method_reference_note()
 
     if artifact_exists(COST_SELECTED_THRESHOLDS):
         selected = load_csv_artifact(COST_SELECTED_THRESHOLDS)

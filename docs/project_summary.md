@@ -21,6 +21,11 @@ Technical stack:
 - optional Docker packaging for local Streamlit review
 - pytest, Ruff, and GitHub Actions for validation
 
+The baseline group came from the original master's coursework version and
+general public example learning. The upgraded benchmark and analysis methods
+are supported by [Literature References](literature_references.md). The
+references support method choices, not paper reproduction claims.
+
 Main result interpretation:
 
 - Random Forest Reference currently has the strongest prototype F2.
@@ -39,4 +44,4 @@ evaluation, artifact-driven app development, responsible AI boundaries, and
 clear portfolio communication.
 
 This project does not claim production use, automatic decision-making,
-physical root cause, causal explanation, or SOTA performance.
+physical root cause, causal explanation, or research-leading performance.

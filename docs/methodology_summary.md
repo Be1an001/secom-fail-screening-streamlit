@@ -14,7 +14,12 @@ The fail class is small, with 104 fail samples in the full dataset.
 
 ## Class Imbalance Framing
 
-The main modeling challenge is class imbalance. Raw accuracy can look high even when a model misses fail cases. The project should emphasize fail recall, F2-score, balanced accuracy, PR-AUC, confusion counts, and flagged sample rate.
+The main modeling challenge is class imbalance. Raw accuracy can look high even
+when a model misses fail cases. The project emphasizes fail recall, F2-score,
+balanced accuracy, PR-AUC, confusion counts, and flagged sample rate.
+
+The imbalanced metric framing is supported by
+[Literature References](literature_references.md).
 
 ## Leakage-Safe Preprocessing
 
@@ -28,9 +33,10 @@ The baseline workflow uses:
 
 The test split should not be used for model selection, threshold selection, or tuning.
 
-## Current Baseline Workflow
+## Original Baseline Workflow
 
-The current repository implements:
+The first version came from a master's coursework baseline and general public
+example learning. It established a practical comparison group:
 
 - dummy majority baseline
 - logistic regression with PCA baseline
@@ -40,46 +46,51 @@ The current repository implements:
 - local MLflow tracking
 - generated metrics, figures, and Markdown reports
 
+These baseline models are kept as comparison references. They are not presented
+as direct paper reproductions.
+
 ## Evaluation Benchmark
 
-The project includes a literature-inspired benchmark prototype and a
-SOTA-inspired method direction for optional method refinement. This wording
-means the methods are motivated by documented approaches, not that the project
-achieves SOTA performance.
+The project compares the original baseline group with later literature-informed
+upgrade methods. This wording means the upgrade methods are motivated by
+documented approaches. It does not mean the project claims research-leading performance.
 
-Paper-specific claims or citations should be added only when the relevant
-sources are reviewed and documented.
+The reference layer is centralized in
+[Literature References](literature_references.md). It links the upgraded
+benchmark and analysis choices to verified method sources without claiming
+paper reproduction.
 
 ## Literature-Inspired Benchmark Prototype
 
-The literature-inspired benchmark prototype tests fixed, practical model
-candidates that reflect common SECOM method directions:
+The literature-informed benchmark prototype tests fixed, practical upgrade
+candidates against the baseline group:
 
-- high-dimensional sensor preprocessing
-- class weighting for severe imbalance
 - boosting and ensemble classifiers
+- class weighting for severe imbalance
 - training-only resampling
 - validation threshold sweeps
 
-This is prototype work. It does not claim SOTA performance, does not select a
-final champion model, and does not replace a formal paper review.
+This is prototype work. It does not claim research-leading performance, does not select a
+final champion model, and does not reproduce the cited papers.
 
 ## Prototype Model Display Grouping
 
 All six models remain in the prototype benchmark artifacts. The Streamlit app
 uses display grouping to make the portfolio story easier to follow:
 
-- main comparison models for the classical baseline, Random Forest reference,
-  and cost-sensitive XGBoost option
-- a baseline warning model to show why accuracy alone is misleading
-- secondary prototype comparison models for LightGBM and training-only SMOTE
+- baseline group: Dummy Majority, Logistic Regression + PCA, and Random Forest
+  Reference
+- upgrade group: XGBoost Cost-Sensitive, LightGBM Class-Weighted, and XGBoost +
+  Training-only SMOTE
+- display grouping: main comparison, baseline warning, and secondary prototype
+  comparison roles
 
 This grouping is for readability. It does not remove models from the benchmark
 and does not create a final champion model.
 
 ## Threshold and Cost Trade-Off
 
-Threshold work should explain how lower or higher thresholds affect:
+Threshold work explains how lower or higher thresholds affect:
 
 - fail recall
 - false positives
@@ -88,7 +99,7 @@ Threshold work should explain how lower or higher thresholds affect:
 - review capacity
 - simple cost assumptions
 
-This should be framed as screening decision support.
+This is framed as screening decision support.
 
 ## Prototype Threshold / Cost Trade-Off Analysis
 
@@ -103,7 +114,9 @@ review workload are weighted differently.
 
 ## Explainability
 
-Explainability outputs should be described as model-important sensor signals. They can help reviewers understand which anonymous inputs influenced the model, but they do not prove physical root cause or causal sensor explanation.
+Explainability outputs are described as model-important sensor signals. They
+can help reviewers understand which anonymous inputs influenced the model, but
+they do not prove physical root cause or causal sensor explanation.
 
 ## Prototype Explainability
 
@@ -115,7 +128,9 @@ for the main comparison models that best support the portfolio story:
 
 These artifacts show model-important sensor signals on the validation split.
 They are investigation support for anonymous sensor features. They are not
-physical root-cause analysis and are not causal proof.
+physical root-cause analysis and are not causal proof. The explainability
+wording is aligned with the references in
+[Literature References](literature_references.md).
 
 ## MLOps-Lite Artifact Tracking
 
@@ -137,8 +152,8 @@ production backend and does not run model training or artifact generation.
 
 The controlled RAG-lite summary helper accepts preset question keys only,
 builds compact artifact-grounded context, and falls back to deterministic
-summaries when OpenAI is unavailable. It does not accept free-form prompts, and
-raw CSVs are not sent to an LLM.
+summaries when OpenAI is unavailable. It does not accept free-form questions,
+and raw CSVs are not sent to an LLM.
 
 Optional OpenAI summaries are enabled when `OPENAI_SUMMARY_ENABLED`,
 `OPENAI_API_KEY`, and `OPENAI_SUMMARY_MODEL` are configured in Streamlit
@@ -164,7 +179,7 @@ portfolio evidence easier to review.
 - The fail class is small.
 - Current results include baseline workflow artifacts and prototype benchmark
   artifacts.
-- SOTA-inspired methods do not imply SOTA performance.
+- Literature-informed upgrade methods do not imply research-leading performance.
 - The project is not a production deployment.
 - The project does not provide automatic pass/fail decisions.
 - The project does not identify physical root causes.

@@ -564,6 +564,8 @@ def build_report(outputs: dict[str, Any], output_paths: dict[str, Path]) -> str:
         "",
         "This report summarizes prototype explainability artifacts for "
         "model-important sensor signals in the SECOM fail-screening benchmark.",
+        "Analysis method references are summarized in "
+        "[Literature References](../docs/literature_references.md).",
         "",
         "## Focus Models",
         "",
