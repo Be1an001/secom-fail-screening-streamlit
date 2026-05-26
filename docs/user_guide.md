@@ -25,6 +25,23 @@ The app reads committed artifacts from [outputs](../outputs/),
 [the artifact manifest](../outputs/artifact_manifest.json). It does not train
 models at runtime.
 
+## How to Review This Project
+
+For a quick review, start with the live app and read the five pages in order.
+The app is the main public interface. The notebook is supporting evidence, and
+the reports explain the benchmark, cost, and explainability artifacts in more
+detail.
+
+Useful review files:
+
+- [README](../README.md)
+- [Project Summary](project_summary.md)
+- [Methodology Summary](methodology_summary.md)
+- [Benchmark Report](../reports/benchmark_prototype_summary.md)
+- [Cost Threshold Report](../reports/cost_threshold_prototype_report.md)
+- [Explainability Report](../reports/explainability_prototype_report.md)
+- [Artifact Manifest](../outputs/artifact_manifest.json)
+
 ## Local Validation Commands
 
 From the repository root:
@@ -200,6 +217,9 @@ Never commit `.streamlit/secrets.toml`, `.env`, or any API key.
 
 Raw CSVs are not sent to the LLM. Summaries use preset questions only, and the
 fallback summary works without OpenAI configuration.
+
+This setup is useful for portfolio review, but it is not open-ended retrieval
+or chatbot behavior.
 
 ## Responsible Use
 

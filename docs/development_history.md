@@ -88,7 +88,7 @@ summary experience. This changed presentation only; model artifacts, metrics,
 API behavior, and OpenAI summary boundaries stayed unchanged.
 
 The follow-up UX pass simplified sidebar labels, made the Overview page more
-interview-friendly, added more spacing between cards, displayed explainability
+review-friendly, added more spacing between cards, displayed explainability
 figures vertically, clarified the read-only FastAPI artifact service, and
 presented the agentic analytics workflow as an extension concept rather than
 an implemented autonomous system.

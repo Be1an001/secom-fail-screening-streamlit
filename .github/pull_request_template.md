@@ -5,9 +5,9 @@
 - 
 
 ## Validation
-- [ ] py -m pytest
-- [ ] py -m ruff check .
-- [ ] py -m compileall src scripts tests
+- [ ] python -m pytest
+- [ ] python -m ruff check .
+- [ ] python -m compileall app.py app_pages app_utils api src scripts tests
 - [ ] git diff --check
 
 ## Wording Review

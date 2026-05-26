@@ -1,11 +1,14 @@
 # Documentation Guide
 
+This folder contains the main documentation for the SECOM fail-screening
+Streamlit portfolio project. Start with the short summary or user guide, then
+use the methodology and design notes for deeper review.
+
 ## Start Here
 
 - [Project Summary](project_summary.md)
 - [User Guide](user_guide.md)
 - [Final Release Checklist](final_release_checklist.md)
-- [Docker Usage](docker_usage.md)
 
 ## Methodology and Design
 
@@ -18,6 +21,12 @@
 ## API and AI Summary
 
 - [API and Controlled RAG-Lite Notes](api_and_rag_lite.md)
+
+## Local Review
+
+- [Docker Usage](docker_usage.md)
+- [Scripts Guide](../scripts/README.md)
+- [Configs Guide](../configs/README.md)
 
 ## Related Evidence
 

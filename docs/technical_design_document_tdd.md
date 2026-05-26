@@ -22,7 +22,7 @@ scripts and lightweight service boundaries:
 - [docs/literature_references.md](literature_references.md): verified upgrade
   method references and project application notes
 
-## Target Architecture
+## Intended Architecture
 
 The target architecture is intentionally portfolio-scale:
 
@@ -69,7 +69,7 @@ The app uses a light portfolio theme defined in
 [.streamlit/config.toml](../.streamlit/config.toml) plus small shared layout
 helpers. Page content is organized with hero sections, KPI cards, compact
 tables, calm scope notes, full-width explainability figures, and collapsed
-evidence links. The Overview page uses a guided workflow story for interview
+evidence links. The Overview page uses a guided workflow story for project
 review and includes in-app navigation buttons for the main follow-up pages. The
 UI layer does not change metrics, artifacts, API behavior, or model outputs.
 

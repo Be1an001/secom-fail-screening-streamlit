@@ -52,14 +52,27 @@ def test_readme_has_final_portfolio_sections() -> None:
     readme = README.read_text(encoding="utf-8")
 
     expected_sections = [
-        "## Project Overview",
-        "## Live App / Demo",
-        "## Prototype Benchmark Results",
+        "## Short Summary",
+        "## Project Type / Status / Tools",
+        "## Business Problem",
+        "## Project Objective",
+        "## Dataset and Scope",
+        "## My Role / Contribution",
+        "## Methodology",
+        "## Model Benchmark and Evaluation",
         "## Threshold and Cost Trade-off",
         "## Explainability",
-        "## MLOps-lite and Artifact Tracking",
-        "## FastAPI and Controlled RAG-lite Summary",
-        "## Responsible Use and Limitations",
+        "## Streamlit App",
+        "## API and AI Summary Boundaries",
+        "## MLOps-lite Notes",
+        "## Repository Structure",
+        "## Local Run",
+        "## How to Review This Project",
+        "## Optional OpenAI Summary Setup",
+        "## Reproducibility Notes",
+        "## Limitations",
+        "## Future Improvements",
+        "## Related Files",
     ]
 
     for section in expected_sections:
@@ -71,6 +84,7 @@ def test_readme_has_final_portfolio_sections() -> None:
     assert "[Technical Design Document](docs/technical_design_document_tdd.md)" in readme
     assert "[Literature references](docs/literature_references.md)" in readme
     assert "[Docker usage](docs/docker_usage.md)" in readme
+    assert readme.rstrip().endswith("[CI workflow](.github/workflows/ci.yml)")
 
 
 def test_docs_navigation_and_professional_names_exist() -> None:

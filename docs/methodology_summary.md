@@ -31,7 +31,8 @@ The baseline workflow uses:
 - median imputation
 - separate tree-model and linear-model preprocessing paths
 
-The test split should not be used for model selection, threshold selection, or tuning.
+The test split should not be used for model selection, threshold selection, or
+tuning.
 
 ## Original Baseline Workflow
 
@@ -51,16 +52,17 @@ as direct paper reproductions.
 
 ## Evaluation Benchmark
 
-The project compares the original baseline group with later literature-informed
-upgrade methods. This wording means the upgrade methods are motivated by
-documented approaches. It does not mean the project claims research-leading performance.
+The project compares the original baseline group with later
+literature-informed upgrade methods. This wording means the upgrade methods
+are motivated by documented approaches. It does not mean the project claims
+research-leading performance.
 
 The reference layer is centralized in
 [Literature References](literature_references.md). It links the upgraded
 benchmark and analysis choices to verified method sources without claiming
 paper reproduction.
 
-## Literature-Inspired Benchmark Prototype
+## Literature-Informed Upgrade Benchmark
 
 The literature-informed benchmark prototype tests fixed, practical upgrade
 candidates against the baseline group:
@@ -70,8 +72,12 @@ candidates against the baseline group:
 - training-only resampling
 - validation threshold sweeps
 
-This is prototype work. It does not claim research-leading performance, does not select a
-final champion model, and does not reproduce the cited papers.
+This is prototype work. It does not claim research-leading performance, does
+not select a final champion model, and does not reproduce the cited papers.
+
+The main benchmark table uses the validation split. The final holdout Random
+Forest artifact is a separate baseline evaluation artifact and should not be
+mixed with the prototype validation benchmark.
 
 ## Prototype Model Display Grouping
 
@@ -108,9 +114,10 @@ prototype threshold sweeps. The analysis treats false negatives as missed fail
 cases and false positives as added review workload.
 
 The current prototype uses simple false-negative and false-positive cost
-assumptions. These assumptions are not production rules. They are a practical
-way to show that the preferred threshold can change when quality risk and
-review workload are weighted differently.
+assumptions. These assumptions are not production rules or validated
+manufacturing economics. They are a practical way to show that the preferred
+threshold can change when quality risk and review workload are weighted
+differently.
 
 ## Explainability
 
@@ -159,6 +166,9 @@ Optional OpenAI summaries are enabled when `OPENAI_SUMMARY_ENABLED`,
 `OPENAI_API_KEY`, and `OPENAI_SUMMARY_MODEL` are configured in Streamlit
 secrets or environment variables. The app falls back safely when OpenAI is not
 configured or a call fails.
+
+The app does not provide a free-form chatbot, raw CSV upload to an LLM, or an
+autonomous agent. The agentic workflow content is an extension concept only.
 
 ## Build Process Concept
 

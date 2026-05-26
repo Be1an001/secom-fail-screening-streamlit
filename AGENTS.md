@@ -32,7 +32,6 @@ Use these terms when appropriate:
 - screening decision support
 - fail-screening benchmark
 - baseline workflow
-- literature-inspired methods
 - reference-supported upgrade methods
 - model-important sensor signals
 - artifact-driven Streamlit app
@@ -51,9 +50,9 @@ Do not claim:
 - research-leading performance
 - better than existing research
 
-reference-supported upgrade methods may be discussed as a methodology direction. Do not
-claim research-leading performance unless the repo includes a reproducible same-condition
-comparison against cited papers.
+Reference-supported upgrade methods may be discussed as a methodology
+direction. Do not claim research-leading performance unless the repo includes a
+reproducible same-condition comparison against cited papers.
 
 ## Read Before Editing
 

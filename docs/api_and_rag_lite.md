@@ -10,6 +10,10 @@ This project includes two optional portfolio-scale features:
 Both features read existing artifacts. They do not train models, regenerate
 artifacts, or create a production backend.
 
+These features are included so reviewers can see how the project could expose
+committed evidence through a small service and a controlled summary layer. The
+main public interface remains the Streamlit app.
+
 ## Local API
 
 Run the read-only artifact service locally with:
@@ -76,9 +80,9 @@ in the repository.
 ## Boundaries
 
 - This is not a production backend.
-- This is not a full RAG system.
+- This is not a full open-ended RAG platform.
 - This is not a general chatbot.
 - No arbitrary user question is accepted.
 - Raw CSVs are not sent to an LLM.
 - No API key is stored in the repository.
-- No Docker or deployment automation is included.
+- No API deployment automation is included.

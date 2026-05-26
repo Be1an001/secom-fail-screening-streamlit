@@ -64,7 +64,6 @@ Use:
 - screening decision support
 - fail-screening benchmark
 - baseline workflow
-- literature-inspired methods
 - reference-supported upgrade methods
 - model-important sensor signals
 - artifact-driven Streamlit app
